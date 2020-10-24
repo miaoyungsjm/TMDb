@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TMDb</string>
+
+    <string name="str_main_title_grid">表格</string>
+    <string name="str_main_title_list">列表</string>
+    <string name="str_main_search_text">搜索</string>
+    <string name="str_main_help_text">按menu键排序</string>
+
+    <string name="str_content_module_tv">电视剧</string>
+    <string name="str_content_module_movie">电影</string>
+    <string name="str_content_module_favorite">收藏</string>
+</resources>

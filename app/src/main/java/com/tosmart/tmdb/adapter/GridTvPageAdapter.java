@@ -1,0 +1,71 @@
+package com.tosmart.tmdb.adapter;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.db.entity.Tv;
+
+import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
+
+/**
+ * @author ggz
+ * @date 2020/10/23
+ */
+public class GridTvPageAdapter extends PagedListAdapter<Tv, GridTvPageAdapter.ViewHolder> {
+
+    protected GridTvPageAdapter() {
+        super(new DiffUtil.ItemCallback<Tv>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Tv oldItem, @NonNull Tv newItem) {
+                return oldItem.getId() == newItem.getId();
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull Tv oldItem, @NonNull Tv newItem) {
+                return false;
+            }
+        });
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.item_grid_style, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Tv tv = getItem(position);
+        // todo 图片加载框架
+//        holder.posterIv.setImageBitmap(tv.getPosterPath());
+        holder.nameTv.setText(tv.getOriginalName());
+        holder.dateTv.setText(tv.getFirstAirDate());
+        holder.averageTv.setText((int) (tv.getVoteAverage() * 10));
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView posterIv;
+        ImageView averageIv;
+        TextView averageTv;
+        TextView nameTv;
+        TextView dateTv;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            posterIv = itemView.findViewById(R.id.iv_grid_item_poster);
+            averageIv = itemView.findViewById(R.id.iv_grid_item_average);
+            averageTv = itemView.findViewById(R.id.tv_grid_item_average);
+            nameTv = itemView.findViewById(R.id.tv_grid_item_name);
+            dateTv = itemView.findViewById(R.id.tv_grid_item_date);
+        }
+    }
+}

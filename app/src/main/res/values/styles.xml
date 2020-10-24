@@ -1,0 +1,50 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="style_main_title_ll">
+        <item name="android:layout_width">@dimen/main_title_grid_ll_width</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/selector_main_title_bg_ll</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="style_main_title_iv">
+        <item name="android:layout_width">@dimen/main_title_grid_iv_width</item>
+        <item name="android:layout_height">@dimen/main_title_grid_iv_width</item>
+        <item name="android:layout_marginRight">@dimen/main_title_grid_iv_margin_right</item>
+    </style>
+
+    <style name="style_main_title_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@drawable/selector_main_text_color</item>
+        <item name="android:textSize">@dimen/text_size_micro</item>
+    </style>
+
+    <style name="style_grid_module_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="style_grid_title_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/grid_title_tv_margin_bottom</item>
+        <item name="android:textSize">@dimen/text_size_micro</item>
+        <item name="android:textColor">@color/grid_title_text_color</item>
+    </style>
+
+    <style name="style_grid_content_rv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/grid_content_rv_height</item>
+    </style>
+
+</resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_content"
+    app:startDestination="@id/gridStyleFragment">
+
+    <action
+        android:id="@+id/action_gridStyleFragment_global"
+        app:destination="@id/gridStyleFragment" />
+
+    <action
+        android:id="@+id/action_listStyleFragment_global"
+        app:destination="@id/listStyleFragment" />
+
+    <fragment
+        android:id="@+id/gridStyleFragment"
+        android:name="com.tosmart.tmdb.content.GridStyleFragment"
+        tools:layout="@layout/fragment_grid_style">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/listStyleFragment"
+        android:name="com.tosmart.tmdb.content.ListStyleFragment"
+        tools:layout="@layout/fragment_list_style" />
+
+</navigation>

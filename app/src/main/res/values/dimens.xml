@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- common text size start -->
+    <dimen name="text_size_tiny">16sp</dimen>
+    <dimen name="text_size_super_micro">18sp</dimen>
+    <dimen name="text_size_micro">20sp</dimen>
+    <dimen name="text_size_little">21sp</dimen>
+    <dimen name="text_size_super_little">23sp</dimen>
+    <dimen name="text_size_small">25sp</dimen>
+    <dimen name="text_size_normal">27sp</dimen>
+    <dimen name="text_size_super_normal">30sp</dimen>
+    <dimen name="text_size_big">32sp</dimen>
+    <dimen name="text_size_large">40sp</dimen>
+    <dimen name="text_size_super_large">48sp</dimen>
+    <dimen name="text_size_huge">56sp</dimen>
+    <dimen name="text_size_super_huge">64sp</dimen>
+    <!-- common text size end -->
+
+    <!-- common margin begin -->
+    <dimen name="margin_tiny">10dp</dimen>
+    <dimen name="margin_super_tiny">14dp</dimen>
+    <dimen name="margin_micro">16dp</dimen>
+    <dimen name="margin_little">20dp</dimen>
+    <dimen name="margin_super_little">26dp</dimen>
+    <dimen name="margin_small">32dp</dimen>
+    <dimen name="margin_super_small">41dp</dimen>
+    <dimen name="margin_normal">48dp</dimen>
+    <dimen name="margin_big">40dp</dimen>
+    <dimen name="margin_large">64dp</dimen>
+    <dimen name="margin_huge">96dp</dimen>
+    <!-- common margin end -->
+
+    <!-- common padding begin -->
+    <dimen name="padding_super_large">130dp</dimen>
+    <dimen name="padding_xl">100dp</dimen>
+    <dimen name="padding_large">80dp</dimen>
+    <dimen name="padding_big">60dp</dimen>
+    <dimen name="padding_normal">40dp</dimen>
+    <dimen name="padding_little">33dp</dimen>
+    <dimen name="padding_super_little">20dp</dimen>
+    <dimen name="padding_micro">16dp</dimen>
+    <dimen name="padding_super_micro">10dp</dimen>
+    <!-- common padding end -->
+
+    <!-- common begin -->
+    <dimen name="normal_divider_height">5dp</dimen>
+    <dimen name="min_divider_height">2dp</dimen>
+    <dimen name="round_padding_5">5dp</dimen>
+    <!-- common end -->
+
+    <dimen name="main_logo_iv_width">135dp</dimen>
+    <dimen name="main_logo_iv_height">17dp</dimen>
+    <dimen name="main_logo_iv_margin_top">36dp</dimen>
+    <dimen name="main_logo_iv_margin_left">48dp</dimen>
+    <dimen name="main_title_ll_width">192dp</dimen>
+    <dimen name="main_title_ll_height">40dp</dimen>
+    <dimen name="main_title_grid_ll_width">96dp</dimen>
+    <dimen name="main_title_grid_iv_width">20dp</dimen>
+    <dimen name="main_title_grid_iv_margin_right">8dp</dimen>
+    <dimen name="main_search_ll_width">112dp</dimen>
+    <dimen name="main_search_ll_height">40dp</dimen>
+    <dimen name="main_search_iv_width">23dp</dimen>
+    <dimen name="main_search_iv_margin">14dp</dimen>
+    <dimen name="main_content_margin_top">106dp</dimen>
+    <dimen name="main_content_margin_bottom">69dp</dimen>
+    <dimen name="main_help_iv_width">28dp</dimen>
+    <dimen name="main_help_iv_height">21dp</dimen>
+    <dimen name="main_help_iv_margin_bottom">25dp</dimen>
+    <dimen name="main_help_tv_margin_right">8dp</dimen>
+
+    <dimen name="grid_title_tv_margin_bottom">11dp</dimen>
+    <dimen name="grid_content_rv_height">133dp</dimen>
+    <dimen name="grid_item_cl_width">96dp</dimen>
+    <dimen name="grid_item_cl_height">133dp</dimen>
+    <dimen name="grid_item_average_iv_width">19dp</dimen>
+    <dimen name="grid_item_average_iv_margin">7dp</dimen>
+    <dimen name="grid_item_average_tv_text_size">7sp</dimen>
+    <dimen name="grid_item_name_tv_margin_bottom">5dp</dimen>
+    <dimen name="grid_item_name_tv_text_size">13sp</dimen>
+    <dimen name="grid_item_date_tv_margin_left">5dp</dimen>
+    <dimen name="grid_item_date_tv_margin_bottom">7dp</dimen>
+    <dimen name="grid_item_date_tv_text_size">8sp</dimen>
+
+</resources>

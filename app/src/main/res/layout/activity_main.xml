@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.main.MainViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/bg">
+
+        <ImageView
+            android:id="@+id/iv_main_help"
+            android:layout_width="@dimen/main_help_iv_width"
+            android:layout_height="@dimen/main_help_iv_height"
+            android:layout_marginRight="@dimen/main_help_tv_margin_right"
+            android:layout_marginBottom="@dimen/main_help_iv_margin_bottom"
+            android:src="@mipmap/help_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/tv_main_help" />
+
+        <ImageView
+            android:id="@+id/iv_main_logo"
+            android:layout_width="@dimen/main_logo_iv_width"
+            android:layout_height="@dimen/main_logo_iv_height"
+            android:layout_marginLeft="@dimen/main_logo_iv_margin_left"
+            android:layout_marginTop="@dimen/main_logo_iv_margin_top"
+            android:src="@mipmap/logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="@dimen/main_title_ll_width"
+            android:layout_height="@dimen/main_title_ll_height"
+            android:background="@mipmap/title_normal"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/iv_main_logo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_main_logo">
+
+            <LinearLayout
+                android:id="@+id/ll_main_title_grid"
+                style="@style/style_main_title_ll">
+
+                <ImageView
+                    style="@style/style_main_title_iv"
+                    android:src="@drawable/selector_main_title_grid_iv" />
+
+                <TextView
+                    style="@style/style_main_title_tv"
+                    android:text="@string/str_main_title_grid" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_main_title_list"
+                style="@style/style_main_title_ll">
+
+                <ImageView
+                    style="@style/style_main_title_iv"
+                    android:src="@drawable/selector_main_title_list_iv" />
+
+                <TextView
+                    style="@style/style_main_title_tv"
+                    android:text="@string/str_main_title_list" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_main_search"
+            android:layout_width="@dimen/main_search_ll_width"
+            android:layout_height="@dimen/main_search_ll_height"
+            android:layout_marginRight="@dimen/main_logo_iv_margin_left"
+            android:background="@mipmap/search_button_normal"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/iv_main_logo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_main_logo">
+
+            <ImageView
+                android:layout_width="@dimen/main_search_iv_width"
+                android:layout_height="@dimen/main_search_iv_width"
+                android:layout_margin="@dimen/main_search_iv_margin"
+                android:src="@drawable/selector_main_search_iv" />
+
+            <TextView
+                style="@style/style_main_title_tv"
+                android:text="@string/str_main_search_text" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_main_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_main_help_text"
+            android:textColor="@color/main_title_text_light"
+            android:textSize="@dimen/text_size_tiny"
+            app:layout_constraintBottom_toBottomOf="@id/iv_main_help"
+            app:layout_constraintLeft_toRightOf="@id/iv_main_help"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_main_help" />
+
+        <fragment
+            android:id="@+id/content_fragment_host"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/main_content_margin_top"
+            android:layout_marginBottom="@dimen/main_content_margin_bottom"
+            app:defaultNavHost="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/nav_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

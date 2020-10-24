@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/main_logo_iv_margin_left"
+        android:layout_marginRight="@dimen/main_logo_iv_margin_left">
+
+        <LinearLayout
+            android:id="@+id/ll_grid_module_tv"
+            style="@style/style_grid_module_ll"
+            app:layout_constraintBottom_toTopOf="@id/ll_grid_module_movie"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <TextView
+                style="@style/style_grid_title_tv"
+                android:text="@string/str_content_module_tv" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_grid_content_tv"
+                style="@style/style_grid_content_rv"
+                adapter="@{tvAdapter}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_grid_module_movie"
+            style="@style/style_grid_module_ll"
+            app:layout_constraintBottom_toTopOf="@id/ll_grid_module_favorite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_grid_module_tv">
+
+            <TextView
+                style="@style/style_grid_title_tv"
+                android:text="@string/str_content_module_movie" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_grid_content_movie"
+                style="@style/style_grid_content_rv" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_grid_module_favorite"
+            style="@style/style_grid_module_ll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_grid_module_movie">
+
+            <TextView
+                style="@style/style_grid_title_tv"
+                android:text="@string/str_content_module_favorite" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_grid_content_favorite"
+                style="@style/style_grid_content_rv" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.content.GridStyleViewModel" />
+
+        <variable
+            name="tvAdapter"
+            type="com.tosmart.tmdb.adapter.GridTvPageAdapter" />
+    </data>
+
+</layout>
+

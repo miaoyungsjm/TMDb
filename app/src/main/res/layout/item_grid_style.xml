@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/grid_item_cl_width"
+    android:layout_height="@dimen/grid_item_cl_height">
+
+    <ImageView
+        android:id="@+id/iv_grid_item_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/name_bg" />
+
+    <ImageView
+        android:id="@+id/iv_grid_item_average"
+        android:layout_width="@dimen/grid_item_average_iv_width"
+        android:layout_height="@dimen/grid_item_average_iv_width"
+        android:layout_margin="@dimen/grid_item_average_iv_margin"
+        android:background="@mipmap/bg"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_grid_item_average"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="99"
+        android:textColor="@color/grid_item_text_normal"
+        android:textSize="@dimen/grid_item_average_tv_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/iv_grid_item_average"
+        app:layout_constraintLeft_toLeftOf="@id/iv_grid_item_average"
+        app:layout_constraintRight_toRightOf="@id/iv_grid_item_average"
+        app:layout_constraintTop_toTopOf="@id/iv_grid_item_average" />
+
+    <TextView
+        android:id="@+id/tv_grid_item_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/grid_item_date_tv_margin_left"
+        android:layout_marginBottom="@dimen/grid_item_date_tv_margin_bottom"
+        android:text="2020-10-24"
+        android:textColor="@drawable/selector_grid_item_text_color"
+        android:textSize="@dimen/grid_item_date_tv_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_grid_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/grid_item_date_tv_margin_left"
+        android:layout_marginBottom="@dimen/grid_item_name_tv_margin_bottom"
+        android:text="Loading"
+        android:textColor="@drawable/selector_grid_item_text_color"
+        android:textSize="@dimen/grid_item_name_tv_text_size"
+        app:layout_constraintBottom_toTopOf="@id/tv_grid_item_date"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
