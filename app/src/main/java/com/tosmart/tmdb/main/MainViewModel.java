@@ -4,10 +4,13 @@ import android.util.Log;
 
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
+import com.tosmart.tmdb.db.entity.FilterMovie;
 import com.tosmart.tmdb.db.entity.FilterTv;
+import com.tosmart.tmdb.db.entity.Movie;
 import com.tosmart.tmdb.db.entity.Tv;
 import com.tosmart.tmdb.network.ApiObserver;
 import com.tosmart.tmdb.network.ApiRequest;
+import com.tosmart.tmdb.network.response.MovieRes;
 import com.tosmart.tmdb.network.response.TvRes;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +25,14 @@ import io.reactivex.disposables.CompositeDisposable;
 import static com.tosmart.tmdb.network.ApiRequest.ASC;
 import static com.tosmart.tmdb.network.ApiRequest.DESC;
 import static com.tosmart.tmdb.network.ApiRequest.FIRT_AIR_DATE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_AVERAGE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_DATE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_DESC;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_POPULARITY;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 import static com.tosmart.tmdb.network.ApiRequest.POPULARITY;
+import static com.tosmart.tmdb.network.ApiRequest.RELEASE_DATE;
 import static com.tosmart.tmdb.network.ApiRequest.VOTE_AVERAGE;
 
 /**
@@ -42,51 +52,94 @@ public class MainViewModel extends ViewModel {
         ApiObserver<TvRes> observer = new ApiObserver<TvRes>() {
             @Override
             public void onSuccess(TvRes tvRes) {
-                Log.e(TAG, "onSuccess: page: " + tvRes.getPage());
+                Log.e(TAG, "onSuccess: tv page: " + tvRes.getPage());
 
                 TMDatabase db = RoomManager.getInstance().getTMDatabase();
-                List<Tv> tvList = tvRes.getResults();
-                List<FilterTv> filterTvList = new ArrayList<>();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = new Date(System.currentTimeMillis());
-                String dateStr = simpleDateFormat.format(date);
-                for (int i = 0; i < tvList.size(); i++) {
-                    Log.d(TAG, "onSuccess: id: " + tvList.get(i).getId());
-                    FilterTv filterTv = new FilterTv(tvList.get(i).getId(), ft, fo,
+                List<Tv> list = tvRes.getResults();
+                List<FilterTv> filterList = new ArrayList<>();
+                String dateStr = buildDateValue();
+                for (int i = 0; i < list.size(); i++) {
+                    Log.d(TAG, "onSuccess: tv id: " + list.get(i).getId());
+                    FilterTv filterTv = new FilterTv(list.get(i).getId(), ft, fo,
                             dateStr, tvRes.getPage(), i);
-                    filterTvList.add(filterTv);
+                    filterList.add(filterTv);
                 }
-                db.getFilterTvDao().insertList(filterTvList);
-                db.getTvDao().insertList(tvList);
+                db.getFilterTvDao().insertList(filterList);
+                db.getTvDao().insertList(list);
             }
 
             @Override
             public void onError(int errorCode, String message) {
-                Log.e(TAG, "onError: message: " + message);
+                Log.e(TAG, "onError: tv message: " + message);
             }
         };
         mCompositeDisposable.add(observer);
+        String query = buildQueryValue(ft, ft, INDEX_TV);
+        Observable<TvRes> observable = new ApiRequest().discoverTv(query, page);
+        observable.subscribe(observer);
+    }
+
+    public void requestFilterMovie(int ft, int fo, int page) {
+        ApiObserver<MovieRes> observer = new ApiObserver<MovieRes>() {
+            @Override
+            public void onSuccess(MovieRes movieRes) {
+                Log.e(TAG, "onSuccess: movie page: " + movieRes.getPage());
+
+                TMDatabase db = RoomManager.getInstance().getTMDatabase();
+                List<Movie> list = movieRes.getResults();
+                List<FilterMovie> filterList = new ArrayList<>();
+                String dateStr = buildDateValue();
+                for (int i = 0; i < list.size(); i++) {
+                    Log.d(TAG, "onSuccess: movie id: " + list.get(i).getId());
+                    FilterMovie filterMovie = new FilterMovie(list.get(i).getId(), ft, fo,
+                            dateStr, movieRes.getPage(), i);
+                    filterList.add(filterMovie);
+                }
+                db.getFilterMovieDao().insertList(filterList);
+                db.getMovieDao().insertList(list);
+            }
+
+            @Override
+            public void onError(int errorCode, String message) {
+                Log.e(TAG, "onError: movie message: " + message);
+            }
+        };
+        mCompositeDisposable.add(observer);
+        String query = buildQueryValue(ft, ft, INDEX_MOVIE);
+        Observable<MovieRes> observable = new ApiRequest().discoverMovie(query, page);
+        observable.subscribe(observer);
+    }
+
+    private String buildQueryValue(int ft, int fo, int type) {
         StringBuilder sb = new StringBuilder();
         switch (ft) {
-            case 1:
+            case INDEX_AVERAGE:
                 sb.append(VOTE_AVERAGE);
                 break;
-            case 2:
-                sb.append(FIRT_AIR_DATE);
+            case INDEX_DATE:
+                if (type == INDEX_TV) {
+                    sb.append(FIRT_AIR_DATE);
+                } else {
+                    sb.append(RELEASE_DATE);
+                }
                 break;
-            case 0:
+            case INDEX_POPULARITY:
             default:
                 sb.append(POPULARITY);
                 break;
         }
-        if (fo == 0) {
+        if (fo == INDEX_DESC) {
             sb.append(DESC);
         } else {
             sb.append(ASC);
         }
-        String query = sb.toString();
-        Observable<TvRes> observable = new ApiRequest().discoverTv(query, page);
-        observable.subscribe(observer);
+        return sb.toString();
+    }
+
+    private String buildDateValue() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
     }
 
     @Override

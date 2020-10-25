@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_grid_item"
     android:layout_width="@dimen/grid_item_cl_width"
     android:layout_height="@dimen/grid_item_cl_height"
     android:layout_marginRight="@dimen/grid_item_cl_margin_right">

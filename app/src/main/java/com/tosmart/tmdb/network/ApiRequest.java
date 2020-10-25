@@ -20,6 +20,13 @@ public class ApiRequest {
     public static final String RELEASE_DATE = "release_date";
     public static final String DESC = ".desc";
     public static final String ASC = ".asc";
+    public static final int INDEX_POPULARITY = 0;
+    public static final int INDEX_AVERAGE = 1;
+    public static final int INDEX_DATE = 2;
+    public static final int INDEX_DESC = 0;
+    public static final int INDEX_ASC = 1;
+    public static final int INDEX_TV = 0;
+    public static final int INDEX_MOVIE = 1;
 
     public Observable<MovieRes> discoverMovie(String query, int page) {
         return ApiManager.getInstance().getApiService()

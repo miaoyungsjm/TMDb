@@ -9,4 +9,6 @@
     <string name="str_content_module_tv">电视剧</string>
     <string name="str_content_module_movie">电影</string>
     <string name="str_content_module_favorite">收藏</string>
+
+    <string name="str_content_item_statue_loading">Loading...</string>
 </resources>

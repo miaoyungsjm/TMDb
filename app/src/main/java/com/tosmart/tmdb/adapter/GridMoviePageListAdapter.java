@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.db.entity.TvPageList;
+import com.tosmart.tmdb.db.entity.MoviePageList;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,18 +24,18 @@ import static com.tosmart.tmdb.network.ApiService.PIC_URL;
  * @author ggz
  * @date 2020/10/23
  */
-public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPageListAdapter.ViewHolder> {
+public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, GridMoviePageListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
 
-    public GridTvPageListAdapter() {
-        super(new DiffUtil.ItemCallback<TvPageList>() {
+    public GridMoviePageListAdapter() {
+        super(new DiffUtil.ItemCallback<MoviePageList>() {
             @Override
-            public boolean areItemsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
+            public boolean areItemsTheSame(@NonNull MoviePageList oldItem, @NonNull MoviePageList newItem) {
                 return oldItem.getId() == newItem.getId();
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
+            public boolean areContentsTheSame(@NonNull MoviePageList oldItem, @NonNull MoviePageList newItem) {
                 return false;
             }
         });
@@ -51,7 +51,7 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
             @Override
             public void onClick(View view) {
                 int position = viewHolder.getAdapterPosition();
-                TvPageList item = getItem(position);
+                MoviePageList item = getItem(position);
                 if (item != null) {
                     Log.d(TAG, "onClick: id=" + item.getId());
                 }
@@ -62,19 +62,19 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TvPageList tv = getItem(position);
-        if (tv == null) {
+        MoviePageList movie = getItem(position);
+        if (movie == null) {
             String showLoading = StringUtils.getString(R.string.str_content_item_statue_loading);
             holder.nameTv.setText(showLoading);
             holder.dateTv.setText(showLoading);
             holder.averageTv.setText("0");
         } else {
-            String average = String.valueOf((int) (tv.getVoteAverage() * 10));
-            String url = PIC_URL + tv.getPosterPath();
+            String average = String.valueOf((int) (movie.getVoteAverage() * 10));
+            String url = PIC_URL + movie.getPosterPath();
             Glide.with(holder.posterIv.getContext())
                     .load(url).centerCrop().into(holder.posterIv);
-            holder.nameTv.setText(tv.getOriginalName());
-            holder.dateTv.setText(tv.getFirstAirDate());
+            holder.nameTv.setText(movie.getOriginalTitle());
+            holder.dateTv.setText(movie.getReleaseDate());
             holder.averageTv.setText(average);
         }
     }
