@@ -3,7 +3,7 @@ package com.tosmart.tmdb.content;
 import android.util.Log;
 
 import com.tosmart.tmdb.db.RoomManager;
-import com.tosmart.tmdb.db.entity.PopTv;
+import com.tosmart.tmdb.db.entity.TvPageList;
 import com.tosmart.tmdb.db.database.TMDatabase;
 
 import androidx.annotation.NonNull;
@@ -20,37 +20,36 @@ import androidx.paging.PagedList;
 public class GridStyleViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
-    public LiveData<PagedList<PopTv>> PopTvPagedList;
-    public MutableLiveData<Integer> requestPage = new MutableLiveData<>();
+    public LiveData<PagedList<TvPageList>> mTvPagedList;
+    public MutableLiveData<Integer> mTvFilterPage = new MutableLiveData<>();
+
+    public int filterType = 0;
+    public int filterOrder = 0;
+
+    private PagedList.BoundaryCallback<TvPageList> mTvPageListCallback = new PagedList.BoundaryCallback<TvPageList>() {
+        @Override
+        public void onZeroItemsLoaded() {
+            super.onZeroItemsLoaded();
+            Log.e(TAG, "onZeroItemsLoaded: ");
+            // 数据库没数据，网络请求
+            mTvFilterPage.setValue(1);
+        }
+
+        @Override
+        public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
+            super.onItemAtEndLoaded(itemAtEnd);
+            Log.e(TAG, "onItemAtEndLoaded: " + itemAtEnd);
+            // 数据库消耗完毕，网络请求
+            mTvFilterPage.setValue(itemAtEnd.getPage() + 1);
+        }
+    };
 
     public GridStyleViewModel() {
-//        PagedList.Config cfg = new PagedList.Config.Builder()
-//                .setPageSize(20)
-//                .setEnablePlaceholders(true)
-//                .setInitialLoadSizeHint(10)
-//                .build();
-
-        PagedList.BoundaryCallback<PopTv> callback = new PagedList.BoundaryCallback<PopTv>() {
-            @Override
-            public void onZeroItemsLoaded() {
-                super.onZeroItemsLoaded();
-                Log.e(TAG, "onZeroItemsLoaded: ");
-                requestPage.setValue(1);
-            }
-
-            @Override
-            public void onItemAtEndLoaded(@NonNull PopTv itemAtEnd) {
-                super.onItemAtEndLoaded(itemAtEnd);
-                Log.e(TAG, "onItemAtEndLoaded: " + itemAtEnd);
-                requestPage.setValue(itemAtEnd.getPage() + 1);
-            }
-        };
-
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        PopTvPagedList = new LivePagedListBuilder<>(
-                db.getPopularityDao().getPopularityTv(0),
+        mTvPagedList = new LivePagedListBuilder<>(
+                db.getFilterTvDao().getFilterTvPageList(filterType, filterOrder),
                 10)
-                .setBoundaryCallback(callback)
+                .setBoundaryCallback(mTvPageListCallback)
                 .build();
     }
 }

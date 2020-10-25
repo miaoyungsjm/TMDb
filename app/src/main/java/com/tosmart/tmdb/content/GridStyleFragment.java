@@ -7,7 +7,7 @@ import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.GridTvPageListAdapter;
 import com.tosmart.tmdb.base.BaseFragment;
-import com.tosmart.tmdb.db.entity.PopTv;
+import com.tosmart.tmdb.db.entity.TvPageList;
 import com.tosmart.tmdb.main.MainViewModel;
 
 import androidx.lifecycle.Observer;
@@ -39,27 +39,30 @@ public class GridStyleFragment extends BaseFragment {
     @Override
     protected void initView(View v) {
 
+        LinearLayoutManager lm = new LinearLayoutManager(getContext());
+        lm.setOrientation(LinearLayoutManager.HORIZONTAL);
+
+        RecyclerView tvRv = v.findViewById(R.id.rv_grid_content_tv);
+        tvRv.setLayoutManager(lm);
         GridTvPageListAdapter gridTvPageListAdapter = new GridTvPageListAdapter();
+        tvRv.setAdapter(gridTvPageListAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-
-        RecyclerView recyclerView = v.findViewById(R.id.rv_grid_content_tv);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(gridTvPageListAdapter);
-
-        mGridStyleViewModel.PopTvPagedList.observe(this, new Observer<PagedList<PopTv>>() {
+        mGridStyleViewModel.mTvPagedList.observe(this, new Observer<PagedList<TvPageList>>() {
             @Override
-            public void onChanged(PagedList<PopTv> popTvs) {
-                gridTvPageListAdapter.submitList(popTvs);
+            public void onChanged(PagedList<TvPageList> tvPageLists) {
+                gridTvPageListAdapter.submitList(tvPageLists);
             }
         });
 
-        mGridStyleViewModel.requestPage.observe(this, new Observer<Integer>() {
+        mGridStyleViewModel.mTvFilterPage.observe(this, new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
-                mMainViewModel.requestPopularTv(integer);
+            public void onChanged(Integer page) {
+                mMainViewModel.requestFilterTv(
+                        mGridStyleViewModel.filterType,
+                        mGridStyleViewModel.filterOrder,
+                        page);
             }
         });
+
     }
 }

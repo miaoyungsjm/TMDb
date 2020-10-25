@@ -6,30 +6,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.db.entity.PopTv;
-import com.tosmart.tmdb.db.entity.Tv;
+import com.tosmart.tmdb.db.entity.TvPageList;
 
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.tosmart.tmdb.network.ApiService.PIC_URL;
+
 /**
  * @author ggz
  * @date 2020/10/23
  */
-public class GridTvPageListAdapter extends PagedListAdapter<PopTv, GridTvPageListAdapter.ViewHolder> {
+public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPageListAdapter.ViewHolder> {
 
     public GridTvPageListAdapter() {
-        super(new DiffUtil.ItemCallback<PopTv>() {
+        super(new DiffUtil.ItemCallback<TvPageList>() {
             @Override
-            public boolean areItemsTheSame(@NonNull PopTv oldItem, @NonNull PopTv newItem) {
+            public boolean areItemsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
                 return oldItem.getId() == newItem.getId();
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull PopTv oldItem, @NonNull PopTv newItem) {
+            public boolean areContentsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
                 return false;
             }
         });
@@ -45,16 +47,19 @@ public class GridTvPageListAdapter extends PagedListAdapter<PopTv, GridTvPageLis
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PopTv tv = getItem(position);
+        TvPageList tv = getItem(position);
         if (tv == null) {
             holder.nameTv.setText("loading...");
             holder.dateTv.setText("loading...");
             holder.averageTv.setText("0");
         } else {
-//            holder.posterIv.setImageBitmap(tv.getPosterPath());
+            String average = String.valueOf((int) (tv.getVoteAverage() * 10));
+            String url = PIC_URL + tv.getPosterPath();
+            Glide.with(holder.posterIv.getContext())
+                    .load(url).centerCrop().into(holder.posterIv);
             holder.nameTv.setText(tv.getOriginalName());
             holder.dateTv.setText(tv.getFirstAirDate());
-            holder.averageTv.setText("0");
+            holder.averageTv.setText(average);
         }
     }
 

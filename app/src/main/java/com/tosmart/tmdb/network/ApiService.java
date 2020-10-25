@@ -16,6 +16,7 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
     String BASE_URL = "https://api.themoviedb.org/3/";
+    String PIC_URL = "https://image.tmdb.org/t/p/w500/";
 
     @GET("discover/movie")
     Observable<MovieRes> discoverMovie(

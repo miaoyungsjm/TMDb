@@ -51,7 +51,7 @@
     <dimen name="main_logo_iv_width">135dp</dimen>
     <dimen name="main_logo_iv_height">17dp</dimen>
     <dimen name="main_logo_iv_margin_top">36dp</dimen>
-    <dimen name="main_logo_iv_margin_left">48dp</dimen>
+    <dimen name="main_logo_iv_margin_left">63dp</dimen>
     <dimen name="main_title_ll_width">192dp</dimen>
     <dimen name="main_title_ll_height">40dp</dimen>
     <dimen name="main_title_grid_ll_width">96dp</dimen>
@@ -72,6 +72,7 @@
     <dimen name="grid_content_rv_height">133dp</dimen>
     <dimen name="grid_item_cl_width">96dp</dimen>
     <dimen name="grid_item_cl_height">133dp</dimen>
+    <dimen name="grid_item_cl_margin_right">21dp</dimen>
     <dimen name="grid_item_average_iv_width">19dp</dimen>
     <dimen name="grid_item_average_iv_margin">7dp</dimen>
     <dimen name="grid_item_average_tv_text_size">7sp</dimen>
@@ -80,5 +81,6 @@
     <dimen name="grid_item_date_tv_margin_left">5dp</dimen>
     <dimen name="grid_item_date_tv_margin_bottom">7dp</dimen>
     <dimen name="grid_item_date_tv_text_size">8sp</dimen>
+    <dimen name="grid_item_name_bg_iv_height">48dp</dimen>
 
 </resources>

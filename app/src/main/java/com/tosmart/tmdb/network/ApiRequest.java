@@ -16,6 +16,7 @@ public class ApiRequest {
     private final String KEY = "1dd1834a037b3355b06d80ea235bf021";
     public static final String POPULARITY = "popularity";
     public static final String VOTE_AVERAGE = "vote_average";
+    public static final String FIRT_AIR_DATE = "first_air_date";
     public static final String RELEASE_DATE = "release_date";
     public static final String DESC = ".desc";
     public static final String ASC = ".asc";

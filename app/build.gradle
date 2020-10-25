@@ -73,4 +73,7 @@ dependencies {
 
     implementation 'com.blankj:utilcodex:1.29.0'
     implementation 'com.kunminx.archi:strict-databinding:3.0.2-beta1'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

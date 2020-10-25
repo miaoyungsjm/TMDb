@@ -8,7 +8,7 @@ import androidx.room.Entity;
  * @date 2020/10/25
  */
 @Entity
-public class PopTv {
+public class TvPageList {
 
     private int id;
     @ColumnInfo(name = "original_name")
@@ -31,16 +31,20 @@ public class PopTv {
     private double popularity;
     @ColumnInfo(name = "vote_count")
     private int voteCount;
-    @ColumnInfo(name = "pop_id")
-    private int popId;
-    @ColumnInfo(name = "type")
-    private int type;
+
+    @ColumnInfo(name = "filter_id")
+    private int filterId;
+    @ColumnInfo(name = "filter_type")
+    private int filterType;
+    @ColumnInfo(name = "filter_order")
+    private int filterOrder;
     @ColumnInfo(name = "date")
-    private String data;
-    @ColumnInfo(name = "order_direction")
-    private int orderDirection;
+    private String date;
     @ColumnInfo(name = "page")
     private int page;
+    @ColumnInfo(name = "index")
+    private int index;
+
 
     public int getId() {
         return id;
@@ -130,36 +134,36 @@ public class PopTv {
         this.voteCount = voteCount;
     }
 
-    public int getPopId() {
-        return popId;
+    public int getFilterId() {
+        return filterId;
     }
 
-    public void setPopId(int popId) {
-        this.popId = popId;
+    public void setFilterId(int filterId) {
+        this.filterId = filterId;
     }
 
-    public int getType() {
-        return type;
+    public int getFilterType() {
+        return filterType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setFilterType(int filterType) {
+        this.filterType = filterType;
     }
 
-    public String getData() {
-        return data;
+    public int getFilterOrder() {
+        return filterOrder;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setFilterOrder(int filterOrder) {
+        this.filterOrder = filterOrder;
     }
 
-    public int getOrderDirection() {
-        return orderDirection;
+    public String getDate() {
+        return date;
     }
 
-    public void setOrderDirection(int orderDirection) {
-        this.orderDirection = orderDirection;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getPage() {
@@ -168,5 +172,13 @@ public class PopTv {
 
     public void setPage(int page) {
         this.page = page;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

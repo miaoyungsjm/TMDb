@@ -1,12 +1,12 @@
 package com.tosmart.tmdb.db.database;
 
 import com.tosmart.tmdb.db.dao.FavoriteDao;
+import com.tosmart.tmdb.db.dao.FilterTvDao;
 import com.tosmart.tmdb.db.dao.MovieDao;
-import com.tosmart.tmdb.db.dao.PopularityDao;
 import com.tosmart.tmdb.db.dao.TvDao;
 import com.tosmart.tmdb.db.entity.Favorite;
+import com.tosmart.tmdb.db.entity.FilterTv;
 import com.tosmart.tmdb.db.entity.Movie;
-import com.tosmart.tmdb.db.entity.Popularity;
 import com.tosmart.tmdb.db.entity.Tv;
 
 import androidx.room.Database;
@@ -16,7 +16,7 @@ import androidx.room.RoomDatabase;
  * @author ggz
  * @date 2020/10/21
  */
-@Database(entities = {Movie.class, Tv.class, Favorite.class, Popularity.class},
+@Database(entities = {Movie.class, Tv.class, Favorite.class, FilterTv.class},
         version = 1, exportSchema = false)
 public abstract class TMDatabase extends RoomDatabase {
 
@@ -26,5 +26,5 @@ public abstract class TMDatabase extends RoomDatabase {
 
     public abstract FavoriteDao getFavoriteDao();
 
-    public abstract PopularityDao getPopularityDao();
+    public abstract FilterTvDao getFilterTvDao();
 }

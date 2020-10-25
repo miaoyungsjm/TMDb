@@ -2,23 +2,13 @@ package com.tosmart.tmdb.data_source;
 
 import android.util.Log;
 
-import com.tosmart.tmdb.db.RoomManager;
-import com.tosmart.tmdb.db.database.TMDatabase;
-import com.tosmart.tmdb.db.entity.Popularity;
 import com.tosmart.tmdb.db.entity.Tv;
-import com.tosmart.tmdb.network.ApiObserver;
-import com.tosmart.tmdb.network.ApiRequest;
-import com.tosmart.tmdb.network.response.TvRes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.paging.PageKeyedDataSource;
-import io.reactivex.Observable;
-
-import static com.tosmart.tmdb.network.ApiRequest.DESC;
-import static com.tosmart.tmdb.network.ApiRequest.POPULARITY;
 
 /**
  * @author ggz
