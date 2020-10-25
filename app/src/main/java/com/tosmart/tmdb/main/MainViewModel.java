@@ -5,9 +5,13 @@ import android.util.Log;
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
 import com.tosmart.tmdb.db.entity.Popularity;
+import com.tosmart.tmdb.db.entity.Tv;
 import com.tosmart.tmdb.network.ApiObserver;
 import com.tosmart.tmdb.network.ApiRequest;
 import com.tosmart.tmdb.network.response.TvRes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.lifecycle.ViewModel;
 import io.reactivex.Observable;
@@ -34,18 +38,23 @@ public class MainViewModel extends ViewModel {
             @Override
             public void onSuccess(TvRes tvRes) {
                 Log.e(TAG, "onSuccess: page: " + tvRes.getPage());
-                // 存数据库
+
                 TMDatabase db = RoomManager.getInstance().getTMDatabase();
-                db.getTvDao().insertList(tvRes.getResults());
-                for (int i = 0; i < tvRes.getResults().size(); i++) {
-                    Log.d(TAG, "onSuccess: id: " + tvRes.getResults().get(i).getId());
-                    Popularity popularity = new Popularity(
-                            tvRes.getResults().get(i).getId(),
+                List<Tv> tvList = tvRes.getResults();
+                List<Popularity> popList = new ArrayList<>();
+                for (int i = 0; i < tvList.size(); i++) {
+                    Log.d(TAG, "onSuccess: id: " + tvList.get(i).getId());
+                    Popularity pop = new Popularity(
+                            tvList.get(i).getId(),
                             0,
                             "2020-10-25",
-                            0);
-                    db.getPopularityDao().insert(popularity);
+                            0,
+                            tvRes.getPage());
+                    popList.add(pop);
                 }
+                db.getPopularityDao().insertList(popList);
+                db.getTvDao().insertList(tvList);
+
                 // 切换主线程刷新UI
 //                popTvList.postValue(popularTv.getResults());
             }

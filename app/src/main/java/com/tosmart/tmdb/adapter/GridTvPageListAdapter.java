@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.db.entity.PopTv;
 import com.tosmart.tmdb.db.entity.Tv;
 
 import androidx.annotation.NonNull;
@@ -18,23 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
  * @author ggz
  * @date 2020/10/23
  */
-public class GridTvPageAdapter extends PagedListAdapter<Tv, GridTvPageAdapter.ViewHolder> {
+public class GridTvPageListAdapter extends PagedListAdapter<PopTv, GridTvPageListAdapter.ViewHolder> {
 
-    public GridTvPageAdapter() {
-        super(new DiffUtil.ItemCallback<Tv>() {
+    public GridTvPageListAdapter() {
+        super(new DiffUtil.ItemCallback<PopTv>() {
             @Override
-            public boolean areItemsTheSame(@NonNull Tv oldItem, @NonNull Tv newItem) {
+            public boolean areItemsTheSame(@NonNull PopTv oldItem, @NonNull PopTv newItem) {
                 return oldItem.getId() == newItem.getId();
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull Tv oldItem, @NonNull Tv newItem) {
+            public boolean areContentsTheSame(@NonNull PopTv oldItem, @NonNull PopTv newItem) {
                 return false;
             }
         });
     }
-
-
 
     @NonNull
     @Override
@@ -46,7 +45,7 @@ public class GridTvPageAdapter extends PagedListAdapter<Tv, GridTvPageAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Tv tv = getItem(position);
+        PopTv tv = getItem(position);
         if (tv == null) {
             holder.nameTv.setText("loading...");
             holder.dateTv.setText("loading...");

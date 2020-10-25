@@ -1,7 +1,7 @@
 package com.tosmart.tmdb.db.dao;
 
+import com.tosmart.tmdb.db.entity.PopTv;
 import com.tosmart.tmdb.db.entity.Popularity;
-import com.tosmart.tmdb.db.entity.Tv;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public interface PopularityDao extends BaseDao<Popularity> {
     @Query("SELECT * FROM Popularity")
     List<Popularity> getAllPopularity();
 
-    @Query("SELECT * FROM Popularity, Tv " +
-            "WHERE Popularity.type = 0 AND Popularity.id = Tv.id " +
+    @Query("SELECT * FROM Tv, Popularity " +
+            "WHERE Popularity.type = 0 AND Popularity.pop_id = Tv.id " +
             "AND Popularity.order_direction == :od ")
-    DataSource.Factory<Integer, Tv> getPopularityTv(int od);
+    DataSource.Factory<Integer, PopTv> getPopularityTv(int od);
 }

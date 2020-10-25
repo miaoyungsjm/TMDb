@@ -10,7 +10,7 @@
 
         <variable
             name="tvAdapter"
-            type="com.tosmart.tmdb.adapter.GridTvPageAdapter" />
+            type="com.tosmart.tmdb.adapter.GridTvPageListAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

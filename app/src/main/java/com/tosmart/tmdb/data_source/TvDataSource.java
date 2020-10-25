@@ -34,9 +34,6 @@ public class TvDataSource extends PageKeyedDataSource<Integer, Tv> {
         Log.d(TAG, "loadInitial: size = " + size);
         Log.d(TAG, "loadInitial: pal = " + pal);
 
-        requestPopularTv(1);
-        requestPopularTv(2);
-
         List<Tv> list = new ArrayList<>();
         // todo 数据获取加载逻辑
         callback.onResult(list, null, 2);
@@ -56,33 +53,5 @@ public class TvDataSource extends PageKeyedDataSource<Integer, Tv> {
         int key = params.key;
         Log.d(TAG, "loadInitial: size = " + size);
         Log.d(TAG, "loadInitial: key = " + key);
-    }
-
-    public void requestPopularTv(int page) {
-        ApiObserver<TvRes> observer = new ApiObserver<TvRes>() {
-            @Override
-            public void onSuccess(TvRes tvRes) {
-                Log.e(TAG, "onSuccess: page: " + tvRes.getPage());
-                TMDatabase db = RoomManager.getInstance().getTMDatabase();
-                db.getTvDao().insertList(tvRes.getResults());
-                for (int i = 0; i < tvRes.getResults().size(); i++) {
-                    Log.d(TAG, "onSuccess: id: " + tvRes.getResults().get(i).getId());
-                    Popularity popularity = new Popularity(
-                            tvRes.getResults().get(i).getId(),
-                            0,
-                            "2020-10-25",
-                            0);
-                    db.getPopularityDao().insert(popularity);
-                }
-            }
-
-            @Override
-            public void onError(int errorCode, String message) {
-                Log.e(TAG, "onError: message: " + message);
-            }
-        };
-        String query = POPULARITY + DESC;
-        Observable<TvRes> observable = new ApiRequest().discoverTv(query, page);
-        observable.subscribe(observer);
     }
 }

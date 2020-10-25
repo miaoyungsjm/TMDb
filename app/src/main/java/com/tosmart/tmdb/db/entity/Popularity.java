@@ -2,46 +2,39 @@ package com.tosmart.tmdb.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 /**
  * @author ggz
  * @date 2020/10/24
  */
-@Entity
+@Entity(primaryKeys = {"pop_id", "type"})
 public class Popularity {
-    @PrimaryKey(autoGenerate = true)
-    private int serialNumber;
-    @ColumnInfo(name = "id")
-    private int id;
+
+    @ColumnInfo(name = "pop_id")
+    private int popId;
     @ColumnInfo(name = "type")
     private int type;
     @ColumnInfo(name = "date")
     private String data;
     @ColumnInfo(name = "order_direction")
     private int orderDirection;
+    @ColumnInfo(name = "page")
+    private int page;
 
-    public Popularity(int id, int type, String data, int orderDirection) {
-        this.id = id;
+    public Popularity(int popId, int type, String data, int orderDirection, int page) {
+        this.popId = popId;
         this.type = type;
         this.data = data;
         this.orderDirection = orderDirection;
+        this.page = page;
     }
 
-    public int getSerialNumber() {
-        return serialNumber;
+    public int getPopId() {
+        return popId;
     }
 
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setPopId(int popId) {
+        this.popId = popId;
     }
 
     public int getType() {
@@ -66,5 +59,13 @@ public class Popularity {
 
     public void setOrderDirection(int orderDirection) {
         this.orderDirection = orderDirection;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 }
