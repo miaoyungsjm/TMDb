@@ -1,8 +1,7 @@
 package com.tosmart.tmdb.content;
 
-import com.tosmart.tmdb.data_source.MyDataSourceFactory;
-import com.tosmart.tmdb.db.RoomManager;
-import com.tosmart.tmdb.db.database.TMDatabase;
+import com.tosmart.tmdb.data_source.TvDataSourceFactory;
+import com.tosmart.tmdb.db.entity.Tv;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -15,18 +14,22 @@ import androidx.paging.PagedList;
  */
 public class GridStyleViewModel extends ViewModel {
 
-    public LiveData<PagedList<String>> mPagedList;
+    public LiveData<PagedList<Tv>> mPagedList;
 
     public GridStyleViewModel() {
 //        PagedList.Config cfg = new PagedList.Config.Builder()
-//                .setPageSize(10)
+//                .setPageSize(20)
 //                .setEnablePlaceholders(true)
 //                .setInitialLoadSizeHint(10)
 //                .build();
-//        mPagedList = new LivePagedListBuilder<>(new MyDataSourceFactory(), cfg).build();
+//        TMDatabase db = RoomManager.getInstance().getTMDatabase();
+//        mPagedList = new LivePagedListBuilder<>(
+//                db.getPopularityDao().getPopularityTv(0),
+//                20).build();
 
-        TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        db.getTvDao().getAllTv();
-        mPagedList = new LivePagedListBuilder<>(new MyDataSourceFactory(), 20).build();
+        mPagedList = new LivePagedListBuilder<>(
+                new TvDataSourceFactory(),
+                20).build();
+
     }
 }

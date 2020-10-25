@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.content.GridStyleViewModel" />
+
+        <variable
+            name="tvAdapter"
+            type="com.tosmart.tmdb.adapter.GridTvPageAdapter" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,8 +33,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_grid_content_tv"
-                style="@style/style_grid_content_rv"
-                adapter="@{tvAdapter}" />
+                style="@style/style_grid_content_rv" />
         </LinearLayout>
 
         <LinearLayout
@@ -59,17 +69,6 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-        <variable
-            name="vm"
-            type="com.tosmart.tmdb.content.GridStyleViewModel" />
-
-        <variable
-            name="tvAdapter"
-            type="com.tosmart.tmdb.adapter.GridTvPageAdapter" />
-    </data>
 
 </layout>
 

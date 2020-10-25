@@ -35,6 +35,7 @@ public abstract class ApiObserver<T> extends DisposableObserver<T> {
 
     @Override
     public void onError(Throwable e) {
+        e.printStackTrace();
         int errorCode;
         if (e instanceof NullPointerException) {
             errorCode = HttpCode.ERROR_EMPTY_OBJ;

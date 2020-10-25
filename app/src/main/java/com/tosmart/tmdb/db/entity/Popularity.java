@@ -21,6 +21,13 @@ public class Popularity {
     @ColumnInfo(name = "order_direction")
     private int orderDirection;
 
+    public Popularity(int id, int type, String data, int orderDirection) {
+        this.id = id;
+        this.type = type;
+        this.data = data;
+        this.orderDirection = orderDirection;
+    }
+
     public int getSerialNumber() {
         return serialNumber;
     }

@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class GridTvPageAdapter extends PagedListAdapter<Tv, GridTvPageAdapter.ViewHolder> {
 
-    protected GridTvPageAdapter() {
+    public GridTvPageAdapter() {
         super(new DiffUtil.ItemCallback<Tv>() {
             @Override
             public boolean areItemsTheSame(@NonNull Tv oldItem, @NonNull Tv newItem) {
@@ -34,6 +34,8 @@ public class GridTvPageAdapter extends PagedListAdapter<Tv, GridTvPageAdapter.Vi
         });
     }
 
+
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -45,11 +47,16 @@ public class GridTvPageAdapter extends PagedListAdapter<Tv, GridTvPageAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Tv tv = getItem(position);
-        // todo 图片加载框架
-//        holder.posterIv.setImageBitmap(tv.getPosterPath());
-        holder.nameTv.setText(tv.getOriginalName());
-        holder.dateTv.setText(tv.getFirstAirDate());
-        holder.averageTv.setText((int) (tv.getVoteAverage() * 10));
+        if (tv == null) {
+            holder.nameTv.setText("loading...");
+            holder.dateTv.setText("loading...");
+            holder.averageTv.setText("0");
+        } else {
+//            holder.posterIv.setImageBitmap(tv.getPosterPath());
+            holder.nameTv.setText(tv.getOriginalName());
+            holder.dateTv.setText(tv.getFirstAirDate());
+            holder.averageTv.setText("0");
+        }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
