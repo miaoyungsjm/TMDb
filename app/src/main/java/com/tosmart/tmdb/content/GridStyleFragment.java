@@ -41,11 +41,10 @@ public class GridStyleFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        // paging 初始化
-        mGridStyleViewModel.initDataSource(
+        // 初始化 paging
+        mGridStyleViewModel.initPagedList(
                 mMainViewModel.getFilterType(),
                 mMainViewModel.getFilterOrder());
-        mGridStyleViewModel.initPagedList();
 
         // 排序回调，刷新数据源
         mMainViewModel.mFilterFlag.observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -53,10 +52,11 @@ public class GridStyleFragment extends BaseFragment {
             public void onChanged(Integer index) {
                 Log.e(TAG, "onChanged: filterIndex = " + index);
                 mMainViewModel.setFilterIndex(index);
-                mGridStyleViewModel.initDataSource(
-                        mMainViewModel.getFilterType(),
+                mGridStyleViewModel.initPagedList(mMainViewModel.getFilterType(),
                         mMainViewModel.getFilterOrder());
-                mGridStyleViewModel.initPagedList();
+
+                releaseObservers();
+                initView(rootView);
             }
         });
     }
@@ -68,7 +68,7 @@ public class GridStyleFragment extends BaseFragment {
                 LinearLayoutManager.HORIZONTAL, false));
         GridTvPageListAdapter gridTvPageListAdapter = new GridTvPageListAdapter();
         tvRv.setAdapter(gridTvPageListAdapter);
-        mGridStyleViewModel.mTvMediatorLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
+        mGridStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
             @Override
             public void onChanged(PagedList<TvPageList> tvPageLists) {
                 Log.e(TAG, "onChanged: tv");
@@ -89,7 +89,7 @@ public class GridStyleFragment extends BaseFragment {
                 LinearLayoutManager.HORIZONTAL, false));
         GridMoviePageListAdapter gridMoviePageListAdapter = new GridMoviePageListAdapter();
         movieRv.setAdapter(gridMoviePageListAdapter);
-        mGridStyleViewModel.mMovieMediatorLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
+        mGridStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
             @Override
             public void onChanged(PagedList<MoviePageList> moviePageLists) {
                 Log.e(TAG, "onChanged: movie");
@@ -104,5 +104,12 @@ public class GridStyleFragment extends BaseFragment {
                         page);
             }
         });
+    }
+
+    private void releaseObservers() {
+        mGridStyleViewModel.mTvLiveData.removeObservers(this);
+        mGridStyleViewModel.mMovieLiveData.removeObservers(this);
+        mGridStyleViewModel.mTvFilterPage.removeObservers(this);
+        mGridStyleViewModel.mMovieFilterPage.removeObservers(this);
     }
 }

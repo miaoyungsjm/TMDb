@@ -24,46 +24,37 @@ import androidx.paging.PagedList;
 public class GridStyleViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
-    private DataSource.Factory<Integer, TvPageList> mTvDataSource;
     public LiveData<PagedList<TvPageList>> mTvLiveData;
-    public MediatorLiveData<PagedList<TvPageList>> mTvMediatorLiveData = new MediatorLiveData<>();
-    public MutableLiveData<Integer> mTvFilterPage = new MutableLiveData<>();
+    public MutableLiveData<Integer> mTvFilterPage;
 
-    private DataSource.Factory<Integer, MoviePageList> mMovieDataSource;
     public LiveData<PagedList<MoviePageList>> mMovieLiveData;
-    public MediatorLiveData<PagedList<MoviePageList>> mMovieMediatorLiveData = new MediatorLiveData<>();
-    public MutableLiveData<Integer> mMovieFilterPage = new MutableLiveData<>();
+    public MutableLiveData<Integer> mMovieFilterPage;
 
-    public void initDataSource(int filterType, int filterOrder) {
-        TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        mTvDataSource = db.getFilterTvDao().getFilterTvPageList(filterType, filterOrder);
-        mMovieDataSource = db.getFilterMovieDao().getFilterMoviePageList(filterType, filterOrder);
+    public GridStyleViewModel() {
     }
 
-    public void initPagedList() {
+    public void initPagedList(int filterType, int filterOrder) {
+        TMDatabase db = RoomManager.getInstance().getTMDatabase();
+        DataSource.Factory<Integer, TvPageList> tvDataSource =
+                db.getFilterTvDao().getFilterTvPageList(filterType, filterOrder);
+
+        DataSource.Factory<Integer, MoviePageList> movieDataSource =
+                db.getFilterMovieDao().getFilterMoviePageList(filterType, filterOrder);
+
         mTvLiveData = new LivePagedListBuilder<>(
-                mTvDataSource,
+                tvDataSource,
                 10)
                 .setBoundaryCallback(mTvPageListCallback)
                 .build();
-        mTvMediatorLiveData.addSource(mTvLiveData, new Observer<PagedList<TvPageList>>() {
-            @Override
-            public void onChanged(PagedList<TvPageList> tvPageLists) {
-                mTvMediatorLiveData.setValue(tvPageLists);
-            }
-        });
 
         mMovieLiveData = new LivePagedListBuilder<>(
-                mMovieDataSource,
+                movieDataSource,
                 10)
                 .setBoundaryCallback(mMoviePageListCallback)
                 .build();
-        mMovieMediatorLiveData.addSource(mMovieLiveData, new Observer<PagedList<MoviePageList>>() {
-            @Override
-            public void onChanged(PagedList<MoviePageList> moviePageLists) {
-                mMovieMediatorLiveData.setValue(moviePageLists);
-            }
-        });
+
+        mTvFilterPage = new MutableLiveData<>();
+        mMovieFilterPage = new MutableLiveData<>();
     }
 
     private PagedList.BoundaryCallback<TvPageList> mTvPageListCallback =
