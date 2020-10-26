@@ -11,4 +11,10 @@
     <color name="grid_title_text_color">#29a6e6</color>
     <color name="grid_item_text_light">#17c5f4</color>
     <color name="grid_item_text_normal">#ffffff</color>
+    <color name="grid_item_shape_bg_gradient_begin">#46f0e7</color>
+    <color name="grid_item_shape_bg_gradient_end">#16c4f4</color>
+
+    <color name="dialog_filter_item_text_light">#ffffff</color>
+    <color name="dialog_filter_item_text_normal">#8d9295</color>
+    <color name="dialog_filter_item_line_color">#80355667</color>
 </resources>

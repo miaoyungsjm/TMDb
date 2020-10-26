@@ -8,8 +8,13 @@
 
     <ImageView
         android:id="@+id/iv_grid_item_poster"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_grid_item_average"
@@ -21,11 +26,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/grid_item_name_bg_iv_height"
         android:src="@mipmap/name_bg"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_grid_item_solid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/selector_grid_item_solid"
+        android:duplicateParentState="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_grid_item_average"
@@ -45,7 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/grid_item_date_tv_margin_left"
         android:layout_marginBottom="@dimen/grid_item_date_tv_margin_bottom"
-        android:text="2020-10-24"
+        android:duplicateParentState="true"
+        android:text="@string/str_content_item_statue_loading"
         android:textColor="@drawable/selector_grid_item_text_color"
         android:textSize="@dimen/grid_item_date_tv_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,8 +75,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/grid_item_date_tv_margin_left"
         android:layout_marginBottom="@dimen/grid_item_name_tv_margin_bottom"
+        android:duplicateParentState="true"
         android:singleLine="true"
-        android:text="Loading"
+        android:text="@string/str_content_item_statue_loading"
         android:textColor="@drawable/selector_grid_item_text_color"
         android:textSize="@dimen/grid_item_name_tv_text_size"
         app:layout_constraintBottom_toTopOf="@id/tv_grid_item_date"

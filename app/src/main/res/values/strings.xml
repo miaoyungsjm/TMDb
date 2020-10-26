@@ -11,4 +11,12 @@
     <string name="str_content_module_favorite">收藏</string>
 
     <string name="str_content_item_statue_loading">Loading...</string>
+
+    <string name="str_dialog_filter_title">排序</string>
+    <string name="str_dialog_filter_item_pop_desc">热门降序</string>
+    <string name="str_dialog_filter_item_pop_asc">热门升序</string>
+    <string name="str_dialog_filter_item_average_desc">评分降序</string>
+    <string name="str_dialog_filter_item_average_asc">评分升序</string>
+    <string name="str_dialog_filter_item_date_desc">上映时间降序</string>
+    <string name="str_dialog_filter_item_date_asc">上映时间升序</string>
 </resources>

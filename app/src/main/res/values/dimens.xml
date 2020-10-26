@@ -73,6 +73,7 @@
     <dimen name="grid_item_cl_width">96dp</dimen>
     <dimen name="grid_item_cl_height">133dp</dimen>
     <dimen name="grid_item_cl_margin_right">21dp</dimen>
+    <dimen name="grid_item_cl_solid">3dp</dimen>
     <dimen name="grid_item_average_iv_width">19dp</dimen>
     <dimen name="grid_item_average_iv_margin">7dp</dimen>
     <dimen name="grid_item_average_tv_text_size">7sp</dimen>
@@ -82,5 +83,16 @@
     <dimen name="grid_item_date_tv_margin_bottom">7dp</dimen>
     <dimen name="grid_item_date_tv_text_size">8sp</dimen>
     <dimen name="grid_item_name_bg_iv_height">48dp</dimen>
+
+    <dimen name="dialog_filter_cl_width">549dp</dimen>
+    <dimen name="dialog_filter_cl_height">425dp</dimen>
+    <dimen name="dialog_filter_title_tv_margin_top">18dp</dimen>
+    <dimen name="dialog_filter_content_rv_margin_top">56dp</dimen>
+    <dimen name="dialog_filter_content_rv_margin_left">35dp</dimen>
+    <dimen name="dialog_filter_item_height">56dp</dimen>
+    <dimen name="dialog_filter_item_select_cl_height">40dp</dimen>
+    <dimen name="dialog_filter_item_name_tv_margin_left">24dp</dimen>
+    <dimen name="dialog_filter_item_check_iv_width">19dp</dimen>
+    <dimen name="dialog_filter_item_check_iv_height">14dp</dimen>
 
 </resources>

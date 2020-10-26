@@ -72,7 +72,7 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
             String average = String.valueOf((int) (tv.getVoteAverage() * 10));
             String url = PIC_URL + tv.getPosterPath();
             Glide.with(holder.posterIv.getContext())
-                    .load(url).centerCrop().into(holder.posterIv);
+                    .load(url).into(holder.posterIv);
             holder.nameTv.setText(tv.getOriginalName());
             holder.dateTv.setText(tv.getFirstAirDate());
             holder.averageTv.setText(average);

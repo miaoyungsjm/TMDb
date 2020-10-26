@@ -72,7 +72,7 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
             String average = String.valueOf((int) (movie.getVoteAverage() * 10));
             String url = PIC_URL + movie.getPosterPath();
             Glide.with(holder.posterIv.getContext())
-                    .load(url).centerCrop().into(holder.posterIv);
+                    .load(url).into(holder.posterIv);
             holder.nameTv.setText(movie.getOriginalTitle());
             holder.dateTv.setText(movie.getReleaseDate());
             holder.averageTv.setText(average);

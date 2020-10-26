@@ -44,6 +44,8 @@ public class MainViewModel extends ViewModel {
 
     private CompositeDisposable mCompositeDisposable;
 
+    public int mFilterIndex = 0;
+
     public MainViewModel() {
         mCompositeDisposable = new CompositeDisposable();
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="filter_list">
+        <item>@string/str_dialog_filter_item_pop_desc</item>
+        <item>@string/str_dialog_filter_item_pop_asc</item>
+        <item>@string/str_dialog_filter_item_average_desc</item>
+        <item>@string/str_dialog_filter_item_average_asc</item>
+        <item>@string/str_dialog_filter_item_date_desc</item>
+        <item>@string/str_dialog_filter_item_date_asc</item>
+    </string-array>
+</resources>
