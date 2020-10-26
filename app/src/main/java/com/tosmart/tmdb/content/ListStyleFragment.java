@@ -26,6 +26,11 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void initView(View v) {
 
     }

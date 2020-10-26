@@ -1,5 +1,6 @@
 package com.tosmart.tmdb.content;
 
+import android.util.Log;
 import android.view.View;
 
 import com.kunminx.architecture.ui.page.DataBindingConfig;
@@ -39,15 +40,38 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     @Override
+    protected void initData() {
+        // paging 初始化
+        mGridStyleViewModel.initDataSource(
+                mMainViewModel.getFilterType(),
+                mMainViewModel.getFilterOrder());
+        mGridStyleViewModel.initPagedList();
+
+        // 排序回调，刷新数据源
+        mMainViewModel.mFilterFlag.observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer index) {
+                Log.e(TAG, "onChanged: filterIndex = " + index);
+                mMainViewModel.setFilterIndex(index);
+                mGridStyleViewModel.initDataSource(
+                        mMainViewModel.getFilterType(),
+                        mMainViewModel.getFilterOrder());
+                mGridStyleViewModel.initPagedList();
+            }
+        });
+    }
+
+    @Override
     protected void initView(View v) {
         RecyclerView tvRv = v.findViewById(R.id.rv_grid_content_tv);
         tvRv.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
         GridTvPageListAdapter gridTvPageListAdapter = new GridTvPageListAdapter();
         tvRv.setAdapter(gridTvPageListAdapter);
-        mGridStyleViewModel.mTvPagedList.observe(this, new Observer<PagedList<TvPageList>>() {
+        mGridStyleViewModel.mTvMediatorLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
             @Override
             public void onChanged(PagedList<TvPageList> tvPageLists) {
+                Log.e(TAG, "onChanged: tv");
                 gridTvPageListAdapter.submitList(tvPageLists);
             }
         });
@@ -55,21 +79,20 @@ public class GridStyleFragment extends BaseFragment {
             @Override
             public void onChanged(Integer page) {
                 mMainViewModel.requestFilterTv(
-                        mGridStyleViewModel.filterType,
-                        mGridStyleViewModel.filterOrder,
+                        mMainViewModel.getFilterIndex(),
                         page);
             }
         });
-
 
         RecyclerView movieRv = v.findViewById(R.id.rv_grid_content_movie);
         movieRv.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
         GridMoviePageListAdapter gridMoviePageListAdapter = new GridMoviePageListAdapter();
         movieRv.setAdapter(gridMoviePageListAdapter);
-        mGridStyleViewModel.mMoviePagedList.observe(this, new Observer<PagedList<MoviePageList>>() {
+        mGridStyleViewModel.mMovieMediatorLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
             @Override
             public void onChanged(PagedList<MoviePageList> moviePageLists) {
+                Log.e(TAG, "onChanged: movie");
                 gridMoviePageListAdapter.submitList(moviePageLists);
             }
         });
@@ -77,8 +100,7 @@ public class GridStyleFragment extends BaseFragment {
             @Override
             public void onChanged(Integer page) {
                 mMainViewModel.requestFilterMovie(
-                        mGridStyleViewModel.filterType,
-                        mGridStyleViewModel.filterOrder,
+                        mMainViewModel.getFilterIndex(),
                         page);
             }
         });

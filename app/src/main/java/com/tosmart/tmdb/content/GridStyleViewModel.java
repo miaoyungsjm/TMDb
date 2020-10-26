@@ -9,13 +9,13 @@ import com.tosmart.tmdb.db.entity.TvPageList;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
-
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_DESC;
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_POPULARITY;
 
 /**
  * @author ggz
@@ -24,14 +24,47 @@ import static com.tosmart.tmdb.network.ApiRequest.INDEX_POPULARITY;
 public class GridStyleViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
-    public LiveData<PagedList<TvPageList>> mTvPagedList;
+    private DataSource.Factory<Integer, TvPageList> mTvDataSource;
+    public LiveData<PagedList<TvPageList>> mTvLiveData;
+    public MediatorLiveData<PagedList<TvPageList>> mTvMediatorLiveData = new MediatorLiveData<>();
     public MutableLiveData<Integer> mTvFilterPage = new MutableLiveData<>();
 
-    public LiveData<PagedList<MoviePageList>> mMoviePagedList;
+    private DataSource.Factory<Integer, MoviePageList> mMovieDataSource;
+    public LiveData<PagedList<MoviePageList>> mMovieLiveData;
+    public MediatorLiveData<PagedList<MoviePageList>> mMovieMediatorLiveData = new MediatorLiveData<>();
     public MutableLiveData<Integer> mMovieFilterPage = new MutableLiveData<>();
 
-    public int filterType = INDEX_POPULARITY;
-    public int filterOrder = INDEX_DESC;
+    public void initDataSource(int filterType, int filterOrder) {
+        TMDatabase db = RoomManager.getInstance().getTMDatabase();
+        mTvDataSource = db.getFilterTvDao().getFilterTvPageList(filterType, filterOrder);
+        mMovieDataSource = db.getFilterMovieDao().getFilterMoviePageList(filterType, filterOrder);
+    }
+
+    public void initPagedList() {
+        mTvLiveData = new LivePagedListBuilder<>(
+                mTvDataSource,
+                10)
+                .setBoundaryCallback(mTvPageListCallback)
+                .build();
+        mTvMediatorLiveData.addSource(mTvLiveData, new Observer<PagedList<TvPageList>>() {
+            @Override
+            public void onChanged(PagedList<TvPageList> tvPageLists) {
+                mTvMediatorLiveData.setValue(tvPageLists);
+            }
+        });
+
+        mMovieLiveData = new LivePagedListBuilder<>(
+                mMovieDataSource,
+                10)
+                .setBoundaryCallback(mMoviePageListCallback)
+                .build();
+        mMovieMediatorLiveData.addSource(mMovieLiveData, new Observer<PagedList<MoviePageList>>() {
+            @Override
+            public void onChanged(PagedList<MoviePageList> moviePageLists) {
+                mMovieMediatorLiveData.setValue(moviePageLists);
+            }
+        });
+    }
 
     private PagedList.BoundaryCallback<TvPageList> mTvPageListCallback =
             new PagedList.BoundaryCallback<TvPageList>() {
@@ -52,7 +85,6 @@ public class GridStyleViewModel extends ViewModel {
                 }
             };
 
-
     private PagedList.BoundaryCallback<MoviePageList> mMoviePageListCallback =
             new PagedList.BoundaryCallback<MoviePageList>() {
                 @Override
@@ -69,19 +101,4 @@ public class GridStyleViewModel extends ViewModel {
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
-
-    public GridStyleViewModel() {
-        TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        mTvPagedList = new LivePagedListBuilder<>(
-                db.getFilterTvDao().getFilterTvPageList(filterType, filterOrder),
-                10)
-                .setBoundaryCallback(mTvPageListCallback)
-                .build();
-
-        mMoviePagedList = new LivePagedListBuilder<>(
-                db.getFilterMovieDao().getFilterMoviePageList(filterType, filterOrder),
-                10)
-                .setBoundaryCallback(mMoviePageListCallback)
-                .build();
-    }
 }

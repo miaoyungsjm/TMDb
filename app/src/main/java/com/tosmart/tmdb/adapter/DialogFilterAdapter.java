@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.main.FilterDialogFragment;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,6 +23,8 @@ public class DialogFilterAdapter extends RecyclerView.Adapter<DialogFilterAdapte
     private String[] mFilters;
     private int mFilterIndex = 0;
 
+    private FilterDialogFragment.OnItemClickListener mListener = null;
+
     public DialogFilterAdapter(int filterIndex) {
         mFilters = StringUtils.getStringArray(R.array.filter_list);
         mFilterIndex = filterIndex;
@@ -33,6 +36,19 @@ public class DialogFilterAdapter extends RecyclerView.Adapter<DialogFilterAdapte
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_dialog_filter, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+        viewHolder.itemCl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = viewHolder.getAdapterPosition();
+                mFilterIndex = position;
+                notifyDataSetChanged();
+
+                // 刷新数据源
+                if (mListener != null) {
+                    mListener.onItemClick(position);
+                }
+            }
+        });
         return viewHolder;
     }
 
@@ -41,8 +57,10 @@ public class DialogFilterAdapter extends RecyclerView.Adapter<DialogFilterAdapte
         String name = mFilters[position];
         holder.nameTv.setText(name);
         if (position == mFilterIndex) {
-//            holder.checkIv.setSelected(true);
-//            holder.constraintLayout.requestFocus();
+            holder.itemCl.requestFocus();
+            holder.checkIv.setSelected(true);
+        } else {
+            holder.checkIv.setSelected(false);
         }
     }
 
@@ -53,15 +71,19 @@ public class DialogFilterAdapter extends RecyclerView.Adapter<DialogFilterAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout constraintLayout;
+        ConstraintLayout itemCl;
         TextView nameTv;
         ImageView checkIv;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.cl_dialog_filter_item_select);
+            itemCl = itemView.findViewById(R.id.cl_dialog_filter_item);
             nameTv = itemView.findViewById(R.id.tv_dialog_filter_item_name);
             checkIv = itemView.findViewById(R.id.iv_dialog_filter_item_check);
         }
+    }
+
+    public void setOnItemClickListener(FilterDialogFragment.OnItemClickListener listener) {
+        mListener = listener;
     }
 }

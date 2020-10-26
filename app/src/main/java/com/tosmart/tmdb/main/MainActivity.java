@@ -7,7 +7,6 @@ import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.base.BaseActivity;
-import com.tosmart.tmdb.dialog.FilterDialogFragment;
 
 
 /**
@@ -17,7 +16,6 @@ import com.tosmart.tmdb.dialog.FilterDialogFragment;
 public class MainActivity extends BaseActivity {
 
     private MainViewModel mMainViewModel;
-
 
     @Override
     protected void initViewModel() {
@@ -39,7 +37,7 @@ public class MainActivity extends BaseActivity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_MENU:
                 FilterDialogFragment filterDialogFragment =
-                        FilterDialogFragment.getInstance(mMainViewModel.mFilterIndex);
+                        FilterDialogFragment.getInstance();
                 filterDialogFragment.show(getSupportFragmentManager());
                 break;
             default:

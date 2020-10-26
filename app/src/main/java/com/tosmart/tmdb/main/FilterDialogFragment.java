@@ -1,19 +1,11 @@
-package com.tosmart.tmdb.dialog;
+package com.tosmart.tmdb.main;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 
-import com.blankj.utilcode.util.AdaptScreenUtils;
-import com.blankj.utilcode.util.ColorUtils;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.DialogFilterAdapter;
 
@@ -22,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,27 +24,22 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class FilterDialogFragment extends DialogFragment {
     private final String TAG = getClass().getSimpleName();
-    private static final String KEY = "filter_index";
 
+    private MainViewModel mMainViewModel;
     private int mFilterIndex = 0;
 
-    public static FilterDialogFragment getInstance(int filterIndex) {
-        FilterDialogFragment fragment = new FilterDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(KEY, filterIndex);
-        fragment.setArguments(bundle);
-        return fragment;
+    public static FilterDialogFragment getInstance() {
+        return new FilterDialogFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_filter, container, false);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            mFilterIndex = bundle.getInt(KEY);
-            Log.d(TAG, "onCreateView: mFilterIndex=" + mFilterIndex);
-        }
+        ViewModelProvider viewModelProvider = new ViewModelProvider(getActivity());
+        mMainViewModel = viewModelProvider.get(MainViewModel.class);
+        mFilterIndex = mMainViewModel.getFilterIndex();
+        Log.e(TAG, "onCreateView: mFilterIndex = " + mFilterIndex);
         return view;
     }
 
@@ -62,12 +50,27 @@ public class FilterDialogFragment extends DialogFragment {
         RecyclerView recyclerView = view.findViewById(R.id.rv_dialog_filter_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new DialogFilterAdapter(mFilterIndex));
+        DialogFilterAdapter adapter = new DialogFilterAdapter(mFilterIndex);
+        recyclerView.setAdapter(adapter);
+
+        // 刷新数据源
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                mFilterIndex = position;
+                mMainViewModel.mFilterFlag.setValue(position);
+                dismiss();
+            }
+        });
     }
 
     public void show(FragmentManager supportFragmentManager) {
         FragmentTransaction ft = supportFragmentManager.beginTransaction();
         ft.add(this, TAG);
         ft.commit();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

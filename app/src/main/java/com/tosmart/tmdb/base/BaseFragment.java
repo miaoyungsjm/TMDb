@@ -32,10 +32,13 @@ public abstract class BaseFragment extends DataBindingFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         if (!isNavigationViewInit) {
             super.onViewCreated(view, savedInstanceState);
+            initData();
             initView(view);
             isNavigationViewInit = true;
         }
     }
+
+    protected abstract void initData();
 
     protected abstract void initView(View v);
 

@@ -2,6 +2,8 @@ package com.tosmart.tmdb.main;
 
 import android.util.Log;
 
+import com.blankj.utilcode.util.StringUtils;
+import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
 import com.tosmart.tmdb.db.entity.FilterMovie;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,6 +28,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import static com.tosmart.tmdb.network.ApiRequest.ASC;
 import static com.tosmart.tmdb.network.ApiRequest.DESC;
 import static com.tosmart.tmdb.network.ApiRequest.FIRT_AIR_DATE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_ASC;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_AVERAGE;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_DATE;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_DESC;
@@ -42,15 +46,25 @@ import static com.tosmart.tmdb.network.ApiRequest.VOTE_AVERAGE;
 public class MainViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
+    public MutableLiveData<Integer> mFilterFlag = new MutableLiveData<>();
+    private int mFilterIndex = 0;
+    private int mFilterType = INDEX_POPULARITY;
+    private int mFilterOrder = INDEX_DESC;
+    private String mFilterTvQuery = "popularity.desc";
+    private String mFilterMovieQuery = "popularity.desc";
     private CompositeDisposable mCompositeDisposable;
-
-    public int mFilterIndex = 0;
 
     public MainViewModel() {
         mCompositeDisposable = new CompositeDisposable();
     }
 
-    public void requestFilterTv(int ft, int fo, int page) {
+    /**
+     * 进行网络请求，并存数据
+     */
+    public void requestFilterTv(int filterIndex, int page) {
+
+        buildFilterType(filterIndex, INDEX_TV);
+
         ApiObserver<TvRes> observer = new ApiObserver<TvRes>() {
             @Override
             public void onSuccess(TvRes tvRes) {
@@ -62,7 +76,7 @@ public class MainViewModel extends ViewModel {
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
                     Log.d(TAG, "onSuccess: tv id: " + list.get(i).getId());
-                    FilterTv filterTv = new FilterTv(list.get(i).getId(), ft, fo,
+                    FilterTv filterTv = new FilterTv(list.get(i).getId(), mFilterType, mFilterOrder,
                             dateStr, tvRes.getPage(), i);
                     filterList.add(filterTv);
                 }
@@ -76,12 +90,14 @@ public class MainViewModel extends ViewModel {
             }
         };
         mCompositeDisposable.add(observer);
-        String query = buildQueryValue(ft, ft, INDEX_TV);
-        Observable<TvRes> observable = new ApiRequest().discoverTv(query, page);
+        Observable<TvRes> observable = new ApiRequest().discoverTv(mFilterTvQuery, page);
         observable.subscribe(observer);
     }
 
-    public void requestFilterMovie(int ft, int fo, int page) {
+    public void requestFilterMovie(int filterIndex, int page) {
+
+        buildFilterType(filterIndex, INDEX_MOVIE);
+
         ApiObserver<MovieRes> observer = new ApiObserver<MovieRes>() {
             @Override
             public void onSuccess(MovieRes movieRes) {
@@ -93,7 +109,7 @@ public class MainViewModel extends ViewModel {
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
                     Log.d(TAG, "onSuccess: movie id: " + list.get(i).getId());
-                    FilterMovie filterMovie = new FilterMovie(list.get(i).getId(), ft, fo,
+                    FilterMovie filterMovie = new FilterMovie(list.get(i).getId(), mFilterType, mFilterOrder,
                             dateStr, movieRes.getPage(), i);
                     filterList.add(filterMovie);
                 }
@@ -107,41 +123,8 @@ public class MainViewModel extends ViewModel {
             }
         };
         mCompositeDisposable.add(observer);
-        String query = buildQueryValue(ft, ft, INDEX_MOVIE);
-        Observable<MovieRes> observable = new ApiRequest().discoverMovie(query, page);
+        Observable<MovieRes> observable = new ApiRequest().discoverMovie(mFilterMovieQuery, page);
         observable.subscribe(observer);
-    }
-
-    private String buildQueryValue(int ft, int fo, int type) {
-        StringBuilder sb = new StringBuilder();
-        switch (ft) {
-            case INDEX_AVERAGE:
-                sb.append(VOTE_AVERAGE);
-                break;
-            case INDEX_DATE:
-                if (type == INDEX_TV) {
-                    sb.append(FIRT_AIR_DATE);
-                } else {
-                    sb.append(RELEASE_DATE);
-                }
-                break;
-            case INDEX_POPULARITY:
-            default:
-                sb.append(POPULARITY);
-                break;
-        }
-        if (fo == INDEX_DESC) {
-            sb.append(DESC);
-        } else {
-            sb.append(ASC);
-        }
-        return sb.toString();
-    }
-
-    private String buildDateValue() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date(System.currentTimeMillis());
-        return simpleDateFormat.format(date);
     }
 
     @Override
@@ -151,5 +134,92 @@ public class MainViewModel extends ViewModel {
             mCompositeDisposable.dispose();
         }
         super.onCleared();
+    }
+
+    private void buildFilterType(int index, int type) {
+        StringBuilder sb = new StringBuilder();
+        String[] filterList = StringUtils.getStringArray(R.array.filter_list);
+        if (filterList[index].equals(StringUtils.getString(R.string.str_dialog_filter_item_pop_desc))) {
+            mFilterType = INDEX_POPULARITY;
+            mFilterOrder = INDEX_DESC;
+            sb.append(POPULARITY);
+            sb.append(DESC);
+            mFilterTvQuery = sb.toString();
+            mFilterMovieQuery = sb.toString();
+        }
+        if (filterList[index].equals(StringUtils.getString(R.string.str_dialog_filter_item_pop_asc))) {
+            mFilterType = INDEX_POPULARITY;
+            mFilterOrder = INDEX_ASC;
+            sb.append(POPULARITY);
+            sb.append(ASC);
+            mFilterTvQuery = sb.toString();
+            mFilterMovieQuery = sb.toString();
+        }
+        if (filterList[index].equals(StringUtils.getString(R.string.str_dialog_filter_item_average_desc))) {
+            mFilterType = INDEX_AVERAGE;
+            mFilterOrder = INDEX_DESC;
+            sb.append(VOTE_AVERAGE);
+            sb.append(DESC);
+            mFilterTvQuery = sb.toString();
+            mFilterMovieQuery = sb.toString();
+        }
+        if (filterList[index].equals(StringUtils.getString(R.string.str_dialog_filter_item_average_asc))) {
+            mFilterType = INDEX_AVERAGE;
+            mFilterOrder = INDEX_ASC;
+            sb.append(VOTE_AVERAGE);
+            sb.append(ASC);
+            mFilterTvQuery = sb.toString();
+            mFilterMovieQuery = sb.toString();
+        }
+        if (filterList[index].equals(StringUtils.getString(R.string.str_dialog_filter_item_date_desc))) {
+            mFilterType = INDEX_DATE;
+            mFilterOrder = INDEX_DESC;
+            if (type == INDEX_TV) {
+                sb.append(FIRT_AIR_DATE);
+                sb.append(DESC);
+                mFilterTvQuery = sb.toString();
+            } else {
+                sb.append(RELEASE_DATE);
+                sb.append(DESC);
+                mFilterMovieQuery = sb.toString();
+            }
+        }
+        if (filterList[index].equals(StringUtils.getString(R.string.str_dialog_filter_item_date_asc))) {
+            mFilterType = INDEX_DATE;
+            mFilterOrder = INDEX_ASC;
+            if (type == INDEX_TV) {
+                sb.append(FIRT_AIR_DATE);
+                sb.append(ASC);
+                mFilterTvQuery = sb.toString();
+            } else {
+                sb.append(RELEASE_DATE);
+                sb.append(ASC);
+                mFilterMovieQuery = sb.toString();
+            }
+        }
+    }
+
+    private String buildDateValue() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(System.currentTimeMillis());
+        return simpleDateFormat.format(date);
+    }
+
+    public int getFilterIndex() {
+        return mFilterIndex;
+    }
+
+    public void setFilterIndex(int index) {
+        this.mFilterIndex = index;
+        buildFilterType(index, INDEX_TV);
+        buildFilterType(index, INDEX_MOVIE);
+    }
+
+    public int getFilterType() {
+        return mFilterType;
+    }
+
+    public int getFilterOrder() {
+        return mFilterOrder;
     }
 }
