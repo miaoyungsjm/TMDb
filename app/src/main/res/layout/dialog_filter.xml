@@ -6,8 +6,8 @@
     android:gravity="center">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/dialog_filter_cl_width"
-        android:layout_height="@dimen/dialog_filter_cl_height"
+        android:layout_width="@dimen/dialog_filter_view_cl_width"
+        android:layout_height="@dimen/dialog_filter_view_cl_height"
         android:background="@mipmap/pop_frame_bg">
 
         <TextView

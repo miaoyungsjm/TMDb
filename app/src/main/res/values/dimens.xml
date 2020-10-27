@@ -60,7 +60,7 @@
     <dimen name="main_search_ll_width">112dp</dimen>
     <dimen name="main_search_ll_height">40dp</dimen>
     <dimen name="main_search_iv_width">23dp</dimen>
-    <dimen name="main_search_iv_margin">14dp</dimen>
+    <dimen name="main_search_iv_margin_right">7dp</dimen>
     <dimen name="main_content_margin_top">106dp</dimen>
     <dimen name="main_content_margin_bottom">69dp</dimen>
     <dimen name="main_help_iv_width">28dp</dimen>
@@ -70,10 +70,10 @@
 
     <dimen name="grid_title_tv_margin_bottom">11dp</dimen>
     <dimen name="grid_content_rv_height">133dp</dimen>
-    <dimen name="grid_item_cl_width">96dp</dimen>
-    <dimen name="grid_item_cl_height">133dp</dimen>
-    <dimen name="grid_item_cl_margin_right">21dp</dimen>
-    <dimen name="grid_item_cl_solid">3dp</dimen>
+    <dimen name="grid_item_view_cl_width">96dp</dimen>
+    <dimen name="grid_item_view_cl_height">133dp</dimen>
+    <dimen name="grid_item_view_cl_margin_right">21dp</dimen>
+    <dimen name="grid_item_view_cl_solid">3dp</dimen>
     <dimen name="grid_item_average_iv_width">19dp</dimen>
     <dimen name="grid_item_average_iv_margin">7dp</dimen>
     <dimen name="grid_item_average_tv_text_size">7sp</dimen>
@@ -84,8 +84,8 @@
     <dimen name="grid_item_date_tv_text_size">8sp</dimen>
     <dimen name="grid_item_name_bg_iv_height">48dp</dimen>
 
-    <dimen name="dialog_filter_cl_width">549dp</dimen>
-    <dimen name="dialog_filter_cl_height">425dp</dimen>
+    <dimen name="dialog_filter_view_cl_width">549dp</dimen>
+    <dimen name="dialog_filter_view_cl_height">425dp</dimen>
     <dimen name="dialog_filter_title_tv_margin_top">18dp</dimen>
     <dimen name="dialog_filter_content_rv_margin_top">56dp</dimen>
     <dimen name="dialog_filter_content_rv_margin_left">35dp</dimen>
@@ -95,4 +95,33 @@
     <dimen name="dialog_filter_item_check_iv_width">19dp</dimen>
     <dimen name="dialog_filter_item_check_iv_height">14dp</dimen>
 
+    <dimen name="detail_poster_iv_width">192dp</dimen>
+    <dimen name="detail_poster_iv_height">267dp</dimen>
+    <dimen name="detail_poster_iv_margin_top">72dp</dimen>
+    <dimen name="detail_left_gl_ver_begin">64dp</dimen>
+    <dimen name="detail_content_gl_hor_begin">120dp</dimen>
+    <dimen name="detail_content_gl_ver_begin">280dp</dimen>
+    <dimen name="detail_original_name_tv_margin_bottom">10dp</dimen>
+    <dimen name="detail_title_tv_margin_top">14dp</dimen>
+    <dimen name="detail_content_tv_margin_left">7dp</dimen>
+    <dimen name="detail_title_language_margin_right">56dp</dimen>
+    <dimen name="detail_title_text_size">16sp</dimen>
+    <dimen name="detail_average_iv_width">56dp</dimen>
+    <dimen name="detail_recommend_tv_margin_bottom">24dp</dimen>
+    <dimen name="detail_recommend_iv_width">28dp</dimen>
+    <dimen name="detail_recommend_rv_height">227dp</dimen>
+    <dimen name="detail_recommend_rv_margin_bottom">55dp</dimen>
+
+    <dimen name="list_item_view_cl_width">144dp</dimen>
+    <dimen name="list_item_view_cl_height">227dp</dimen>
+    <dimen name="list_item_view_cl_margin_right">24dp</dimen>
+    <dimen name="list_item_view_gl_hor_begin">200dp</dimen>
+    <dimen name="list_item_average_iv_width">28dp</dimen>
+    <dimen name="list_item_average_iv_margin">10dp</dimen>
+    <dimen name="list_item_average_tv_text_size">7sp</dimen>
+    <dimen name="list_item_name_tv_text_size">16sp</dimen>
+    <dimen name="list_item_date_tv_margin_left">9dp</dimen>
+    <dimen name="list_item_date_tv_margin_bottom">7dp</dimen>
+    <dimen name="list_item_date_tv_text_size">10sp</dimen>
+    <dimen name="list_item_name_bg_iv_height">48dp</dimen>
 </resources>

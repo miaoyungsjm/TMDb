@@ -79,7 +79,7 @@
             android:layout_height="@dimen/main_search_ll_height"
             android:layout_marginRight="@dimen/main_logo_iv_margin_left"
             android:background="@mipmap/search_button_normal"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/iv_main_logo"
             app:layout_constraintRight_toRightOf="parent"
@@ -88,7 +88,7 @@
             <ImageView
                 android:layout_width="@dimen/main_search_iv_width"
                 android:layout_height="@dimen/main_search_iv_width"
-                android:layout_margin="@dimen/main_search_iv_margin"
+                android:layout_marginRight="@dimen/main_search_iv_margin_right"
                 android:src="@drawable/selector_main_search_iv" />
 
             <TextView

@@ -19,4 +19,13 @@
     <string name="str_dialog_filter_item_average_asc">评分升序</string>
     <string name="str_dialog_filter_item_date_desc">上映时间降序</string>
     <string name="str_dialog_filter_item_date_asc">上映时间升序</string>
+
+    <string name="str_detail_director">导演:</string>
+    <string name="str_detail_writer">编剧:</string>
+    <string name="str_detail_cast">主演:</string>
+    <string name="str_detail_date">上映时间:</string>
+    <string name="str_detail_duration">片长:</string>
+    <string name="str_detail_language">语言:</string>
+    <string name="str_detail_average">平均评分</string>
+    <string name="str_detail_recommend">推荐</string>
 </resources>

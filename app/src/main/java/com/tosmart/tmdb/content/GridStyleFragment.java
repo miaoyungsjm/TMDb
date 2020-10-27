@@ -52,10 +52,11 @@ public class GridStyleFragment extends BaseFragment {
             public void onChanged(Integer index) {
                 Log.e(TAG, "onChanged: filterIndex = " + index);
                 mMainViewModel.setFilterIndex(index);
-                mGridStyleViewModel.initPagedList(mMainViewModel.getFilterType(),
-                        mMainViewModel.getFilterOrder());
 
-                releaseObservers();
+                releaseOldObservers();
+                mGridStyleViewModel.initPagedList(
+                        mMainViewModel.getFilterType(),
+                        mMainViewModel.getFilterOrder());
                 initView(rootView);
             }
         });
@@ -106,10 +107,10 @@ public class GridStyleFragment extends BaseFragment {
         });
     }
 
-    private void releaseObservers() {
+    private void releaseOldObservers() {
         mGridStyleViewModel.mTvLiveData.removeObservers(this);
-        mGridStyleViewModel.mMovieLiveData.removeObservers(this);
         mGridStyleViewModel.mTvFilterPage.removeObservers(this);
+        mGridStyleViewModel.mMovieLiveData.removeObservers(this);
         mGridStyleViewModel.mMovieFilterPage.removeObservers(this);
     }
 }

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cl_grid_item"
-    android:layout_width="@dimen/grid_item_cl_width"
-    android:layout_height="@dimen/grid_item_cl_height"
-    android:layout_marginRight="@dimen/grid_item_cl_margin_right">
+    android:id="@+id/cl_grid_item_view"
+    android:layout_width="@dimen/grid_item_view_cl_width"
+    android:layout_height="@dimen/grid_item_view_cl_height"
+    android:layout_marginRight="@dimen/grid_item_view_cl_margin_right">
 
     <ImageView
         android:id="@+id/iv_grid_item_poster"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -28,7 +27,7 @@
     <ImageView
         android:layout_width="0dp"
         android:layout_height="@dimen/grid_item_name_bg_iv_height"
-        android:src="@mipmap/name_bg"
+        android:background="@mipmap/name_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -48,7 +47,6 @@
         android:id="@+id/tv_grid_item_average"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="99"
         android:textColor="@color/grid_item_text_normal"
         android:textSize="@dimen/grid_item_average_tv_text_size"
         app:layout_constraintBottom_toBottomOf="@id/iv_grid_item_average"

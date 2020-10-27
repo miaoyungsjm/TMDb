@@ -70,9 +70,16 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
             holder.averageTv.setText("0");
         } else {
             String average = String.valueOf((int) (movie.getVoteAverage() * 10));
-            String url = PIC_URL + movie.getPosterPath();
-            Glide.with(holder.posterIv.getContext())
-                    .load(url).into(holder.posterIv);
+            if (movie.getPosterPath() != null){
+                String url = PIC_URL + movie.getPosterPath();
+                Glide.with(holder.posterIv.getContext())
+                        .load(url)
+                        .error(R.drawable.ic_launcher_background)
+                        .centerCrop()
+                        .into(holder.posterIv);
+            } else {
+                holder.posterIv.setImageResource(R.mipmap.empty);
+            }
             holder.nameTv.setText(movie.getOriginalTitle());
             holder.dateTv.setText(movie.getReleaseDate());
             holder.averageTv.setText(average);
@@ -89,7 +96,7 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.cl_grid_item);
+            constraintLayout = itemView.findViewById(R.id.cl_grid_item_view);
             posterIv = itemView.findViewById(R.id.iv_grid_item_poster);
             averageIv = itemView.findViewById(R.id.iv_grid_item_average);
             averageTv = itemView.findViewById(R.id.tv_grid_item_average);

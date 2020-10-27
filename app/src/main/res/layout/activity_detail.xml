@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_detail_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_detail_bg"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <ImageView
+            android:id="@+id/iv_detail_poster"
+            android:layout_width="@dimen/detail_poster_iv_width"
+            android:layout_height="@dimen/detail_poster_iv_height"
+            android:layout_marginTop="@dimen/detail_poster_iv_margin_top"
+            app:layout_constraintLeft_toLeftOf="@id/gl_detail_left_ver_begin"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_detail_average"
+            android:layout_width="@dimen/detail_average_iv_width"
+            android:layout_height="@dimen/detail_average_iv_width"
+
+            android:layout_marginTop="15dp"
+            android:background="@mipmap/bg"
+            app:layout_constraintRight_toRightOf="@id/gl_detail_right_ver_begin"
+            app:layout_constraintTop_toBottomOf="@id/gl_detail_content_hor_begin" />
+
+        <ImageView
+            android:layout_width="@dimen/detail_recommend_iv_width"
+            android:layout_height="@dimen/detail_recommend_iv_width"
+            android:src="@mipmap/arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/rv_detail_recommend"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@id/gl_detail_left_ver_begin"
+            app:layout_constraintTop_toTopOf="@id/tv_detail_recommend" />
+
+        <ImageView
+            android:layout_width="@dimen/detail_recommend_iv_width"
+            android:layout_height="@dimen/detail_recommend_iv_width"
+            android:src="@mipmap/arrow_right"
+            app:layout_constraintBottom_toBottomOf="@id/rv_detail_recommend"
+            app:layout_constraintLeft_toLeftOf="@id/gl_detail_right_ver_begin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_detail_recommend" />
+
+        <LinearLayout
+            android:id="@+id/ll_detail_favorite"
+            android:layout_width="@dimen/main_search_ll_width"
+            android:layout_height="@dimen/main_search_ll_height"
+            android:background="@mipmap/search_button_normal"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/iv_detail_poster"
+            app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name">
+
+            <ImageView
+                android:layout_width="@dimen/main_search_iv_width"
+                android:layout_height="@dimen/main_search_iv_width"
+                android:layout_marginRight="@dimen/main_search_iv_margin_right"
+                android:src="@drawable/selector_detail_favorite_iv" />
+
+            <TextView
+                style="@style/style_main_title_tv"
+                android:text="@string/str_content_module_favorite" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_detail_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/detail_content_text_color"
+            android:textSize="@dimen/text_size_micro"
+            app:layout_constraintBottom_toBottomOf="@id/iv_detail_average"
+            app:layout_constraintLeft_toLeftOf="@id/iv_detail_average"
+            app:layout_constraintRight_toRightOf="@id/iv_detail_average"
+            app:layout_constraintTop_toTopOf="@id/iv_detail_average" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/detail_title_tv_margin_top"
+            android:text="@string/str_detail_average"
+            android:textColor="@color/detail_content_text_color"
+            android:textSize="@dimen/detail_title_text_size"
+            app:layout_constraintLeft_toLeftOf="@id/iv_detail_average"
+            app:layout_constraintRight_toRightOf="@id/iv_detail_average"
+            app:layout_constraintTop_toBottomOf="@id/iv_detail_average" />
+
+        <TextView
+            android:id="@+id/tv_detail_original_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/detail_content_tv_margin_left"
+            android:layout_marginBottom="@dimen/detail_original_name_tv_margin_bottom"
+            android:textColor="@color/detail_content_text_color"
+            android:textSize="@dimen/text_size_micro"
+            app:layout_constraintBottom_toTopOf="@id/gl_detail_content_hor_begin"
+            app:layout_constraintLeft_toLeftOf="@id/gl_detail_content_ver_begin"
+            app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
+
+        <TextView
+            android:id="@+id/tv_detail_director_title"
+            style="@style/style_detail_title_tv"
+            android:text="@string/str_detail_director"
+            app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name"
+            app:layout_constraintTop_toBottomOf="@id/gl_detail_content_hor_begin" />
+
+        <TextView
+            android:id="@+id/tv_detail_writer_title"
+            style="@style/style_detail_title_tv"
+            android:text="@string/str_detail_writer"
+            app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_director_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_cast_title"
+            style="@style/style_detail_title_tv"
+            android:text="@string/str_detail_cast"
+            app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_writer_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_date_title"
+            style="@style/style_detail_title_tv"
+            android:text="@string/str_detail_date"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name"
+            app:layout_constraintRight_toLeftOf="@id/tv_detail_duration_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_cast_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_duration_title"
+            style="@style/style_detail_title_tv"
+            android:text="@string/str_detail_duration"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_detail_date_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_date_title"
+            app:layout_constraintRight_toLeftOf="@id/tv_detail_language_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_language_title"
+            style="@style/style_detail_title_tv"
+            android:layout_marginRight="@dimen/detail_title_language_margin_right"
+            android:text="@string/str_detail_language"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_detail_date_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_duration_title"
+            app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
+
+        <TextView
+            android:id="@+id/tv_detail_director_content"
+            style="@style/style_detail_content_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_director_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_director_title"
+            app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
+
+        <TextView
+            android:id="@+id/tv_detail_writer_content"
+            style="@style/style_detail_content_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_writer_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_writer_title"
+            app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
+
+        <TextView
+            android:id="@+id/tv_detail_cast_content"
+            style="@style/style_detail_content_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_cast_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_cast_title"
+            app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
+
+        <TextView
+            android:id="@+id/tv_detail_date_content"
+            style="@style/style_detail_content_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_date_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_date_title"
+            app:layout_constraintRight_toLeftOf="@id/tv_detail_duration_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_duration_content"
+            style="@style/style_detail_content_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_duration_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_duration_title"
+            app:layout_constraintRight_toLeftOf="@id/tv_detail_language_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_language_content"
+            style="@style/style_detail_content_tv"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_language_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_language_title"
+            app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
+
+        <TextView
+            android:id="@+id/tv_detail_recommend"
+            style="@style/style_main_title_tv"
+            android:layout_marginBottom="@dimen/detail_recommend_tv_margin_bottom"
+            android:text="@string/str_detail_recommend"
+            app:layout_constraintBottom_toTopOf="@id/rv_detail_recommend"
+            app:layout_constraintLeft_toLeftOf="@id/iv_detail_poster" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/margin_micro"
+            android:background="@color/dialog_filter_item_line_color"
+            app:layout_constraintBottom_toBottomOf="@id/tv_detail_recommend"
+            app:layout_constraintLeft_toRightOf="@id/tv_detail_recommend"
+            app:layout_constraintRight_toRightOf="@id/iv_detail_average"
+            app:layout_constraintTop_toTopOf="@id/tv_detail_recommend" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_detail_content_hor_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/detail_content_gl_hor_begin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_detail_left_ver_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/detail_left_gl_ver_begin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_detail_right_ver_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/detail_left_gl_ver_begin" />
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_detail_content_ver_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/detail_content_gl_ver_begin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_detail_content_ver_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/detail_content_gl_ver_begin" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_detail_recommend"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/detail_recommend_rv_height"
+            android:layout_marginBottom="@dimen/detail_recommend_rv_margin_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/iv_detail_poster"
+            app:layout_constraintRight_toRightOf="@id/iv_detail_average" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <data>
+
+    </data>
+</layout>
