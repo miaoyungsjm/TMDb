@@ -51,4 +51,15 @@ public interface ApiService {
             @Query("query") String query,
             @Query("page") int page);
 
+    @GET("tv/{id}/recommendations")
+    Observable<TvRes> queryTvRecommendations(
+            @Path("id") int id,
+            @Query("api_key") String key,
+            @Query("page") int page);
+
+    @GET("movie/{id}/recommendations")
+    Observable<MovieRes> queryMovieRecommendations(
+            @Path("id") int id,
+            @Query("api_key") String key,
+            @Query("page") int page);
 }

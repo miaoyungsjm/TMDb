@@ -62,4 +62,16 @@ public class ApiRequest {
                 .searchTv(KEY, query, page)
                 .subscribeOn(Schedulers.io());
     }
+
+    public Observable<TvRes> queryTvRecommendations(int id, int page) {
+        return ApiManager.getInstance().getApiService()
+                .queryTvRecommendations(id, KEY, page)
+                .subscribeOn(Schedulers.io());
+    }
+
+    public Observable<MovieRes> queryMovieRecommendations(int id, int page) {
+        return ApiManager.getInstance().getApiService()
+                .queryMovieRecommendations(id, KEY, page)
+                .subscribeOn(Schedulers.io());
+    }
 }
