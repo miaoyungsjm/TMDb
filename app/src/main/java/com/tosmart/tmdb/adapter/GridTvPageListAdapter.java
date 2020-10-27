@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.content.GridStyleFragment;
 import com.tosmart.tmdb.db.entity.TvPageList;
+import com.tosmart.tmdb.main.FilterDialogFragment;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,6 +28,8 @@ import static com.tosmart.tmdb.network.ApiService.PIC_URL;
  */
 public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPageListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
+
+    private GridStyleFragment.OnItemClickListener mListener = null;
 
     public GridTvPageListAdapter() {
         super(new DiffUtil.ItemCallback<TvPageList>() {
@@ -53,7 +57,9 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
                 int position = viewHolder.getAdapterPosition();
                 TvPageList item = getItem(position);
                 if (item != null) {
-                    Log.d(TAG, "onClick: id=" + item.getId());
+                    if (mListener != null) {
+                        mListener.onItemClick(item.getId());
+                    }
                 }
             }
         });
@@ -103,5 +109,9 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
             nameTv = itemView.findViewById(R.id.tv_grid_item_name);
             dateTv = itemView.findViewById(R.id.tv_grid_item_date);
         }
+    }
+
+    public void setOnItemClickListener(GridStyleFragment.OnItemClickListener listener) {
+        mListener = listener;
     }
 }

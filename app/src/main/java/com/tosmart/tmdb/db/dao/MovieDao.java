@@ -7,6 +7,7 @@ import java.util.List;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+import io.reactivex.Flowable;
 
 /**
  * @author ggz
@@ -19,9 +20,5 @@ public interface MovieDao extends BaseDao<Movie> {
     List<Movie> getAllMovie();
 
     @Query("SELECT * FROM Movie WHERE id == :id")
-    Movie getMovie(int id);
-
-//    @Query("SELECT * FROM Movie, Favorite " +
-//            "WHERE Favorite.type = 0 AND Favorite.id = Movie.id ")
-//    List<Tv> getFavoriteMovie();
+    Flowable<Movie> getMovieById(int id);
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.content.GridStyleFragment;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,8 @@ import static com.tosmart.tmdb.network.ApiService.PIC_URL;
  */
 public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, GridMoviePageListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
+
+    private GridStyleFragment.OnItemClickListener mListener = null;
 
     public GridMoviePageListAdapter() {
         super(new DiffUtil.ItemCallback<MoviePageList>() {
@@ -53,7 +56,9 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
                 int position = viewHolder.getAdapterPosition();
                 MoviePageList item = getItem(position);
                 if (item != null) {
-                    Log.d(TAG, "onClick: id=" + item.getId());
+                    if (mListener != null) {
+                        mListener.onItemClick(item.getId());
+                    }
                 }
             }
         });
@@ -70,7 +75,7 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
             holder.averageTv.setText("0");
         } else {
             String average = String.valueOf((int) (movie.getVoteAverage() * 10));
-            if (movie.getPosterPath() != null){
+            if (movie.getPosterPath() != null) {
                 String url = PIC_URL + movie.getPosterPath();
                 Glide.with(holder.posterIv.getContext())
                         .load(url)
@@ -103,5 +108,9 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
             nameTv = itemView.findViewById(R.id.tv_grid_item_name);
             dateTv = itemView.findViewById(R.id.tv_grid_item_date);
         }
+    }
+
+    public void setOnItemClickListener(GridStyleFragment.OnItemClickListener listener) {
+        mListener = listener;
     }
 }

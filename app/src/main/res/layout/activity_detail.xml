@@ -11,15 +11,19 @@
             android:id="@+id/iv_detail_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/shape_detail_bg"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@color/detail_bg_gradient_begin" />
 
         <ImageView
             android:id="@+id/iv_detail_poster"
             android:layout_width="@dimen/detail_poster_iv_width"
             android:layout_height="@dimen/detail_poster_iv_height"
             android:layout_marginTop="@dimen/detail_poster_iv_margin_top"
+            android:scaleType="centerCrop"
             app:layout_constraintLeft_toLeftOf="@id/gl_detail_left_ver_begin"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +31,6 @@
             android:id="@+id/iv_detail_average"
             android:layout_width="@dimen/detail_average_iv_width"
             android:layout_height="@dimen/detail_average_iv_width"
-
             android:layout_marginTop="15dp"
             android:background="@mipmap/bg"
             app:layout_constraintRight_toRightOf="@id/gl_detail_right_ver_begin"
@@ -40,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="@id/rv_detail_recommend"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="@id/gl_detail_left_ver_begin"
-            app:layout_constraintTop_toTopOf="@id/tv_detail_recommend" />
+            app:layout_constraintTop_toTopOf="@id/rv_detail_recommend" />
 
         <ImageView
             android:layout_width="@dimen/detail_recommend_iv_width"
@@ -49,7 +52,7 @@
             app:layout_constraintBottom_toBottomOf="@id/rv_detail_recommend"
             app:layout_constraintLeft_toLeftOf="@id/gl_detail_right_ver_begin"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_detail_recommend" />
+            app:layout_constraintTop_toTopOf="@id/rv_detail_recommend" />
 
         <LinearLayout
             android:id="@+id/ll_detail_favorite"
@@ -76,6 +79,7 @@
             android:id="@+id/tv_detail_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{vm.showAverage}"
             android:textColor="@color/detail_content_text_color"
             android:textSize="@dimen/text_size_micro"
             app:layout_constraintBottom_toBottomOf="@id/iv_detail_average"
@@ -100,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/detail_content_tv_margin_left"
             android:layout_marginBottom="@dimen/detail_original_name_tv_margin_bottom"
+            android:text="@{vm.showName}"
             android:textColor="@color/detail_content_text_color"
             android:textSize="@dimen/text_size_micro"
             app:layout_constraintBottom_toTopOf="@id/gl_detail_content_hor_begin"
@@ -126,6 +131,18 @@
             android:text="@string/str_detail_cast"
             app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name"
             app:layout_constraintTop_toBottomOf="@id/tv_detail_writer_title" />
+
+        <TextView
+            android:id="@+id/tv_detail_overview_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_tiny"
+            android:text="@{vm.showOverview}"
+            android:textColor="@color/detail_content_text_color"
+            android:textSize="@dimen/detail_title_text_size"
+            app:layout_constraintLeft_toRightOf="@id/ll_detail_favorite"
+            app:layout_constraintRight_toRightOf="@id/gl_detail_content_ver_end"
+            app:layout_constraintTop_toTopOf="@id/ll_detail_favorite" />
 
         <TextView
             android:id="@+id/tv_detail_date_title"
@@ -156,6 +173,7 @@
         <TextView
             android:id="@+id/tv_detail_director_content"
             style="@style/style_detail_content_tv"
+            android:text="@{vm.showDirector}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_director_title"
             app:layout_constraintLeft_toRightOf="@id/tv_detail_director_title"
             app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
@@ -163,6 +181,7 @@
         <TextView
             android:id="@+id/tv_detail_writer_content"
             style="@style/style_detail_content_tv"
+            android:text="@{vm.showWriter}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_writer_title"
             app:layout_constraintLeft_toRightOf="@id/tv_detail_writer_title"
             app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
@@ -170,6 +189,7 @@
         <TextView
             android:id="@+id/tv_detail_cast_content"
             style="@style/style_detail_content_tv"
+            android:text="@{vm.showCast}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_cast_title"
             app:layout_constraintLeft_toRightOf="@id/tv_detail_cast_title"
             app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
@@ -177,6 +197,7 @@
         <TextView
             android:id="@+id/tv_detail_date_content"
             style="@style/style_detail_content_tv"
+            android:text="@{vm.showData}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_date_title"
             app:layout_constraintLeft_toRightOf="@id/tv_detail_date_title"
             app:layout_constraintRight_toLeftOf="@id/tv_detail_duration_title" />
@@ -191,6 +212,7 @@
         <TextView
             android:id="@+id/tv_detail_language_content"
             style="@style/style_detail_content_tv"
+            android:text="@{vm.showLanguage}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_language_title"
             app:layout_constraintLeft_toRightOf="@id/tv_detail_language_title"
             app:layout_constraintRight_toLeftOf="@id/gl_detail_content_ver_end" />
@@ -234,7 +256,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="@dimen/detail_left_gl_ver_begin" />
 
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_detail_content_ver_begin"
             android:layout_width="wrap_content"
@@ -260,8 +281,11 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <data>
 
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.detail.DetailViewModel" />
     </data>
+
 </layout>

@@ -26,6 +26,7 @@
     <string name="str_detail_date">上映时间:</string>
     <string name="str_detail_duration">片长:</string>
     <string name="str_detail_language">语言:</string>
+    <string name="str_detail_overview">简介:</string>
     <string name="str_detail_average">平均评分</string>
     <string name="str_detail_recommend">推荐</string>
 </resources>

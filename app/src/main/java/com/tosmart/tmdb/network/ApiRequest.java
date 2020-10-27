@@ -1,8 +1,7 @@
 package com.tosmart.tmdb.network;
 
-import com.tosmart.tmdb.network.response.MovieCredits;
-import com.tosmart.tmdb.network.response.TvCredits;
 import com.tosmart.tmdb.network.response.MovieRes;
+import com.tosmart.tmdb.network.response.TvCredits;
 import com.tosmart.tmdb.network.response.TvRes;
 
 import io.reactivex.Observable;
@@ -34,7 +33,7 @@ public class ApiRequest {
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<MovieCredits> queryMovieCredits(int id) {
+    public Observable<TvCredits> queryMovieCredits(int id) {
         return ApiManager.getInstance().getApiService()
                 .queryMovieCredits(id, KEY)
                 .subscribeOn(Schedulers.io());

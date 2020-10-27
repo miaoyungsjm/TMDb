@@ -86,7 +86,7 @@ public class MainViewModel extends ViewModel {
 
             @Override
             public void onError(int errorCode, String message) {
-                Log.e(TAG, "onError: tv message: " + message);
+
             }
         };
         mCompositeDisposable.add(observer);

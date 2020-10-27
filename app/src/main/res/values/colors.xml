@@ -19,8 +19,8 @@
     <color name="dialog_filter_item_text_normal">#8d9295</color>
     <color name="dialog_filter_item_line_color">#80355667</color>
 
-    <color name="detail_bg_gradient_begin">#9905111B</color>
-    <color name="detail_bg_gradient_end">#990a2b44</color>
+    <color name="detail_bg_gradient_begin">#F205111B</color>
+    <color name="detail_bg_gradient_end">#0a2b44</color>
     <color name="detail_title_text_color">#8d9295</color>
     <color name="detail_content_text_color">#ffffff</color>
 

@@ -1,6 +1,5 @@
 package com.tosmart.tmdb.network;
 
-import com.tosmart.tmdb.network.response.MovieCredits;
 import com.tosmart.tmdb.network.response.MovieRes;
 import com.tosmart.tmdb.network.response.TvCredits;
 import com.tosmart.tmdb.network.response.TvRes;
@@ -31,7 +30,7 @@ public interface ApiService {
             @Query("page") int page);
 
     @GET("movie/{id}/credits")
-    Observable<MovieCredits> queryMovieCredits(
+    Observable<TvCredits> queryMovieCredits(
             @Path("id") int id,
             @Query("api_key") String key);
 
