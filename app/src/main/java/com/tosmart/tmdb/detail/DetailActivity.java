@@ -58,6 +58,12 @@ public class DetailActivity extends BaseActivity {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        mDetailViewModel.checkFavorite();
+        super.onResume();
+    }
+
     private void initView() {
         RecyclerView rv = findViewById(R.id.rv_detail_recommend);
         rv.setLayoutManager(new LinearLayoutManager(this,

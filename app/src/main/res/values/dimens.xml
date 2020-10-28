@@ -112,6 +112,12 @@
     <dimen name="detail_recommend_rv_height">227dp</dimen>
     <dimen name="detail_recommend_rv_margin_bottom">55dp</dimen>
 
+
+    <dimen name="list_title_ll_width">192dp</dimen>
+    <dimen name="list_title_ll_height">48dp</dimen>
+    <dimen name="list_title_tv_margin_left">32dp</dimen>
+    <dimen name="list_content_gl_margin_left">232dp</dimen>
+
     <dimen name="list_item_view_cl_width">144dp</dimen>
     <dimen name="list_item_view_cl_height">227dp</dimen>
     <dimen name="list_item_view_cl_margin_right">24dp</dimen>

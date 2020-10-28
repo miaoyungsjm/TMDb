@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -12,6 +13,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/ll_list_title_tv"
+            style="@style/style_list_title_ll"
+            app:layout_constraintBottom_toTopOf="@+id/ll_list_title_movie"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <TextView
+                style="@style/style_list_title_tv"
+                android:text="@string/str_content_module_tv" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_list_title_movie"
+            style="@style/style_list_title_ll"
+            app:layout_constraintBottom_toTopOf="@id/ll_list_title_favorite"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_list_title_tv">
+
+            <TextView
+                style="@style/style_list_title_tv"
+                android:text="@string/str_content_module_movie" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_list_title_favorite"
+            style="@style/style_list_title_ll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_list_title_movie">
+
+            <TextView
+                style="@style/style_list_title_tv"
+                android:text="@string/str_content_module_favorite" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_list_content_ver_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/list_content_gl_margin_left" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_list_content_ver_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/main_logo_iv_margin_left" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="@id/gl_list_content_ver_begin"
+            app:layout_constraintRight_toRightOf="@id/gl_list_content_ver_end" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
