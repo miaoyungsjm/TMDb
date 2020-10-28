@@ -19,6 +19,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
 /**
@@ -57,7 +58,7 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
                 MoviePageList item = getItem(position);
                 if (item != null) {
                     if (mListener != null) {
-                        mListener.onItemClick(item.getId());
+                        mListener.onItemClick(item.getId(), INDEX_MOVIE);
                     }
                 }
             }

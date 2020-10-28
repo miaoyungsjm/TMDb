@@ -5,7 +5,9 @@ import com.tosmart.tmdb.db.entity.Favorite;
 import java.util.List;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
+import io.reactivex.Single;
 
 /**
  * @author ggz
@@ -14,14 +16,17 @@ import androidx.room.Query;
 @Dao
 public interface FavoriteDao extends BaseDao<Favorite> {
 
-    @Query("SELECT * FROM Favorite")
-    List<Favorite> getAllFavorite();
+    @Insert
+    Single<Long> insertFavorite(Favorite favorite);
 
-//    @Query("SELECT * FROM Favorite, Tv " +
-//            "WHERE Favorite.type = 0 AND Favorite.id = Tv.id ")
-//    List<Tv> getFavoriteTv();
+    @Query("DELETE FROM Favorite " +
+            "WHERE Favorite.id == :id AND Favorite.type == :type ")
+    Single<Integer> deleteFavorite(int id, int type);
 
-//    @Query("SELECT * FROM Favorite, Movie " +
-//            "WHERE Favorite.type = 1 AND Favorite.id = Movie.id ")
-//    List<Movie> getFavoriteMovie();
+    @Query("SELECT * FROM Favorite " +
+            "WHERE Favorite.id == :id AND Favorite.type == :type ")
+    Single<Favorite> getFavorite(int id, int type);
+
+    @Query("SELECT * FROM Favorite ")
+    Single<List<Favorite>> getAllFavorite();
 }

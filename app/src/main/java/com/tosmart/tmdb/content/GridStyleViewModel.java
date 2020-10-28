@@ -4,18 +4,24 @@ import android.util.Log;
 
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
+import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.TvPageList;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author ggz
@@ -25,12 +31,16 @@ public class GridStyleViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
     public LiveData<PagedList<TvPageList>> mTvLiveData;
-    public MutableLiveData<Integer> mTvFilterPage;
-
     public LiveData<PagedList<MoviePageList>> mMovieLiveData;
-    public MutableLiveData<Integer> mMovieFilterPage;
+    public MutableLiveData<Integer> mTvFilterPage = new MutableLiveData<>();
+    public MutableLiveData<Integer> mMovieFilterPage = new MutableLiveData<>();
+
+    public MutableLiveData<List<Favorite>> mFavoriteLiveData = new MutableLiveData<>();
+
+    private CompositeDisposable mCompositeDisposable;
 
     public GridStyleViewModel() {
+        mCompositeDisposable = new CompositeDisposable();
     }
 
     public void initPagedList(int filterType, int filterOrder) {
@@ -53,8 +63,26 @@ public class GridStyleViewModel extends ViewModel {
                 .setBoundaryCallback(mMoviePageListCallback)
                 .build();
 
-        mTvFilterPage = new MutableLiveData<>();
-        mMovieFilterPage = new MutableLiveData<>();
+        mTvFilterPage.setValue(0);
+        mMovieFilterPage.setValue(0);
+    }
+
+    public void initFavList() {
+        TMDatabase db = RoomManager.getInstance().getTMDatabase();
+        Single<List<Favorite>> single = db.getFavoriteDao().getAllFavorite()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+        mCompositeDisposable.add(single.subscribe(new Consumer<List<Favorite>>() {
+            @Override
+            public void accept(List<Favorite> favorites) throws Exception {
+                mFavoriteLiveData.setValue(favorites);
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                throwable.printStackTrace();
+            }
+        }));
     }
 
     private PagedList.BoundaryCallback<TvPageList> mTvPageListCallback =
@@ -92,4 +120,13 @@ public class GridStyleViewModel extends ViewModel {
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
+
+    @Override
+    protected void onCleared() {
+        Log.d(TAG, "onCleared()");
+        if (mCompositeDisposable != null) {
+            mCompositeDisposable.dispose();
+        }
+        super.onCleared();
+    }
 }

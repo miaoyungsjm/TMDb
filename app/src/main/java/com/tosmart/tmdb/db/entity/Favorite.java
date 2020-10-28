@@ -8,37 +8,40 @@ import androidx.room.PrimaryKey;
  * @author ggz
  * @date 2020/10/21
  */
-@Entity
+@Entity(primaryKeys = {"account", "id", "type"})
 public class Favorite {
-    @PrimaryKey(autoGenerate = true)
-    private int serialNumber;
-    @ColumnInfo(name = "user_account")
-    private int userAccount;
+
+    @ColumnInfo(name = "account")
+    private int account;
     @ColumnInfo(name = "id")
     private int id;
     @ColumnInfo(name = "type")
     private int type;
+    @ColumnInfo(name = "name")
+    private String name;
+    @ColumnInfo(name = "date")
+    private String date;
+    @ColumnInfo(name = "poster")
+    private String poster;
+    @ColumnInfo(name = "average")
+    private String average;
 
-    public Favorite(int userAccount, int id, int type) {
-        this.userAccount = userAccount;
+    public Favorite(int account, int id, int type, String name, String date, String poster, String average) {
+        this.account = account;
         this.id = id;
         this.type = type;
+        this.name = name;
+        this.date = date;
+        this.poster = poster;
+        this.average = average;
     }
 
-    public int getSerialNumber() {
-        return serialNumber;
+    public int getAccount() {
+        return account;
     }
 
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public int getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(int userAccount) {
-        this.userAccount = userAccount;
+    public void setAccount(int account) {
+        this.account = account;
     }
 
     public int getId() {
@@ -55,5 +58,37 @@ public class Favorite {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getAverage() {
+        return average;
+    }
+
+    public void setAverage(String average) {
+        this.average = average;
     }
 }

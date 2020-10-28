@@ -118,10 +118,10 @@
     <dimen name="list_item_view_gl_hor_begin">200dp</dimen>
     <dimen name="list_item_average_iv_width">28dp</dimen>
     <dimen name="list_item_average_iv_margin">10dp</dimen>
-    <dimen name="list_item_average_tv_text_size">7sp</dimen>
+    <dimen name="list_item_average_tv_text_size">14sp</dimen>
     <dimen name="list_item_name_tv_text_size">16sp</dimen>
     <dimen name="list_item_date_tv_margin_left">9dp</dimen>
     <dimen name="list_item_date_tv_margin_bottom">7dp</dimen>
-    <dimen name="list_item_date_tv_text_size">10sp</dimen>
+    <dimen name="list_item_date_tv_text_size">12sp</dimen>
     <dimen name="list_item_name_bg_iv_height">48dp</dimen>
 </resources>

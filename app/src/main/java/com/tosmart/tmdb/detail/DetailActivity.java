@@ -12,11 +12,9 @@ import com.bumptech.glide.request.transition.Transition;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.GridTvPageListAdapter;
 import com.tosmart.tmdb.adapter.ListMoviePageListAdapter;
 import com.tosmart.tmdb.adapter.ListTvPageListAdapter;
 import com.tosmart.tmdb.base.BaseActivity;
-import com.tosmart.tmdb.content.GridStyleFragment;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.TvPageList;
 
@@ -49,7 +47,8 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        return new DataBindingConfig(R.layout.activity_detail, BR.vm, mDetailViewModel);
+        return new DataBindingConfig(R.layout.activity_detail, BR.vm, mDetailViewModel)
+                .addBindingParam(BR.click, new ClickProxy());
     }
 
     @Override
@@ -63,7 +62,7 @@ public class DetailActivity extends BaseActivity {
         RecyclerView rv = findViewById(R.id.rv_detail_recommend);
         rv.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
-        if (mDetailViewModel.currentType == INDEX_TV) {
+        if (mDetailViewModel.getCurrentType() == INDEX_TV) {
             ListTvPageListAdapter listTvPageListAdapter = new ListTvPageListAdapter();
             rv.setAdapter(listTvPageListAdapter);
             mDetailViewModel.initPagedList(INDEX_TV);
@@ -133,6 +132,14 @@ public class DetailActivity extends BaseActivity {
                 }
             }
         });
+
+        mDetailViewModel.showFavorite.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                ImageView favIv = findViewById(R.id.iv_detail_favorite);
+                favIv.setSelected(aBoolean);
+            }
+        });
     }
 
     private void jumpToDetail(int id, int type) {
@@ -140,6 +147,13 @@ public class DetailActivity extends BaseActivity {
         intent.putExtra(KEY_ID, id);
         intent.putExtra(KEY_TYPE, type);
         startActivity(intent);
+    }
+
+    public class ClickProxy {
+        public void updateFavorite() {
+            boolean flag = mDetailViewModel.isFavorite();
+            mDetailViewModel.updateFavorite(!flag);
+        }
     }
 
     public interface OnItemClickListener {

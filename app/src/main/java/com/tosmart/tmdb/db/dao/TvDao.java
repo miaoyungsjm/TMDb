@@ -6,7 +6,7 @@ import java.util.List;
 
 import androidx.room.Dao;
 import androidx.room.Query;
-import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * @author ggz
@@ -15,9 +15,6 @@ import io.reactivex.Flowable;
 @Dao
 public interface TvDao extends BaseDao<Tv> {
 
-    @Query("SELECT * FROM Tv")
-    List<Tv> getAllTv();
-
     @Query("SELECT * FROM Tv WHERE id == :id")
-    Flowable<Tv> getTvById(int id);
+    Single<Tv> getTvById(int id);
 }

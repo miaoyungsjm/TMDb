@@ -8,6 +8,10 @@
         <variable
             name="vm"
             type="com.tosmart.tmdb.detail.DetailViewModel" />
+
+        <variable
+            name="click"
+            type="com.tosmart.tmdb.detail.DetailActivity.ClickProxy" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,10 +72,13 @@
             android:background="@mipmap/search_button_normal"
             android:gravity="center"
             android:orientation="horizontal"
+            android:focusable="true"
+            android:onClick="@{()->click.updateFavorite()}"
             app:layout_constraintBottom_toBottomOf="@id/iv_detail_poster"
             app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name">
 
             <ImageView
+                android:id="@+id/iv_detail_favorite"
                 android:layout_width="@dimen/main_search_iv_width"
                 android:layout_height="@dimen/main_search_iv_width"
                 android:layout_marginRight="@dimen/main_search_iv_margin_right"
@@ -79,6 +86,7 @@
 
             <TextView
                 style="@style/style_main_title_tv"
+                android:duplicateParentState="true"
                 android:text="@string/str_content_module_favorite" />
         </LinearLayout>
 
@@ -142,14 +150,15 @@
         <TextView
             android:id="@+id/tv_detail_overview_content"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_tiny"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/margin_tiny"
             android:text="@{vm.showOverview}"
             android:textColor="@color/detail_content_text_color"
             android:textSize="@dimen/detail_title_text_size"
             app:layout_constraintLeft_toRightOf="@id/ll_detail_favorite"
             app:layout_constraintRight_toRightOf="@id/gl_detail_content_ver_end"
-            app:layout_constraintTop_toTopOf="@id/ll_detail_favorite" />
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_date_title"
+            app:layout_constraintBottom_toTopOf="@id/tv_detail_recommend"/>
 
         <TextView
             android:id="@+id/tv_detail_date_title"
