@@ -68,7 +68,7 @@
     <style name="style_list_title_ll">
         <item name="android:layout_width">@dimen/list_title_ll_width</item>
         <item name="android:layout_height">@dimen/list_title_ll_height</item>
-        <item name="android:background">@drawable/selector_main_title_bg_ll</item>
+        <item name="android:background">@drawable/selector_list_title_bg_ll</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
     </style>

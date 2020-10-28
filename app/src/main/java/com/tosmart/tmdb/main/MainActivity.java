@@ -2,11 +2,19 @@ package com.tosmart.tmdb.main;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.base.BaseActivity;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
+import static com.tosmart.tmdb.main.MainViewModel.STYLE_GRID;
+import static com.tosmart.tmdb.main.MainViewModel.STYLE_LIST;
 
 
 /**
@@ -24,12 +32,14 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        return new DataBindingConfig(R.layout.activity_main, BR.vm, mMainViewModel);
+        return new DataBindingConfig(R.layout.activity_main, BR.vm, mMainViewModel)
+                .addBindingParam(BR.click, new ClickProxy());
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitleState(STYLE_GRID);
     }
 
     @Override
@@ -46,7 +56,45 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public class ClickProxy {
+    public void setTitleState(int index) {
+        LinearLayout girdLl = findViewById(R.id.ll_main_title_grid);
+        LinearLayout listLl = findViewById(R.id.ll_main_title_list);
+        if (index == STYLE_GRID) {
+            girdLl.setHovered(true);
+            listLl.setHovered(false);
+        } else {
+            girdLl.setHovered(false);
+            listLl.setHovered(true);
+        }
+    }
 
+    public class ClickProxy {
+        public void itemClick(View view) {
+            switch (view.getId()) {
+                case R.id.ll_main_title_grid:
+                    if (mMainViewModel.style != STYLE_GRID) {
+                        mMainViewModel.style = STYLE_GRID;
+                        setTitleState(STYLE_GRID);
+                        NavController nc = Navigation.findNavController(
+                                MainActivity.this, R.id.content_fragment_host);
+                        nc.navigate(R.id.action_gridStyleFragment_global);
+                    }
+                    break;
+                case R.id.ll_main_title_list:
+                    if (mMainViewModel.style != STYLE_LIST) {
+                        mMainViewModel.style = STYLE_LIST;
+                        setTitleState(STYLE_LIST);
+                        NavController nc = Navigation.findNavController(
+                                MainActivity.this, R.id.content_fragment_host);
+                        nc.navigate(R.id.action_listStyleFragment_global);
+                    }
+                    break;
+                case R.id.ll_main_search:
+                    // todo search module
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

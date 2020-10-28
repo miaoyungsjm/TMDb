@@ -7,6 +7,10 @@
         <variable
             name="vm"
             type="com.tosmart.tmdb.content.ListStyleViewModel" />
+
+        <variable
+            name="click"
+            type="com.tosmart.tmdb.content.ListStyleFragment.ClickProxy" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +20,8 @@
         <LinearLayout
             android:id="@+id/ll_list_title_tv"
             style="@style/style_list_title_ll"
+            android:focusable="true"
+            android:onClick="@{(v)->click.itemClick(v)}"
             app:layout_constraintBottom_toTopOf="@+id/ll_list_title_movie"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,30 +29,39 @@
 
             <TextView
                 style="@style/style_list_title_tv"
+                android:duplicateParentState="true"
                 android:text="@string/str_content_module_tv" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_list_title_movie"
             style="@style/style_list_title_ll"
+            android:focusable="true"
+            android:layout_marginTop="@dimen/margin_little"
+            android:layout_marginBottom="@dimen/margin_little"
+            android:onClick="@{(v)->click.itemClick(v)}"
             app:layout_constraintBottom_toTopOf="@id/ll_list_title_favorite"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_list_title_tv">
 
             <TextView
                 style="@style/style_list_title_tv"
+                android:duplicateParentState="true"
                 android:text="@string/str_content_module_movie" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_list_title_favorite"
             style="@style/style_list_title_ll"
+            android:focusable="true"
+            android:onClick="@{(v)->click.itemClick(v)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_list_title_movie">
 
             <TextView
                 style="@style/style_list_title_tv"
+                android:duplicateParentState="true"
                 android:text="@string/str_content_module_favorite" />
         </LinearLayout>
 

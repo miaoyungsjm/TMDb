@@ -10,7 +10,6 @@ import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.db.entity.MoviePageList;
-import com.tosmart.tmdb.detail.DetailActivity;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,7 +26,7 @@ import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 public class ListMoviePageListAdapter extends PagedListAdapter<MoviePageList, ListMoviePageListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
 
-    private DetailActivity.OnItemClickListener mListener = null;
+    private OnItemClickListener mListener = null;
 
     public ListMoviePageListAdapter() {
         super(new DiffUtil.ItemCallback<MoviePageList>() {
@@ -109,7 +108,7 @@ public class ListMoviePageListAdapter extends PagedListAdapter<MoviePageList, Li
         }
     }
 
-    public void setOnItemClickListener(DetailActivity.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 }

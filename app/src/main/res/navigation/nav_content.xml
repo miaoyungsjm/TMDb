@@ -16,9 +16,7 @@
     <fragment
         android:id="@+id/gridStyleFragment"
         android:name="com.tosmart.tmdb.content.GridStyleFragment"
-        tools:layout="@layout/fragment_grid_style">
-
-    </fragment>
+        tools:layout="@layout/fragment_grid_style" />
 
     <fragment
         android:id="@+id/listStyleFragment"

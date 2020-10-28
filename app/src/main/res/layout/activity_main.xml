@@ -7,6 +7,10 @@
         <variable
             name="vm"
             type="com.tosmart.tmdb.main.MainViewModel" />
+
+        <variable
+            name="click"
+            type="com.tosmart.tmdb.main.MainActivity.ClickProxy" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,27 +52,35 @@
 
             <LinearLayout
                 android:id="@+id/ll_main_title_grid"
-                style="@style/style_main_title_ll">
+                style="@style/style_main_title_ll"
+                android:focusable="true"
+                android:onClick="@{(v)->click.itemClick(v)}">
 
                 <ImageView
                     style="@style/style_main_title_iv"
+                    android:duplicateParentState="true"
                     android:src="@drawable/selector_main_title_grid_iv" />
 
                 <TextView
                     style="@style/style_main_title_tv"
+                    android:duplicateParentState="true"
                     android:text="@string/str_main_title_grid" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_main_title_list"
-                style="@style/style_main_title_ll">
+                style="@style/style_main_title_ll"
+                android:focusable="true"
+                android:onClick="@{(v)->click.itemClick(v)}">
 
                 <ImageView
                     style="@style/style_main_title_iv"
+                    android:duplicateParentState="true"
                     android:src="@drawable/selector_main_title_list_iv" />
 
                 <TextView
                     style="@style/style_main_title_tv"
+                    android:duplicateParentState="true"
                     android:text="@string/str_main_title_list" />
             </LinearLayout>
         </LinearLayout>
@@ -78,9 +90,11 @@
             android:layout_width="@dimen/main_search_ll_width"
             android:layout_height="@dimen/main_search_ll_height"
             android:layout_marginRight="@dimen/main_logo_iv_margin_left"
-            android:background="@mipmap/search_button_normal"
+            android:background="@drawable/selector_main_search_bg_ll"
+            android:focusable="true"
             android:gravity="center"
             android:orientation="horizontal"
+            android:onClick="@{(v)->click.itemClick(v)}"
             app:layout_constraintBottom_toBottomOf="@id/iv_main_logo"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/iv_main_logo">
@@ -89,10 +103,12 @@
                 android:layout_width="@dimen/main_search_iv_width"
                 android:layout_height="@dimen/main_search_iv_width"
                 android:layout_marginRight="@dimen/main_search_iv_margin_right"
+                android:duplicateParentState="true"
                 android:src="@drawable/selector_main_search_iv" />
 
             <TextView
                 style="@style/style_main_title_tv"
+                android:duplicateParentState="true"
                 android:text="@string/str_main_search_text" />
         </LinearLayout>
 

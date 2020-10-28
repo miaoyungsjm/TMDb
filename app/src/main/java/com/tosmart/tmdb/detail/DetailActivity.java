@@ -14,6 +14,7 @@ import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.ListMoviePageListAdapter;
 import com.tosmart.tmdb.adapter.ListTvPageListAdapter;
+import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.base.BaseActivity;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.TvPageList;
@@ -79,7 +80,7 @@ public class DetailActivity extends BaseActivity {
                     listTvPageListAdapter.submitList(tvPageLists);
                 }
             });
-            listTvPageListAdapter.setOnItemClickListener(new DetailActivity.OnItemClickListener() {
+            listTvPageListAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(int id) {
                     Log.d(TAG, "onClick: tv id = " + id);
@@ -97,7 +98,7 @@ public class DetailActivity extends BaseActivity {
                     listMoviePageListAdapter.submitList(moviePageLists);
                 }
             });
-            listMoviePageListAdapter.setOnItemClickListener(new DetailActivity.OnItemClickListener() {
+            listMoviePageListAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(int id) {
                     Log.d(TAG, "onClick: movie id = " + id);
@@ -160,9 +161,5 @@ public class DetailActivity extends BaseActivity {
             boolean flag = mDetailViewModel.isFavorite();
             mDetailViewModel.updateFavorite(!flag);
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int id);
     }
 }

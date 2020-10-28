@@ -45,6 +45,10 @@ import static com.tosmart.tmdb.network.ApiRequest.VOTE_AVERAGE;
  */
 public class MainViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
+    public static final int STYLE_GRID = 0;
+    public static final int STYLE_LIST = 1;
+
+    public int style = STYLE_GRID;
 
     public MutableLiveData<Integer> mFilterFlag = new MutableLiveData<>();
     private int mFilterIndex = 0;
