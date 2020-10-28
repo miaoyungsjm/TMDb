@@ -6,18 +6,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.content.GridStyleFragment;
 import com.tosmart.tmdb.db.entity.Favorite;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
@@ -28,7 +27,7 @@ import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 public class ListFavAdapter extends RecyclerView.Adapter<ListFavAdapter.ViewHolder> {
 
     private List<Favorite> mFavList = new ArrayList<>();
-    private GridStyleFragment.OnItemClickListener mListener = null;
+    private OnItemClickListener mListener = null;
 
     public void setFavList(List<Favorite> mFavList) {
         this.mFavList = mFavList;
@@ -105,7 +104,7 @@ public class ListFavAdapter extends RecyclerView.Adapter<ListFavAdapter.ViewHold
         }
     }
 
-    public void setOnItemClickListener(GridStyleFragment.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 }

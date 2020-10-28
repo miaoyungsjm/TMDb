@@ -6,17 +6,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.StringUtils;
-import com.bumptech.glide.Glide;
-import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.db.entity.MoviePageList;
-
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.StringUtils;
+import com.bumptech.glide.Glide;
+import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.db.entity.MoviePageList;
+
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
 /**
@@ -55,7 +56,7 @@ public class ListMoviePageListAdapter extends PagedListAdapter<MoviePageList, Li
                 MoviePageList item = getItem(position);
                 if (item != null) {
                     if (mListener != null) {
-                        mListener.onItemClick(item.getId());
+                        mListener.onItemClick(item.getId(), INDEX_MOVIE);
                     }
                 }
             }

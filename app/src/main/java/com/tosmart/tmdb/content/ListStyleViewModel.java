@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
+
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -29,16 +30,17 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ListStyleViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
+    public static final int TITLE_INDEX_TV = 0;
+    public static final int TITLE_INDEX_MOVIE = 1;
+    public static final int TITLE_INDEX_FAV = 2;
 
-    public static final int INDEX_TV = 0;
-    public static final int INDEX_MOVIE = 1;
-    public static final int INDEX_FAV = 2;
+    private int mCurrentTitleIndex = TITLE_INDEX_TV;
+    public MutableLiveData<Integer> mTitleIndex = new MutableLiveData<>();
 
-    public int currentIndex = INDEX_TV;
     public LiveData<PagedList<TvPageList>> mTvLiveData;
     public LiveData<PagedList<MoviePageList>> mMovieLiveData;
-    public MutableLiveData<Integer> mTvFilterPage = new MutableLiveData<>();
-    public MutableLiveData<Integer> mMovieFilterPage = new MutableLiveData<>();
+    public MutableLiveData<Integer> mTvFilterPage;
+    public MutableLiveData<Integer> mMovieFilterPage;
 
     public MutableLiveData<List<Favorite>> mFavoriteLiveData = new MutableLiveData<>();
 
@@ -68,8 +70,8 @@ public class ListStyleViewModel extends ViewModel {
                 .setBoundaryCallback(mMoviePageListCallback)
                 .build();
 
-        mTvFilterPage.setValue(0);
-        mMovieFilterPage.setValue(0);
+        mTvFilterPage = new MutableLiveData<>();
+        mMovieFilterPage = new MutableLiveData<>();
     }
 
     public void initFavList() {
@@ -102,7 +104,7 @@ public class ListStyleViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd);
+                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mTvFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
@@ -119,10 +121,19 @@ public class ListStyleViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd);
+                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
+
+    public int getCurrentTitleIndex() {
+        return mCurrentTitleIndex;
+    }
+
+    public void updateTitleIndex(int currentTitleIndex) {
+        this.mCurrentTitleIndex = currentTitleIndex;
+        mTitleIndex.setValue(currentTitleIndex);
+    }
 
     @Override
     protected void onCleared() {

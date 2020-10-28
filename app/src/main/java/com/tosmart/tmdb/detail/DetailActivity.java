@@ -82,7 +82,7 @@ public class DetailActivity extends BaseActivity {
             });
             listTvPageListAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemClick(int id) {
+                public void onItemClick(int id, int type) {
                     Log.d(TAG, "onClick: tv id = " + id);
                     jumpToDetail(id, INDEX_TV);
                 }
@@ -100,7 +100,7 @@ public class DetailActivity extends BaseActivity {
             });
             listMoviePageListAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
-                public void onItemClick(int id) {
+                public void onItemClick(int id, int type) {
                     Log.d(TAG, "onClick: movie id = " + id);
                     jumpToDetail(id, INDEX_MOVIE);
                 }

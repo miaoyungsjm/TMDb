@@ -29,7 +29,7 @@ import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, GridMoviePageListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
 
-    private GridStyleFragment.OnItemClickListener mListener = null;
+    private OnItemClickListener mListener = null;
 
     public GridMoviePageListAdapter() {
         super(new DiffUtil.ItemCallback<MoviePageList>() {
@@ -111,7 +111,7 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
         }
     }
 
-    public void setOnItemClickListener(GridStyleFragment.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 }

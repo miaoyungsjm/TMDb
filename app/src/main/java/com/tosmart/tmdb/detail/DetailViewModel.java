@@ -314,7 +314,7 @@ public class DetailViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd);
+                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     requestMovieRecommendations(itemAtEnd.getPage() + 1);
                 }
             };
@@ -331,7 +331,7 @@ public class DetailViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd);
+                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     requestMovieRecommendations(itemAtEnd.getPage() + 1);
                 }
             };

@@ -32,8 +32,8 @@ public class GridStyleViewModel extends ViewModel {
 
     public LiveData<PagedList<TvPageList>> mTvLiveData;
     public LiveData<PagedList<MoviePageList>> mMovieLiveData;
-    public MutableLiveData<Integer> mTvFilterPage = new MutableLiveData<>();
-    public MutableLiveData<Integer> mMovieFilterPage = new MutableLiveData<>();
+    public MutableLiveData<Integer> mTvFilterPage;
+    public MutableLiveData<Integer> mMovieFilterPage;
 
     public MutableLiveData<List<Favorite>> mFavoriteLiveData = new MutableLiveData<>();
 
@@ -63,8 +63,8 @@ public class GridStyleViewModel extends ViewModel {
                 .setBoundaryCallback(mMoviePageListCallback)
                 .build();
 
-        mTvFilterPage.setValue(0);
-        mMovieFilterPage.setValue(0);
+        mTvFilterPage = new MutableLiveData<>();
+        mMovieFilterPage = new MutableLiveData<>();
     }
 
     public void initFavList() {
@@ -98,7 +98,7 @@ public class GridStyleViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd);
+                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     // 数据库消耗完毕，网络请求
                     mTvFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
@@ -116,7 +116,7 @@ public class GridStyleViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd);
+                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
