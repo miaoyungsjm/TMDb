@@ -16,5 +16,5 @@ import io.reactivex.Single;
 public interface TvDao extends BaseDao<Tv> {
 
     @Query("SELECT * FROM Tv WHERE id == :id")
-    Single<Tv> getTvById(int id);
+    Single<List<Tv>> getTvById(int id);
 }

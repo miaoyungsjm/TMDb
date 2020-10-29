@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
                         setTitleState(STYLE_GRID);
                         NavController nc = Navigation.findNavController(
                                 MainActivity.this, R.id.content_fragment_host);
-                        nc.navigate(R.id.action_gridStyleFragment_global);
+                        nc.navigate(R.id.action_listStyleFragment_to_gridStyleFragment);
                     }
                     break;
                 case R.id.ll_main_title_list:
@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity {
                         setTitleState(STYLE_LIST);
                         NavController nc = Navigation.findNavController(
                                 MainActivity.this, R.id.content_fragment_host);
-                        nc.navigate(R.id.action_listStyleFragment_global);
+                        nc.navigate(R.id.action_gridStyleFragment_to_listStyleFragment);
                     }
                     break;
                 case R.id.ll_main_search:

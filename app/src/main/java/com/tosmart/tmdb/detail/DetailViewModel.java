@@ -92,21 +92,24 @@ public class DetailViewModel extends ViewModel {
                 throwable.printStackTrace();
             }
         };
-        Consumer<Tv> consumer = new Consumer<Tv>() {
+        Consumer<List<Tv>> consumer = new Consumer<List<Tv>>() {
             @Override
-            public void accept(Tv tv) throws Exception {
-                String average = String.valueOf((int) (tv.getVoteAverage() * 10));
-                mFavorite.setName(tv.getOriginalName());
-                mFavorite.setDate(tv.getFirstAirDate());
-                mFavorite.setPoster(tv.getPosterPath());
-                mFavorite.setAverage(average);
-                mFavorite.setLanguage(tv.getOriginalLanguage());
-                mFavorite.setOverview(tv.getOverview());
-                updateUi(mFavorite);
+            public void accept(List<Tv> list) throws Exception {
+                if (list.size() != 0) {
+                    Tv tv = list.get(0);
+                    String average = String.valueOf((int) (tv.getVoteAverage() * 10));
+                    mFavorite.setName(tv.getOriginalName());
+                    mFavorite.setDate(tv.getFirstAirDate());
+                    mFavorite.setPoster(tv.getPosterPath());
+                    mFavorite.setAverage(average);
+                    mFavorite.setLanguage(tv.getOriginalLanguage());
+                    mFavorite.setOverview(tv.getOverview());
+                    updateUi(mFavorite);
+                }
             }
         };
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        Single<Tv> single = db.getTvDao().getTvById(mCurrentId)
+        Single<List<Tv>> single = db.getTvDao().getTvById(mCurrentId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         mCompositeDisposable.add(single.subscribe(consumer, throwable));
@@ -119,21 +122,24 @@ public class DetailViewModel extends ViewModel {
                 throwable.printStackTrace();
             }
         };
-        Consumer<Movie> consumer = new Consumer<Movie>() {
+        Consumer<List<Movie>> consumer = new Consumer<List<Movie>>() {
             @Override
-            public void accept(Movie movie) throws Exception {
-                String average = String.valueOf((int) (movie.getVoteAverage() * 10));
-                mFavorite.setName(movie.getOriginalTitle());
-                mFavorite.setDate(movie.getReleaseDate());
-                mFavorite.setPoster(movie.getPosterPath());
-                mFavorite.setAverage(average);
-                mFavorite.setLanguage(movie.getOriginalLanguage());
-                mFavorite.setOverview(movie.getOverview());
-                updateUi(mFavorite);
+            public void accept(List<Movie> list) throws Exception {
+                if (list.size() != 0) {
+                    Movie movie = list.get(0);
+                    String average = String.valueOf((int) (movie.getVoteAverage() * 10));
+                    mFavorite.setName(movie.getOriginalTitle());
+                    mFavorite.setDate(movie.getReleaseDate());
+                    mFavorite.setPoster(movie.getPosterPath());
+                    mFavorite.setAverage(average);
+                    mFavorite.setLanguage(movie.getOriginalLanguage());
+                    mFavorite.setOverview(movie.getOverview());
+                    updateUi(mFavorite);
+                }
             }
         };
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        Single<Movie> single = db.getMovieDao().getMovieById(mCurrentId)
+        Single<List<Movie>> single = db.getMovieDao().getMovieById(mCurrentId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
         mCompositeDisposable.add(single.subscribe(consumer, throwable));

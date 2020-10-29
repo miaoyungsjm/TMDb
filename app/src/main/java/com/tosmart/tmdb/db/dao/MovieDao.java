@@ -16,5 +16,5 @@ import io.reactivex.Single;
 public interface MovieDao extends BaseDao<Movie> {
 
     @Query("SELECT * FROM Movie WHERE id == :id")
-    Single<Movie> getMovieById(int id);
+    Single<List<Movie>> getMovieById(int id);
 }
