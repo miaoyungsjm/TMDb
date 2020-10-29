@@ -24,7 +24,7 @@
             android:onClick="@{(v)->click.itemClick(v)}"
             app:layout_constraintBottom_toTopOf="@+id/ll_list_title_movie"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/gl_list_content_hor_begin"
             app:layout_constraintVertical_chainStyle="packed">
 
             <TextView
@@ -36,9 +36,9 @@
         <LinearLayout
             android:id="@+id/ll_list_title_movie"
             style="@style/style_list_title_ll"
-            android:focusable="true"
             android:layout_marginTop="@dimen/margin_little"
             android:layout_marginBottom="@dimen/margin_little"
+            android:focusable="true"
             android:onClick="@{(v)->click.itemClick(v)}"
             app:layout_constraintBottom_toTopOf="@id/ll_list_title_favorite"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -66,6 +66,13 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_list_content_hor_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/list_content_gl_margin_top" />
+
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_list_content_ver_begin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,9 +89,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_list_content"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/gl_list_content_ver_begin"
-            app:layout_constraintRight_toRightOf="@id/gl_list_content_ver_end" />
+            app:layout_constraintRight_toRightOf="@id/gl_list_content_ver_end"
+            app:layout_constraintTop_toTopOf="@id/gl_list_content_hor_begin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

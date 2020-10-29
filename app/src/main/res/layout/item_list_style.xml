@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl_list_item_view"
     android:layout_width="@dimen/list_item_view_cl_width"
-    android:layout_height="@dimen/list_item_view_cl_height"
-    android:layout_marginRight="@dimen/list_item_view_cl_margin_right">
+    android:layout_height="@dimen/list_item_view_cl_height">
 
     <ImageView
         android:id="@+id/iv_list_item_poster"

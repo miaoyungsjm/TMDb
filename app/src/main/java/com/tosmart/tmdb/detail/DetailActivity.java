@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -16,6 +17,7 @@ import com.tosmart.tmdb.adapter.ListMoviePageListAdapter;
 import com.tosmart.tmdb.adapter.ListTvPageListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.base.BaseActivity;
+import com.tosmart.tmdb.content.SpacingItemDecoration;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.TvPageList;
 
@@ -69,6 +71,10 @@ public class DetailActivity extends BaseActivity {
         RecyclerView rv = findViewById(R.id.rv_detail_recommend);
         rv.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
+        int spacingLeft = SizeUtils.dp2px(24);
+        SpacingItemDecoration decoration =
+                new SpacingItemDecoration(0, spacingLeft, 0);
+        rv.addItemDecoration(decoration);
         if (mDetailViewModel.getCurrentType() == INDEX_TV) {
             ListTvPageListAdapter listTvPageListAdapter = new ListTvPageListAdapter();
             rv.setAdapter(listTvPageListAdapter);

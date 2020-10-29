@@ -47,7 +47,13 @@ public class ListStyleViewModel extends ViewModel {
     private CompositeDisposable mCompositeDisposable;
 
     public ListStyleViewModel() {
+        Log.e(TAG, "ListStyleViewModel()");
         mCompositeDisposable = new CompositeDisposable();
+    }
+
+    public void updateTitleIndex(int currentTitleIndex) {
+        this.mCurrentTitleIndex = currentTitleIndex;
+        mTitleIndex.setValue(currentTitleIndex);
     }
 
     public void initPagedList(int filterType, int filterOrder) {
@@ -130,14 +136,9 @@ public class ListStyleViewModel extends ViewModel {
         return mCurrentTitleIndex;
     }
 
-    public void updateTitleIndex(int currentTitleIndex) {
-        this.mCurrentTitleIndex = currentTitleIndex;
-        mTitleIndex.setValue(currentTitleIndex);
-    }
-
     @Override
     protected void onCleared() {
-        Log.d(TAG, "onCleared()");
+        Log.e(TAG, "onCleared()");
         if (mCompositeDisposable != null) {
             mCompositeDisposable.dispose();
         }

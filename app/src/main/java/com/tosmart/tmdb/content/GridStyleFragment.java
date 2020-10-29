@@ -9,6 +9,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
@@ -97,6 +98,10 @@ public class GridStyleFragment extends BaseFragment {
         RecyclerView favRv = v.findViewById(R.id.rv_grid_content_favorite);
         favRv.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
+        int spacingLeft = SizeUtils.dp2px(21);
+        SpacingItemDecoration decoration =
+                new SpacingItemDecoration(0, spacingLeft, 0);
+        favRv.addItemDecoration(decoration);
         GridFavAdapter gridFavAdapter = new GridFavAdapter();
         gridFavAdapter.setOnItemClickListener(mListener);
         favRv.setAdapter(gridFavAdapter);
@@ -112,6 +117,10 @@ public class GridStyleFragment extends BaseFragment {
         RecyclerView tvRv = v.findViewById(R.id.rv_grid_content_tv);
         tvRv.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
+        int spacingLeft = SizeUtils.dp2px(21);
+        SpacingItemDecoration decoration =
+                new SpacingItemDecoration(0, spacingLeft, 0);
+        tvRv.addItemDecoration(decoration);
         GridTvPageListAdapter gridTvPageListAdapter = new GridTvPageListAdapter();
         gridTvPageListAdapter.setOnItemClickListener(mListener);
         tvRv.setAdapter(gridTvPageListAdapter);
@@ -136,6 +145,10 @@ public class GridStyleFragment extends BaseFragment {
         RecyclerView movieRv = v.findViewById(R.id.rv_grid_content_movie);
         movieRv.setLayoutManager(new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false));
+        int spacingLeft = SizeUtils.dp2px(21);
+        SpacingItemDecoration decoration =
+                new SpacingItemDecoration(0, spacingLeft, 0);
+        movieRv.addItemDecoration(decoration);
         GridMoviePageListAdapter gridMoviePageListAdapter = new GridMoviePageListAdapter();
         gridMoviePageListAdapter.setOnItemClickListener(mListener);
         movieRv.setAdapter(gridMoviePageListAdapter);

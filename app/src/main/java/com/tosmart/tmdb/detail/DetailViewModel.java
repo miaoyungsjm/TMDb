@@ -70,6 +70,7 @@ public class DetailViewModel extends ViewModel {
     private CompositeDisposable mCompositeDisposable;
 
     public DetailViewModel() {
+        Log.e(TAG, "DetailViewModel()");
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -373,7 +374,7 @@ public class DetailViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        Log.d(TAG, "onCleared()");
+        Log.e(TAG, "onCleared()");
         if (mCompositeDisposable != null) {
             mCompositeDisposable.dispose();
         }

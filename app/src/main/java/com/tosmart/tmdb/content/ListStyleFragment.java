@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.SizeUtils;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
@@ -20,14 +21,14 @@ import com.tosmart.tmdb.db.entity.TvPageList;
 import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.main.MainViewModel;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
 
 import static com.tosmart.tmdb.content.ListStyleViewModel.TITLE_INDEX_FAV;
 import static com.tosmart.tmdb.content.ListStyleViewModel.TITLE_INDEX_MOVIE;
@@ -45,6 +46,15 @@ public class ListStyleFragment extends BaseFragment {
     private ListStyleViewModel mListStyleViewModel;
     private MainViewModel mMainViewModel;
 
+    private RecyclerView mContentRv;
+    private ListTvPageListAdapter mTvPageListAdapter;
+    private ListMoviePageListAdapter mMoviePageListAdapter;
+    private ListFavAdapter mFavAdapter;
+
+    private LinearLayout mTitleTvLl;
+    private LinearLayout mTitleMoviewLl;
+    private LinearLayout mTitleFavLl;
+
     @Override
     protected void initViewModel() {
         mListStyleViewModel = getFragmentViewModel(ListStyleViewModel.class);
@@ -59,59 +69,92 @@ public class ListStyleFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        setTitleState(TITLE_INDEX_TV, view);
+        Log.e(TAG, "onViewCreated: ");
         super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
+    public void onResume() {
+        Log.e(TAG, "onResume: ");
+        mListStyleViewModel.initFavList();
+        super.onResume();
+    }
+
+    @Override
     protected void initData() {
+        Log.e(TAG, "initData: ");
         mListStyleViewModel.initPagedList(
                 mMainViewModel.getFilterType(),
                 mMainViewModel.getFilterOrder());
 
         mListStyleViewModel.initFavList();
 
-//        mMainViewModel.mFilterFlag.observe(getViewLifecycleOwner(), new Observer<Integer>() {
-//            @Override
-//            public void onChanged(Integer index) {
-//                Log.e(TAG, "onChanged: filterIndex = " + index);
-//                mMainViewModel.setFilterIndex(index);
-//
-//                mListStyleViewModel.initPagedList(
-//                        mMainViewModel.getFilterType(),
-//                        mMainViewModel.getFilterOrder());
-//                if (mListStyleViewModel.currentIndex == INDEX_TV){
-//                    initTvPaging(rootView);
-//                } else if (mListStyleViewModel.currentIndex == INDEX_MOVIE) {
-//                    initMoviePaging(rootView);
-//                } else {
-//                    initFav(rootView);
-//                }
-//            }
-//        });
+        mMainViewModel.mFilterFlag.observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer index) {
+                Log.d(TAG, "onChanged: filterIndex = " + index);
+                mMainViewModel.setFilterIndex(index);
+
+                releaseOldPagingObservers();
+                mListStyleViewModel.initPagedList(
+                        mMainViewModel.getFilterType(),
+                        mMainViewModel.getFilterOrder());
+                initTvPageListAdapter();
+                initMoviePageListAdapter();
+                mListStyleViewModel.mTitleIndex.setValue(mListStyleViewModel.getCurrentTitleIndex());
+            }
+        });
     }
 
     @Override
     protected void initView(View v) {
+        mTitleTvLl = v.findViewById(R.id.ll_list_title_tv);
+        mTitleMoviewLl = v.findViewById(R.id.ll_list_title_movie);
+        mTitleFavLl = v.findViewById(R.id.ll_list_title_favorite);
+        setTitleState(TITLE_INDEX_TV);
 
-        OnItemClickListener listener = new OnItemClickListener() {
+        mContentRv = v.findViewById(R.id.rv_list_content);
+        mContentRv.setLayoutManager(new GridLayoutManager(getContext(), 6));
+        int spacingLeft = SizeUtils.dp2px(24);
+        int spacingTop = SizeUtils.dp2px(43);
+        SpacingItemDecoration decoration =
+                new SpacingItemDecoration(6, spacingLeft, spacingTop);
+        mContentRv.addItemDecoration(decoration);
+        mContentRv.requestFocus();
+
+        initTvPageListAdapter();
+        initMoviePageListAdapter();
+        initFavAdapter();
+
+        mListStyleViewModel.mTitleIndex.observe(this, new Observer<Integer>() {
             @Override
-            public void onItemClick(int id, int type) {
-                Log.d(TAG, "onClick: id=" + id + ", type=" + type);
-                jumpToDetail(id, type);
+            public void onChanged(Integer integer) {
+                switch (integer) {
+                    case TITLE_INDEX_TV:
+                        mContentRv.setAdapter(mTvPageListAdapter);
+                        break;
+                    case TITLE_INDEX_MOVIE:
+                        mContentRv.setAdapter(mMoviePageListAdapter);
+                        break;
+                    case TITLE_INDEX_FAV:
+                        mContentRv.setAdapter(mFavAdapter);
+                        break;
+                    default:
+                }
             }
-        };
+        });
 
-        RecyclerView recyclerView = v.findViewById(R.id.rv_list_content);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 6));
+        mListStyleViewModel.updateTitleIndex(mListStyleViewModel.getCurrentTitleIndex());
+    }
 
-        ListTvPageListAdapter listTvPageListAdapter = new ListTvPageListAdapter();
-        listTvPageListAdapter.setOnItemClickListener(listener);
+    private void initTvPageListAdapter() {
+        mTvPageListAdapter = new ListTvPageListAdapter();
+        mTvPageListAdapter.setOnItemClickListener(mListener);
         mListStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
             @Override
             public void onChanged(PagedList<TvPageList> tvPageLists) {
-                Log.e(TAG, "onChanged: tv");
-                listTvPageListAdapter.submitList(tvPageLists);
+                Log.d(TAG, "onChanged: tv size=" + tvPageLists.size());
+                mTvPageListAdapter.submitList(tvPageLists);
             }
         });
         mListStyleViewModel.mTvFilterPage.observe(this, new Observer<Integer>() {
@@ -122,14 +165,16 @@ public class ListStyleFragment extends BaseFragment {
                         integer);
             }
         });
+    }
 
-        ListMoviePageListAdapter listMoviePageListAdapter = new ListMoviePageListAdapter();
-        listMoviePageListAdapter.setOnItemClickListener(listener);
+    private void initMoviePageListAdapter() {
+        mMoviePageListAdapter = new ListMoviePageListAdapter();
+        mMoviePageListAdapter.setOnItemClickListener(mListener);
         mListStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
             @Override
             public void onChanged(PagedList<MoviePageList> moviePageLists) {
-                Log.e(TAG, "onChanged: movie");
-                listMoviePageListAdapter.submitList(moviePageLists);
+                Log.d(TAG, "onChanged: movie size=" + moviePageLists.size());
+                mMoviePageListAdapter.submitList(moviePageLists);
             }
         });
         mListStyleViewModel.mMovieFilterPage.observe(this, new Observer<Integer>() {
@@ -140,36 +185,34 @@ public class ListStyleFragment extends BaseFragment {
                         integer);
             }
         });
+    }
 
-        ListFavAdapter listFavAdapter = new ListFavAdapter();
-        listFavAdapter.setOnItemClickListener(listener);
+    private void releaseOldPagingObservers() {
+        mListStyleViewModel.mTvLiveData.removeObservers(this);
+        mListStyleViewModel.mMovieLiveData.removeObservers(this);
+        mListStyleViewModel.mTvFilterPage.removeObservers(this);
+        mListStyleViewModel.mMovieFilterPage.removeObservers(this);
+    }
+
+    private void initFavAdapter() {
+        mFavAdapter = new ListFavAdapter();
+        mFavAdapter.setOnItemClickListener(mListener);
         mListStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
             @Override
             public void onChanged(List<Favorite> favorites) {
-                listFavAdapter.setFavList(favorites);
+                Log.d(TAG, "onChanged: fav");
+                mFavAdapter.setFavList(favorites);
             }
         });
-
-        mListStyleViewModel.mTitleIndex.observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                switch (integer) {
-                    case TITLE_INDEX_TV:
-                        recyclerView.setAdapter(listTvPageListAdapter);
-                        break;
-                    case TITLE_INDEX_MOVIE:
-                        recyclerView.setAdapter(listMoviePageListAdapter);
-                        break;
-                    case TITLE_INDEX_FAV:
-                        recyclerView.setAdapter(listFavAdapter);
-                        break;
-                    default:
-                }
-            }
-        });
-
-        mListStyleViewModel.updateTitleIndex(mListStyleViewModel.getCurrentTitleIndex());
     }
+
+    private OnItemClickListener mListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(int id, int type) {
+            Log.d(TAG, "onClick: id=" + id + ", type=" + type);
+            jumpToDetail(id, type);
+        }
+    };
 
     private void jumpToDetail(int id, int type) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
@@ -178,20 +221,16 @@ public class ListStyleFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    public void setTitleState(int index, View view) {
-        View root = view.getRootView();
-        LinearLayout tvLl = root.findViewById(R.id.ll_list_title_tv);
-        LinearLayout mvLl = root.findViewById(R.id.ll_list_title_movie);
-        LinearLayout favLl = root.findViewById(R.id.ll_list_title_favorite);
-        tvLl.setHovered(false);
-        mvLl.setHovered(false);
-        favLl.setHovered(false);
+    public void setTitleState(int index) {
+        mTitleTvLl.setSelected(false);
+        mTitleMoviewLl.setSelected(false);
+        mTitleFavLl.setSelected(false);
         if (index == TITLE_INDEX_TV) {
-            tvLl.setHovered(true);
+            mTitleTvLl.setSelected(true);
         } else if (index == TITLE_INDEX_MOVIE) {
-            mvLl.setHovered(true);
+            mTitleMoviewLl.setSelected(true);
         } else {
-            favLl.setHovered(true);
+            mTitleFavLl.setSelected(true);
         }
     }
 
@@ -199,15 +238,15 @@ public class ListStyleFragment extends BaseFragment {
         public void itemClick(View view) {
             switch (view.getId()) {
                 case R.id.ll_list_title_tv:
-                    setTitleState(TITLE_INDEX_TV, view);
+                    setTitleState(TITLE_INDEX_TV);
                     mListStyleViewModel.updateTitleIndex(TITLE_INDEX_TV);
                     break;
                 case R.id.ll_list_title_movie:
-                    setTitleState(TITLE_INDEX_MOVIE, view);
+                    setTitleState(TITLE_INDEX_MOVIE);
                     mListStyleViewModel.updateTitleIndex(TITLE_INDEX_MOVIE);
                     break;
                 case R.id.ll_list_title_favorite:
-                    setTitleState(TITLE_INDEX_FAV, view);
+                    setTitleState(TITLE_INDEX_FAV);
                     mListStyleViewModel.updateTitleIndex(TITLE_INDEX_FAV);
                     break;
                 default:

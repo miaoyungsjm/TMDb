@@ -72,7 +72,6 @@
     <dimen name="grid_content_rv_height">133dp</dimen>
     <dimen name="grid_item_view_cl_width">96dp</dimen>
     <dimen name="grid_item_view_cl_height">133dp</dimen>
-    <dimen name="grid_item_view_cl_margin_right">21dp</dimen>
     <dimen name="grid_item_view_cl_solid">3dp</dimen>
     <dimen name="grid_item_average_iv_width">19dp</dimen>
     <dimen name="grid_item_average_iv_margin">7dp</dimen>
@@ -116,11 +115,11 @@
     <dimen name="list_title_ll_width">192dp</dimen>
     <dimen name="list_title_ll_height">48dp</dimen>
     <dimen name="list_title_tv_margin_left">32dp</dimen>
+    <dimen name="list_content_gl_margin_top">35dp</dimen>
     <dimen name="list_content_gl_margin_left">232dp</dimen>
 
     <dimen name="list_item_view_cl_width">144dp</dimen>
-    <dimen name="list_item_view_cl_height">227dp</dimen>
-    <dimen name="list_item_view_cl_margin_right">24dp</dimen>
+    <dimen name="list_item_view_cl_height">230dp</dimen>
     <dimen name="list_item_view_gl_hor_begin">200dp</dimen>
     <dimen name="list_item_average_iv_width">28dp</dimen>
     <dimen name="list_item_average_iv_margin">10dp</dimen>

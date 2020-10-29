@@ -25,6 +25,9 @@ public class MainActivity extends BaseActivity {
 
     private MainViewModel mMainViewModel;
 
+    private LinearLayout mTitleGirdStyleLl;
+    private LinearLayout mTitleListStyleLl;
+
     @Override
     protected void initViewModel() {
         mMainViewModel = getActivityViewModel(MainViewModel.class);
@@ -39,6 +42,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mTitleGirdStyleLl = findViewById(R.id.ll_main_title_grid);
+        mTitleListStyleLl = findViewById(R.id.ll_main_title_list);
         setTitleState(STYLE_GRID);
     }
 
@@ -57,14 +62,12 @@ public class MainActivity extends BaseActivity {
     }
 
     public void setTitleState(int index) {
-        LinearLayout girdLl = findViewById(R.id.ll_main_title_grid);
-        LinearLayout listLl = findViewById(R.id.ll_main_title_list);
         if (index == STYLE_GRID) {
-            girdLl.setHovered(true);
-            listLl.setHovered(false);
+            mTitleGirdStyleLl.setSelected(true);
+            mTitleListStyleLl.setSelected(false);
         } else {
-            girdLl.setHovered(false);
-            listLl.setHovered(true);
+            mTitleGirdStyleLl.setSelected(false);
+            mTitleListStyleLl.setSelected(true);
         }
     }
 
