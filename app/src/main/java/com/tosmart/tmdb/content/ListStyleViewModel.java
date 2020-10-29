@@ -103,14 +103,14 @@ public class ListStyleViewModel extends ViewModel {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
-                    Log.e(TAG, "TV onZeroItemsLoaded: ");
+                    Log.d(TAG, "TV onZeroItemsLoaded: ");
                     mTvFilterPage.setValue(1);
                 }
 
                 @Override
                 public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
+                    Log.d(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mTvFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
@@ -120,14 +120,14 @@ public class ListStyleViewModel extends ViewModel {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
-                    Log.e(TAG, "Movie onZeroItemsLoaded: ");
+                    Log.d(TAG, "Movie onZeroItemsLoaded: ");
                     mMovieFilterPage.setValue(1);
                 }
 
                 @Override
                 public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
+                    Log.d(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };

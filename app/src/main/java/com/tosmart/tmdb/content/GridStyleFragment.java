@@ -1,9 +1,12 @@
 package com.tosmart.tmdb.content;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,6 +42,14 @@ public class GridStyleFragment extends BaseFragment {
     private GridStyleViewModel mGridStyleViewModel;
     private MainViewModel mMainViewModel;
 
+    private RecyclerView mContentFavRv;
+    private RecyclerView mContentTvRv;
+    private RecyclerView mContentMovieRv;
+
+    private GridFavAdapter mFavAdapter;
+    private GridTvPageListAdapter mTvPageListAdapter;
+    private GridMoviePageListAdapter mMoviePageListAdapter;
+
     @Override
     protected void initViewModel() {
         mGridStyleViewModel = getFragmentViewModel(GridStyleViewModel.class);
@@ -51,8 +62,22 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.e(TAG, "onViewCreated:");
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        Log.e(TAG, "onResume:");
+        // 详情回来刷新 fav data
+        mGridStyleViewModel.initFavList();
+        super.onResume();
+    }
+
+    @Override
     protected void initData() {
-        Log.e(TAG, "initData:" );
+        Log.e(TAG, "initData:");
 
         // 初始化 paging data
         mGridStyleViewModel.initPagedList(
@@ -63,72 +88,69 @@ public class GridStyleFragment extends BaseFragment {
         mGridStyleViewModel.initFavList();
 
         // 排序回调，刷新数据源
-        mMainViewModel.mFilterFlag.observe(getViewLifecycleOwner(), new Observer<Integer>() {
+        mMainViewModel.mFilterFlag.observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer index) {
-                Log.e(TAG, "onChanged: filterIndex = " + index);
+                Log.d(TAG, "onChanged: filterIndex = " + index);
                 mMainViewModel.setFilterIndex(index);
 
                 releaseOldPagingObservers();
                 mGridStyleViewModel.initPagedList(
                         mMainViewModel.getFilterType(),
                         mMainViewModel.getFilterOrder());
-                initTvPaging(rootView);
-                initMoviePaging(rootView);
+                initTvPageListAdapter();
+                initMoviePageListAdapter();
             }
         });
     }
 
     @Override
     protected void initView(View v) {
-        initFav(v);
-        initTvPaging(v);
-        initMoviePaging(v);
-    }
-
-    @Override
-    public void onResume() {
-        Log.e(TAG, "onResume:" );
-        // 详情回来刷新 fav data
-        mGridStyleViewModel.initFavList();
-        super.onResume();
-    }
-
-    public void initFav(View v) {
-        RecyclerView favRv = v.findViewById(R.id.rv_grid_content_favorite);
-        favRv.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
         int spacingLeft = SizeUtils.dp2px(21);
         SpacingItemDecoration decoration =
                 new SpacingItemDecoration(0, spacingLeft, 0);
-        favRv.addItemDecoration(decoration);
-        GridFavAdapter gridFavAdapter = new GridFavAdapter();
-        gridFavAdapter.setOnItemClickListener(mListener);
-        favRv.setAdapter(gridFavAdapter);
+
+        mContentFavRv = v.findViewById(R.id.rv_grid_content_favorite);
+        mContentFavRv.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mContentFavRv.addItemDecoration(decoration);
+
+        mContentTvRv = v.findViewById(R.id.rv_grid_content_tv);
+        mContentTvRv.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mContentTvRv.addItemDecoration(decoration);
+
+        mContentMovieRv = v.findViewById(R.id.rv_grid_content_movie);
+        mContentMovieRv.setLayoutManager(new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false));
+        mContentMovieRv.addItemDecoration(decoration);
+
+        initFavAdapter();
+        initTvPageListAdapter();
+        initMoviePageListAdapter();
+    }
+
+    public void initFavAdapter() {
+        mFavAdapter = new GridFavAdapter();
+        mFavAdapter.setOnItemClickListener(mListener);
+        mContentFavRv.setAdapter(mFavAdapter);
         mGridStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
             @Override
             public void onChanged(List<Favorite> favorites) {
-                gridFavAdapter.setFavList(favorites);
+                mFavAdapter.setFavList(favorites);
             }
         });
     }
 
-    public void initTvPaging(View v) {
-        RecyclerView tvRv = v.findViewById(R.id.rv_grid_content_tv);
-        tvRv.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-        int spacingLeft = SizeUtils.dp2px(21);
-        SpacingItemDecoration decoration =
-                new SpacingItemDecoration(0, spacingLeft, 0);
-        tvRv.addItemDecoration(decoration);
-        GridTvPageListAdapter gridTvPageListAdapter = new GridTvPageListAdapter();
-        gridTvPageListAdapter.setOnItemClickListener(mListener);
-        tvRv.setAdapter(gridTvPageListAdapter);
+    public void initTvPageListAdapter() {
+        mTvPageListAdapter = new GridTvPageListAdapter();
+        mTvPageListAdapter.setOnItemClickListener(mListener);
+        mContentTvRv.setAdapter(mTvPageListAdapter);
         mGridStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
             @Override
             public void onChanged(PagedList<TvPageList> tvPageLists) {
-                Log.e(TAG, "onChanged: tv");
-                gridTvPageListAdapter.submitList(tvPageLists);
+                Log.d(TAG, "onChanged: tv");
+                mTvPageListAdapter.submitList(tvPageLists);
             }
         });
         mGridStyleViewModel.mTvFilterPage.observe(this, new Observer<Integer>() {
@@ -141,22 +163,15 @@ public class GridStyleFragment extends BaseFragment {
         });
     }
 
-    public void initMoviePaging(View v) {
-        RecyclerView movieRv = v.findViewById(R.id.rv_grid_content_movie);
-        movieRv.setLayoutManager(new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false));
-        int spacingLeft = SizeUtils.dp2px(21);
-        SpacingItemDecoration decoration =
-                new SpacingItemDecoration(0, spacingLeft, 0);
-        movieRv.addItemDecoration(decoration);
-        GridMoviePageListAdapter gridMoviePageListAdapter = new GridMoviePageListAdapter();
-        gridMoviePageListAdapter.setOnItemClickListener(mListener);
-        movieRv.setAdapter(gridMoviePageListAdapter);
+    public void initMoviePageListAdapter() {
+        mMoviePageListAdapter = new GridMoviePageListAdapter();
+        mMoviePageListAdapter.setOnItemClickListener(mListener);
+        mContentMovieRv.setAdapter(mMoviePageListAdapter);
         mGridStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
             @Override
             public void onChanged(PagedList<MoviePageList> moviePageLists) {
-                Log.e(TAG, "onChanged: movie");
-                gridMoviePageListAdapter.submitList(moviePageLists);
+                Log.d(TAG, "onChanged: movie");
+                mMoviePageListAdapter.submitList(moviePageLists);
             }
         });
         mGridStyleViewModel.mMovieFilterPage.observe(this, new Observer<Integer>() {
@@ -176,10 +191,6 @@ public class GridStyleFragment extends BaseFragment {
         mGridStyleViewModel.mMovieFilterPage.removeObservers(this);
     }
 
-    private void releaseOldFavObservers() {
-        mGridStyleViewModel.mFavoriteLiveData.removeObservers(this);
-    }
-
     private OnItemClickListener mListener = new OnItemClickListener() {
         @Override
         public void onItemClick(int id, int type) {
@@ -194,5 +205,4 @@ public class GridStyleFragment extends BaseFragment {
         intent.putExtra(KEY_TYPE, type);
         startActivity(intent);
     }
-
 }

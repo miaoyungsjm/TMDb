@@ -7,6 +7,7 @@
 
     <color name="main_title_text_light">#ffffff</color>
     <color name="main_title_text_normal">#1db9de</color>
+    <color name="main_title_stroke">#16696e</color>
 
     <color name="grid_title_text_color">#29a6e6</color>
     <color name="grid_item_text_light">#17c5f4</color>

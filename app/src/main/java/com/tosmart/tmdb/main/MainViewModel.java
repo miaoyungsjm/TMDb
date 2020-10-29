@@ -27,7 +27,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 import static com.tosmart.tmdb.network.ApiRequest.ASC;
 import static com.tosmart.tmdb.network.ApiRequest.DESC;
-import static com.tosmart.tmdb.network.ApiRequest.FIRT_AIR_DATE;
+import static com.tosmart.tmdb.network.ApiRequest.FIRST_AIR_DATE;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_ASC;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_AVERAGE;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_DATE;
@@ -179,7 +179,7 @@ public class MainViewModel extends ViewModel {
             mFilterType = INDEX_DATE;
             mFilterOrder = INDEX_DESC;
             if (type == INDEX_TV) {
-                sb.append(FIRT_AIR_DATE);
+                sb.append(FIRST_AIR_DATE);
                 sb.append(DESC);
                 mFilterTvQuery = sb.toString();
             } else {
@@ -192,7 +192,7 @@ public class MainViewModel extends ViewModel {
             mFilterType = INDEX_DATE;
             mFilterOrder = INDEX_ASC;
             if (type == INDEX_TV) {
-                sb.append(FIRT_AIR_DATE);
+                sb.append(FIRST_AIR_DATE);
                 sb.append(ASC);
                 mFilterTvQuery = sb.toString();
             } else {

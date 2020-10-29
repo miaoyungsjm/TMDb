@@ -52,7 +52,7 @@ public class ListStyleFragment extends BaseFragment {
     private ListFavAdapter mFavAdapter;
 
     private LinearLayout mTitleTvLl;
-    private LinearLayout mTitleMoviewLl;
+    private LinearLayout mTitleMovieLl;
     private LinearLayout mTitleFavLl;
 
     @Override
@@ -109,7 +109,7 @@ public class ListStyleFragment extends BaseFragment {
     @Override
     protected void initView(View v) {
         mTitleTvLl = v.findViewById(R.id.ll_list_title_tv);
-        mTitleMoviewLl = v.findViewById(R.id.ll_list_title_movie);
+        mTitleMovieLl = v.findViewById(R.id.ll_list_title_movie);
         mTitleFavLl = v.findViewById(R.id.ll_list_title_favorite);
         setTitleState(TITLE_INDEX_TV);
 
@@ -223,12 +223,12 @@ public class ListStyleFragment extends BaseFragment {
 
     public void setTitleState(int index) {
         mTitleTvLl.setSelected(false);
-        mTitleMoviewLl.setSelected(false);
+        mTitleMovieLl.setSelected(false);
         mTitleFavLl.setSelected(false);
         if (index == TITLE_INDEX_TV) {
             mTitleTvLl.setSelected(true);
         } else if (index == TITLE_INDEX_MOVIE) {
-            mTitleMoviewLl.setSelected(true);
+            mTitleMovieLl.setSelected(true);
         } else {
             mTitleFavLl.setSelected(true);
         }

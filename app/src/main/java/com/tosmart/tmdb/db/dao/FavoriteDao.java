@@ -25,7 +25,7 @@ public interface FavoriteDao extends BaseDao<Favorite> {
 
     @Query("SELECT * FROM Favorite " +
             "WHERE Favorite.id == :id AND Favorite.type == :type ")
-    Single<Favorite> getFavorite(int id, int type);
+    Single<List<Favorite>> getFavorite(int id, int type);
 
     @Query("SELECT * FROM Favorite ")
     Single<List<Favorite>> getAllFavorite();

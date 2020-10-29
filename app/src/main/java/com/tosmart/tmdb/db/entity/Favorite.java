@@ -25,15 +25,21 @@ public class Favorite {
     private String poster;
     @ColumnInfo(name = "average")
     private String average;
+    @ColumnInfo(name = "language")
+    private String language;
+    @ColumnInfo(name = "overview")
+    private String overview;
+    @ColumnInfo(name = "director")
+    private String director;
+    @ColumnInfo(name = "writer")
+    private String writer;
+    @ColumnInfo(name = "cast")
+    private String cast;
 
-    public Favorite(int account, int id, int type, String name, String date, String poster, String average) {
+    public Favorite(int account, int id, int type) {
         this.account = account;
         this.id = id;
         this.type = type;
-        this.name = name;
-        this.date = date;
-        this.poster = poster;
-        this.average = average;
     }
 
     public int getAccount() {
@@ -90,5 +96,45 @@ public class Favorite {
 
     public void setAverage(String average) {
         this.average = average;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getWriter() {
+        return writer;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
+
+    public String getCast() {
+        return cast;
+    }
+
+    public void setCast(String cast) {
+        this.cast = cast;
     }
 }

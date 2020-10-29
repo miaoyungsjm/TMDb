@@ -43,6 +43,9 @@ public class DetailActivity extends BaseActivity {
 
     private DetailViewModel mDetailViewModel;
 
+    private ListTvPageListAdapter mTvPageListAdapter;
+    private ListMoviePageListAdapter mMoviePageListAdapter;
+
     @Override
     protected void initViewModel() {
         mDetailViewModel = getActivityViewModel(DetailViewModel.class);
@@ -57,69 +60,27 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e(TAG, "onCreate: ");
         initData();
         initView();
     }
 
     @Override
     protected void onResume() {
+        Log.e(TAG, "onResume: ");
         mDetailViewModel.checkFavorite();
         super.onResume();
     }
 
-    private void initView() {
-        RecyclerView rv = findViewById(R.id.rv_detail_recommend);
-        rv.setLayoutManager(new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false));
-        int spacingLeft = SizeUtils.dp2px(24);
-        SpacingItemDecoration decoration =
-                new SpacingItemDecoration(0, spacingLeft, 0);
-        rv.addItemDecoration(decoration);
-        if (mDetailViewModel.getCurrentType() == INDEX_TV) {
-            ListTvPageListAdapter listTvPageListAdapter = new ListTvPageListAdapter();
-            rv.setAdapter(listTvPageListAdapter);
-            mDetailViewModel.initPagedList(INDEX_TV);
-            mDetailViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
-                @Override
-                public void onChanged(PagedList<TvPageList> tvPageLists) {
-                    Log.e(TAG, "onChanged: tv");
-                    listTvPageListAdapter.submitList(tvPageLists);
-                }
-            });
-            listTvPageListAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(int id, int type) {
-                    Log.d(TAG, "onClick: tv id = " + id);
-                    jumpToDetail(id, INDEX_TV);
-                }
-            });
-        } else {
-            ListMoviePageListAdapter listMoviePageListAdapter = new ListMoviePageListAdapter();
-            rv.setAdapter(listMoviePageListAdapter);
-            mDetailViewModel.initPagedList(INDEX_MOVIE);
-            mDetailViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
-                @Override
-                public void onChanged(PagedList<MoviePageList> moviePageLists) {
-                    Log.e(TAG, "onChanged: movie");
-                    listMoviePageListAdapter.submitList(moviePageLists);
-                }
-            });
-            listMoviePageListAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(int id, int type) {
-                    Log.d(TAG, "onClick: movie id = " + id);
-                    jumpToDetail(id, INDEX_MOVIE);
-                }
-            });
-        }
-    }
-
     private void initData() {
+        Log.e(TAG, "initData: ");
         Intent intent = getIntent();
         int id = intent.getIntExtra(KEY_ID, -1);
         int type = intent.getIntExtra(KEY_TYPE, -1);
+
         if (id != -1 && type != -1) {
-            mDetailViewModel.requestDatabase(id, type);
+            // 根据 ID 查数据库，并进行网络请求
+            mDetailViewModel.requestData(id, type);
         }
 
         mDetailViewModel.showPoster.observe(this, new Observer<String>() {
@@ -154,6 +115,61 @@ public class DetailActivity extends BaseActivity {
             }
         });
     }
+
+    private void initView() {
+        int spacingLeft = SizeUtils.dp2px(24);
+        SpacingItemDecoration decoration =
+                new SpacingItemDecoration(0, spacingLeft, 0);
+
+        RecyclerView recyclerView = findViewById(R.id.rv_detail_recommend);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.addItemDecoration(decoration);
+
+        if (mDetailViewModel.getCurrentType() == INDEX_TV) {
+            initTvPageAdapter();
+            recyclerView.setAdapter(mTvPageListAdapter);
+        } else {
+            initMoviePageAdapter();
+            recyclerView.setAdapter(mMoviePageListAdapter);
+        }
+    }
+
+    private void initTvPageAdapter() {
+        mTvPageListAdapter = new ListTvPageListAdapter();
+        mTvPageListAdapter.setOnItemClickListener(mListener);
+
+        mDetailViewModel.initPagedList(INDEX_TV);
+        mDetailViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
+            @Override
+            public void onChanged(PagedList<TvPageList> tvPageLists) {
+                Log.d(TAG, "onChanged: tv");
+                mTvPageListAdapter.submitList(tvPageLists);
+            }
+        });
+    }
+
+    private void initMoviePageAdapter() {
+        mMoviePageListAdapter = new ListMoviePageListAdapter();
+        mMoviePageListAdapter.setOnItemClickListener(mListener);
+
+        mDetailViewModel.initPagedList(INDEX_MOVIE);
+        mDetailViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
+            @Override
+            public void onChanged(PagedList<MoviePageList> moviePageLists) {
+                Log.d(TAG, "onChanged: movie");
+                mMoviePageListAdapter.submitList(moviePageLists);
+            }
+        });
+    }
+
+    private OnItemClickListener mListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(int id, int type) {
+            Log.d(TAG, "onClick: id=" + id + ", type=" + type);
+            jumpToDetail(id, type);
+        }
+    };
 
     private void jumpToDetail(int id, int type) {
         Intent intent = new Intent(this, DetailActivity.class);

@@ -40,6 +40,7 @@ public class GridStyleViewModel extends ViewModel {
     private CompositeDisposable mCompositeDisposable;
 
     public GridStyleViewModel() {
+        Log.e(TAG, "GridStyleViewModel()");
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -90,7 +91,7 @@ public class GridStyleViewModel extends ViewModel {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
-                    Log.e(TAG, "TV onZeroItemsLoaded: ");
+                    Log.d(TAG, "TV onZeroItemsLoaded: ");
                     // 数据库没数据，网络请求
                     mTvFilterPage.setValue(1);
                 }
@@ -98,7 +99,7 @@ public class GridStyleViewModel extends ViewModel {
                 @Override
                 public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
+                    Log.d(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     // 数据库消耗完毕，网络请求
                     mTvFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
@@ -109,21 +110,21 @@ public class GridStyleViewModel extends ViewModel {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
-                    Log.e(TAG, "Movie onZeroItemsLoaded: ");
+                    Log.d(TAG, "Movie onZeroItemsLoaded: ");
                     mMovieFilterPage.setValue(1);
                 }
 
                 @Override
                 public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
-                    Log.e(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
+                    Log.d(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);
                 }
             };
 
     @Override
     protected void onCleared() {
-        Log.d(TAG, "onCleared()");
+        Log.e(TAG, "onCleared()");
         if (mCompositeDisposable != null) {
             mCompositeDisposable.dispose();
         }
