@@ -475,7 +475,7 @@ public class DetailViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        Log.d(TAG, "onCleared()");
+        Log.e(TAG, "onCleared()");
         if (mCompositeDisposable != null) {
             mCompositeDisposable.dispose();
         }

@@ -45,6 +45,7 @@
     <style name="style_grid_content_rv">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/grid_content_rv_height</item>
+        <item name="android:descendantFocusability">afterDescendants</item>
     </style>
 
     <style name="style_detail_title_tv">

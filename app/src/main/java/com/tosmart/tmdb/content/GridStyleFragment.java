@@ -137,7 +137,10 @@ public class GridStyleFragment extends BaseFragment {
         mGridStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
             @Override
             public void onChanged(List<Favorite> favorites) {
+                Log.d(TAG, "onChanged: fav");
                 mFavAdapter.setFavList(favorites);
+                // todo: focus loss
+//                mContentFavRv.requestFocus();
             }
         });
     }

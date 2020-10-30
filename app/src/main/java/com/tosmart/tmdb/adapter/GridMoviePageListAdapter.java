@@ -1,6 +1,5 @@
 package com.tosmart.tmdb.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.content.GridStyleFragment;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 
 import androidx.annotation.NonNull;
@@ -40,7 +38,7 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
 
             @Override
             public boolean areContentsTheSame(@NonNull MoviePageList oldItem, @NonNull MoviePageList newItem) {
-                return false;
+                return oldItem.getId() == newItem.getId();
             }
         });
     }

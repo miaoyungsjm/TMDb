@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl_grid_item_view"
     android:layout_width="@dimen/grid_item_view_cl_width"
-    android:layout_height="@dimen/grid_item_view_cl_height">
+    android:layout_height="@dimen/grid_item_view_cl_height"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/iv_grid_item_poster"

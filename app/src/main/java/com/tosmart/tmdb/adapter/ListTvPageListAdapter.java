@@ -38,7 +38,7 @@ public class ListTvPageListAdapter extends PagedListAdapter<TvPageList, ListTvPa
 
             @Override
             public boolean areContentsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
-                return false;
+                return oldItem.getId() == newItem.getId();
             }
         });
     }

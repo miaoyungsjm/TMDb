@@ -20,6 +20,7 @@ import com.tosmart.tmdb.content.SpacingItemDecoration;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -158,6 +159,8 @@ public class SearchDialogFragment extends DialogFragment {
                     mLogoIv.setVisibility(View.VISIBLE);
                     mBackIv.setVisibility(View.INVISIBLE);
                     mEditText.setText("");
+                    mSearchResultTv.setText("");
+                    mAdapter.setFavList(new ArrayList<Favorite>());
                     break;
                 default:
             }
