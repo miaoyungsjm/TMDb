@@ -66,13 +66,13 @@ public class ListStyleViewModel extends ViewModel {
 
         mTvLiveData = new LivePagedListBuilder<>(
                 tvDataSource,
-                12)
+                30)
                 .setBoundaryCallback(mTvPageListCallback)
                 .build();
 
         mMovieLiveData = new LivePagedListBuilder<>(
                 movieDataSource,
-                12)
+                30)
                 .setBoundaryCallback(mMoviePageListCallback)
                 .build();
 

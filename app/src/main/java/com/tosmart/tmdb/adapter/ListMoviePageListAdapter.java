@@ -69,6 +69,7 @@ public class ListMoviePageListAdapter extends PagedListAdapter<MoviePageList, Li
         MoviePageList movie = getItem(position);
         if (movie == null) {
             String showLoading = StringUtils.getString(R.string.str_content_item_statue_loading);
+            holder.posterIv.setImageResource(R.mipmap.empty);
             holder.nameTv.setText(showLoading);
             holder.dateTv.setText(showLoading);
             holder.averageTv.setText("0");

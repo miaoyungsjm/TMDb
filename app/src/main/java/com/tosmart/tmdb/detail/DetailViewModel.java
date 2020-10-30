@@ -352,12 +352,14 @@ public class DetailViewModel extends ViewModel {
         ApiObserver<TvRes> observer = new ApiObserver<TvRes>() {
             @Override
             public void onSuccess(TvRes tvRes) {
+                Log.d(TAG, "onSuccess: tv page: " + tvRes.getPage() +
+                        ", size: " + tvRes.getResults().size());
+
                 TMDatabase db = RoomManager.getInstance().getTMDatabase();
                 List<Tv> list = tvRes.getResults();
                 List<FilterTv> filterList = new ArrayList<>();
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
-                    Log.d(TAG, "onSuccess: tv id: " + list.get(i).getId());
                     FilterTv filterTv = new FilterTv(list.get(i).getId(), mCurrentId, 0,
                             dateStr, tvRes.getPage(), i);
                     filterList.add(filterTv);
@@ -380,12 +382,14 @@ public class DetailViewModel extends ViewModel {
         ApiObserver<MovieRes> observer = new ApiObserver<MovieRes>() {
             @Override
             public void onSuccess(MovieRes movieRes) {
+                Log.d(TAG, "onSuccess: movie page: " + movieRes.getPage() +
+                        ", size: " + movieRes.getResults().size());
+
                 TMDatabase db = RoomManager.getInstance().getTMDatabase();
                 List<Movie> list = movieRes.getResults();
                 List<FilterMovie> filterList = new ArrayList<>();
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
-                    Log.d(TAG, "onSuccess: movie id: " + list.get(i).getId());
                     FilterMovie filterMovie = new FilterMovie(list.get(i).getId(), mCurrentId, 0,
                             dateStr, movieRes.getPage(), i);
                     filterList.add(filterMovie);

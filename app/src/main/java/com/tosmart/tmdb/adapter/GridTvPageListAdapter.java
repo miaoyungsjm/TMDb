@@ -69,6 +69,7 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
         TvPageList tv = getItem(position);
         if (tv == null) {
             String showLoading = StringUtils.getString(R.string.str_content_item_statue_loading);
+            holder.posterIv.setImageResource(R.mipmap.empty);
             holder.nameTv.setText(showLoading);
             holder.dateTv.setText(showLoading);
             holder.averageTv.setText("0");
