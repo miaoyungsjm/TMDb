@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.tosmart.tmdb.content.GridStyleViewModel" />
+            type="com.tosmart.tmdb.main.gird.GridStyleViewModel" />
 
         <variable
             name="tvAdapter"

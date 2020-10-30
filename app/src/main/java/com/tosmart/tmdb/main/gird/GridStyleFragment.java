@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.content;
+package com.tosmart.tmdb.main.gird;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,7 @@ import com.tosmart.tmdb.adapter.GridMoviePageListAdapter;
 import com.tosmart.tmdb.adapter.GridTvPageListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.base.BaseFragment;
+import com.tosmart.tmdb.main.SpacingItemDecoration;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.TvPageList;

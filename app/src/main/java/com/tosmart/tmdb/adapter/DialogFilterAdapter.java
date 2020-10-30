@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.StringUtils;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.main.FilterDialogFragment;
+import com.tosmart.tmdb.main.dialog.FilterDialogFragment;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;

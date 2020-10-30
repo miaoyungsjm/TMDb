@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.main;
+package com.tosmart.tmdb.main.dialog;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +16,9 @@ import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.ListFavAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
-import com.tosmart.tmdb.content.SpacingItemDecoration;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
+import com.tosmart.tmdb.main.SpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.content;
+package com.tosmart.tmdb.main.list;
 
 import android.util.Log;
 

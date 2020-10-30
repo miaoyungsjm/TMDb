@@ -43,6 +43,19 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
         });
     }
 
+    @Override
+    public int getItemViewType(int position) {
+
+        // todo: 根据 entity type 来选择 viewholder
+//        if (getItem(position).getType() == INDEX_TV){
+//            return TV_VIEW;
+//        }else {
+//            return MOVIE_VIEW;
+//        }
+
+        return super.getItemViewType(position);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/gridStyleFragment"
-        android:name="com.tosmart.tmdb.content.GridStyleFragment"
+        android:name="com.tosmart.tmdb.main.gird.GridStyleFragment"
         tools:layout="@layout/fragment_grid_style">
         <action
             android:id="@+id/action_gridStyleFragment_to_listStyleFragment"
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/listStyleFragment"
-        android:name="com.tosmart.tmdb.content.ListStyleFragment"
+        android:name="com.tosmart.tmdb.main.list.ListStyleFragment"
         tools:layout="@layout/fragment_list_style">
         <action
             android:id="@+id/action_listStyleFragment_to_gridStyleFragment"

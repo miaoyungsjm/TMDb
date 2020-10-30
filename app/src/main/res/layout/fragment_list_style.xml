@@ -6,11 +6,11 @@
 
         <variable
             name="vm"
-            type="com.tosmart.tmdb.content.ListStyleViewModel" />
+            type="com.tosmart.tmdb.main.list.ListStyleViewModel" />
 
         <variable
             name="click"
-            type="com.tosmart.tmdb.content.ListStyleFragment.ClickProxy" />
+            type="com.tosmart.tmdb.main.list.ListStyleFragment.ClickProxy" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.main;
+package com.tosmart.tmdb.main.dialog;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.DialogFilterAdapter;
+import com.tosmart.tmdb.main.MainViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

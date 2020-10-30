@@ -17,7 +17,7 @@ import com.tosmart.tmdb.adapter.ListMoviePageListAdapter;
 import com.tosmart.tmdb.adapter.ListTvPageListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.base.BaseActivity;
-import com.tosmart.tmdb.content.SpacingItemDecoration;
+import com.tosmart.tmdb.main.SpacingItemDecoration;
 import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.TvPageList;
 

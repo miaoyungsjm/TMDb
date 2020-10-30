@@ -9,6 +9,8 @@ import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.base.BaseActivity;
+import com.tosmart.tmdb.main.dialog.FilterDialogFragment;
+import com.tosmart.tmdb.main.dialog.SearchDialogFragment;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
