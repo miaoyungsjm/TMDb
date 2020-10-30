@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/detail_bg_gradient_begin">
+
+        <EditText
+            android:id="@+id/et_search_title_search_edit"
+            android:layout_width="@dimen/search_title_search_bar_et_width"
+            android:layout_height="@dimen/search_title_search_bar_et_height"
+            android:background="@drawable/selector_search_bar_bg"
+            android:paddingStart="@dimen/padding_micro"
+            android:paddingEnd="@dimen/padding_micro"
+            app:layout_constraintBottom_toBottomOf="@id/iv_search_title_logo"
+            app:layout_constraintLeft_toLeftOf="@id/gl_search_content_ver_begin"
+            app:layout_constraintRight_toRightOf="@id/gl_search_content_ver_end"
+            app:layout_constraintTop_toTopOf="@id/iv_search_title_logo" />
+
+        <ImageView
+            android:id="@+id/iv_search_title_back_btn"
+            android:layout_width="@dimen/search_title_back_iv_width"
+            android:layout_height="@dimen/search_title_back_iv_height"
+            android:focusable="true"
+            android:onClick="@{(v)->click.itemClick(v)}"
+            android:src="@mipmap/icon_exit"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/iv_search_title_logo"
+            app:layout_constraintLeft_toLeftOf="@id/gl_search_content_ver_begin" />
+
+        <ImageView
+            android:id="@+id/iv_search_title_logo"
+            android:layout_width="@dimen/main_logo_iv_width"
+            android:layout_height="@dimen/main_logo_iv_height"
+            android:layout_marginTop="@dimen/main_logo_iv_margin_top"
+            android:src="@mipmap/logo"
+            app:layout_constraintLeft_toLeftOf="@id/gl_search_content_ver_begin"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_search_title_search_btn"
+            android:layout_width="@dimen/main_search_ll_width"
+            android:layout_height="@dimen/main_search_ll_height"
+            android:layout_marginLeft="@dimen/search_title_search_btn_margin_left"
+            android:background="@drawable/selector_main_search_bg_ll"
+            android:focusable="true"
+            android:gravity="center"
+            android:onClick="@{(v)->click.itemClick(v)}"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/iv_search_title_logo"
+            app:layout_constraintLeft_toRightOf="@id/et_search_title_search_edit"
+            app:layout_constraintTop_toTopOf="@id/iv_search_title_logo">
+
+            <ImageView
+                android:layout_width="@dimen/main_search_iv_width"
+                android:layout_height="@dimen/main_search_iv_width"
+                android:layout_marginRight="@dimen/main_search_iv_margin_right"
+                android:duplicateParentState="true"
+                android:src="@drawable/selector_main_search_iv" />
+
+            <TextView
+                style="@style/style_main_title_tv"
+                android:duplicateParentState="true"
+                android:text="@string/str_main_search_text" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_search_title_result"
+            style="@style/style_grid_title_tv"
+            android:text="@string/str_search_result"
+            app:layout_constraintBottom_toTopOf="@id/rv_search_content"
+            app:layout_constraintLeft_toLeftOf="@id/gl_search_content_ver_begin" />
+
+        <TextView
+            android:id="@+id/tv_search_content_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_little"
+            android:textColor="@color/dialog_filter_item_line_color"
+            android:textSize="@dimen/text_size_micro"
+            app:layout_constraintBaseline_toBaselineOf="@id/tv_search_title_result"
+            app:layout_constraintLeft_toRightOf="@id/tv_search_title_result" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_search_content_ver_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/main_logo_iv_margin_left" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_search_content_hor_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/search_content_gl_hor_begin" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_search_content_hor_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@dimen/main_content_margin_bottom" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/gl_search_content_ver_begin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/main_logo_iv_margin_left" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/gl_search_content_hor_end"
+            app:layout_constraintLeft_toLeftOf="@id/gl_search_content_ver_begin"
+            app:layout_constraintRight_toRightOf="@id/gl_search_content_ver_end"
+            app:layout_constraintTop_toTopOf="@id/gl_search_content_hor_begin" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.main.SearchViewModel" />
+
+        <variable
+            name="click"
+            type="com.tosmart.tmdb.main.SearchDialogFragment.ClickProxy" />
+    </data>
+
+</layout>
+

@@ -129,4 +129,11 @@
     <dimen name="list_item_date_tv_margin_bottom">7dp</dimen>
     <dimen name="list_item_date_tv_text_size">12sp</dimen>
     <dimen name="list_item_name_bg_iv_height">48dp</dimen>
+
+    <dimen name="search_title_back_iv_width">23dp</dimen>
+    <dimen name="search_title_back_iv_height">21dp</dimen>
+    <dimen name="search_title_search_bar_et_width">560dp</dimen>
+    <dimen name="search_title_search_bar_et_height">40dp</dimen>
+    <dimen name="search_title_search_btn_margin_left">24dp</dimen>
+    <dimen name="search_content_gl_hor_begin">130dp</dimen>
 </resources>

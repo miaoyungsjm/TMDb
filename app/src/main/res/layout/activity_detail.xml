@@ -221,6 +221,7 @@
         <TextView
             android:id="@+id/tv_detail_duration_content"
             style="@style/style_detail_content_tv"
+            android:text="@{vm.showRuntime}"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_detail_duration_title"
             app:layout_constraintLeft_toRightOf="@id/tv_detail_duration_title"
             app:layout_constraintRight_toLeftOf="@id/tv_detail_language_title" />

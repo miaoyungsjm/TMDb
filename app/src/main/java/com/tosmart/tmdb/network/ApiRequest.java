@@ -1,7 +1,9 @@
 package com.tosmart.tmdb.network;
 
+import com.tosmart.tmdb.network.response.MovieDetail;
 import com.tosmart.tmdb.network.response.MovieRes;
 import com.tosmart.tmdb.network.response.TvCredits;
+import com.tosmart.tmdb.network.response.TvDetail;
 import com.tosmart.tmdb.network.response.TvRes;
 
 import io.reactivex.Observable;
@@ -76,5 +78,19 @@ public class ApiRequest {
         return ApiManager.getInstance().getApiService()
                 .queryMovieRecommendations(id, KEY, page)
                 .subscribeOn(Schedulers.io());
+    }
+
+    public Observable<TvDetail> queryTvDetail(int id) {
+        return ApiManager.getInstance().getApiService()
+                .queryTvDetail(id, KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<MovieDetail> queryMovieDetail(int id) {
+        return ApiManager.getInstance().getApiService()
+                .queryMovieDetail(id, KEY)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

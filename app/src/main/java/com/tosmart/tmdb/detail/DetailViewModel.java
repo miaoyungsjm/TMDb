@@ -2,6 +2,8 @@ package com.tosmart.tmdb.detail;
 
 import android.util.Log;
 
+import com.blankj.utilcode.util.StringUtils;
+import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
 import com.tosmart.tmdb.db.entity.Favorite;
@@ -13,8 +15,10 @@ import com.tosmart.tmdb.db.entity.Tv;
 import com.tosmart.tmdb.db.entity.TvPageList;
 import com.tosmart.tmdb.network.ApiObserver;
 import com.tosmart.tmdb.network.ApiRequest;
+import com.tosmart.tmdb.network.response.MovieDetail;
 import com.tosmart.tmdb.network.response.MovieRes;
 import com.tosmart.tmdb.network.response.TvCredits;
+import com.tosmart.tmdb.network.response.TvDetail;
 import com.tosmart.tmdb.network.response.TvRes;
 
 import java.text.SimpleDateFormat;
@@ -56,6 +60,7 @@ public class DetailViewModel extends ViewModel {
     public MutableLiveData<String> showPoster = new MutableLiveData<>();
     public MutableLiveData<String> showAverage = new MutableLiveData<>();
     public MutableLiveData<String> showOverview = new MutableLiveData<>();
+    public MutableLiveData<String> showRuntime = new MutableLiveData<>();
     public MutableLiveData<String> showCast = new MutableLiveData<>();
     public MutableLiveData<String> showWriter = new MutableLiveData<>();
     public MutableLiveData<String> showDirector = new MutableLiveData<>();
@@ -67,7 +72,7 @@ public class DetailViewModel extends ViewModel {
     private CompositeDisposable mCompositeDisposable;
 
     public DetailViewModel() {
-        Log.d(TAG, "DetailViewModel()");
+        Log.e(TAG, "DetailViewModel()");
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -82,6 +87,7 @@ public class DetailViewModel extends ViewModel {
             checkMovieTable();
         }
         checkFavorite();
+        requestDataById();
         requestCreditsData();
     }
 
@@ -175,6 +181,76 @@ public class DetailViewModel extends ViewModel {
         mCompositeDisposable.add(single.subscribe(consumer, throwable));
     }
 
+    public void requestDataById() {
+        if (mCurrentType == INDEX_TV) {
+            requestTvById();
+        } else {
+            requestMovieById();
+        }
+    }
+
+    public void requestTvById() {
+        ApiObserver<TvDetail> observer = new ApiObserver<TvDetail>() {
+            @Override
+            public void onSuccess(TvDetail tv) {
+                Log.d(TAG, "onSuccess: TvDetail: " + tv.getStatus());
+                if (tv.getStatus_code() == 0) {
+                    String average = String.valueOf((int) (tv.getVote_average() * 10));
+                    String runtime = String.format(
+                            StringUtils.getString(R.string.str_detail_runtime),
+                            tv.getEpisode_run_time().get(0));
+                    mFavorite.setName(tv.getOriginal_name());
+                    mFavorite.setDate(tv.getFirst_air_date());
+                    mFavorite.setPoster(tv.getPoster_path());
+                    mFavorite.setAverage(average);
+                    mFavorite.setLanguage(tv.getOriginal_language());
+                    mFavorite.setOverview(tv.getOverview());
+                    mFavorite.setRuntime(runtime);
+                    updateUi(mFavorite);
+                }
+            }
+
+            @Override
+            public void onError(int errorCode, String message) {
+                Log.e(TAG, "onError: TvDetail message: " + message);
+            }
+        };
+        mCompositeDisposable.add(observer);
+        Observable<TvDetail> observable = new ApiRequest().queryTvDetail(mCurrentId);
+        observable.subscribe(observer);
+    }
+
+    public void requestMovieById() {
+        ApiObserver<MovieDetail> observer = new ApiObserver<MovieDetail>() {
+            @Override
+            public void onSuccess(MovieDetail mv) {
+                Log.d(TAG, "onSuccess: MovieDetail: " + mv.getStatus_code());
+                if (mv.getStatus_code() == 0) {
+                    String average = String.valueOf((int) (mv.getVote_average() * 10));
+                    String runtime = String.format(
+                            StringUtils.getString(R.string.str_detail_runtime),
+                            mv.getRuntime());
+                    mFavorite.setName(mv.getOriginal_title());
+                    mFavorite.setDate(mv.getRelease_date());
+                    mFavorite.setPoster(mv.getPoster_path());
+                    mFavorite.setAverage(average);
+                    mFavorite.setLanguage(mv.getOriginal_language());
+                    mFavorite.setOverview(mv.getOverview());
+                    mFavorite.setRuntime(runtime);
+                    updateUi(mFavorite);
+                }
+            }
+
+            @Override
+            public void onError(int errorCode, String message) {
+                Log.e(TAG, "onError: MovieDetail message: " + message);
+            }
+        };
+        mCompositeDisposable.add(observer);
+        Observable<MovieDetail> observable = new ApiRequest().queryMovieDetail(mCurrentId);
+        observable.subscribe(observer);
+    }
+
     public void requestCreditsData() {
         ApiObserver<TvCredits> observer = new ApiObserver<TvCredits>() {
             @Override
@@ -231,6 +307,7 @@ public class DetailViewModel extends ViewModel {
         showAverage.setValue(favorite.getAverage());
         showLanguage.setValue(favorite.getLanguage());
         showOverview.setValue(favorite.getOverview());
+        showRuntime.setValue(favorite.getRuntime());
         showCast.setValue(favorite.getCast());
         showWriter.setValue(favorite.getWriter());
         showDirector.setValue(favorite.getDirector());

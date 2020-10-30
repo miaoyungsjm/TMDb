@@ -1,7 +1,9 @@
 package com.tosmart.tmdb.network;
 
+import com.tosmart.tmdb.network.response.MovieDetail;
 import com.tosmart.tmdb.network.response.MovieRes;
 import com.tosmart.tmdb.network.response.TvCredits;
+import com.tosmart.tmdb.network.response.TvDetail;
 import com.tosmart.tmdb.network.response.TvRes;
 
 import io.reactivex.Observable;
@@ -62,4 +64,14 @@ public interface ApiService {
             @Path("id") int id,
             @Query("api_key") String key,
             @Query("page") int page);
+
+    @GET("tv/{id}")
+    Observable<TvDetail> queryTvDetail(
+            @Path("id") int id,
+            @Query("api_key") String key);
+
+    @GET("movie/{id}")
+    Observable<MovieDetail> queryMovieDetail(
+            @Path("id") int id,
+            @Query("api_key") String key);
 }

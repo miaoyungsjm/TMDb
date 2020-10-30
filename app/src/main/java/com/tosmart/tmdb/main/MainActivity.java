@@ -10,6 +10,7 @@ import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.base.BaseActivity;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -93,7 +94,11 @@ public class MainActivity extends BaseActivity {
                     }
                     break;
                 case R.id.ll_main_search:
-                    // todo search module
+                    SearchDialogFragment searchDialogFragment =
+                            SearchDialogFragment.getInstance();
+                    searchDialogFragment.setStyle(DialogFragment.STYLE_NORMAL,
+                            R.style.style_search_dialog_fragment_full_screen);
+                    searchDialogFragment.show(getSupportFragmentManager());
                     break;
                 default:
                     break;

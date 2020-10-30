@@ -29,6 +29,8 @@ public class Favorite {
     private String language;
     @ColumnInfo(name = "overview")
     private String overview;
+    @ColumnInfo(name = "runtime")
+    private String runtime;
     @ColumnInfo(name = "director")
     private String director;
     @ColumnInfo(name = "writer")
@@ -112,6 +114,14 @@ public class Favorite {
 
     public void setOverview(String overview) {
         this.overview = overview;
+    }
+
+    public String getRuntime() {
+        return runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        this.runtime = runtime;
     }
 
     public String getDirector() {
