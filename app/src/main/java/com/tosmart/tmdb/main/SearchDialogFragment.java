@@ -76,7 +76,7 @@ public class SearchDialogFragment extends DialogFragment {
         int spacingLeft = SizeUtils.dp2px(24);
         int spacingTop = SizeUtils.dp2px(43);
         SpacingItemDecoration decoration =
-                new SpacingItemDecoration(6, spacingLeft, spacingTop);
+                new SpacingItemDecoration(7, spacingLeft, spacingTop);
 
         mLogoIv = view.findViewById(R.id.iv_search_title_logo);
         mBackIv = view.findViewById(R.id.iv_search_title_back_btn);
@@ -84,7 +84,7 @@ public class SearchDialogFragment extends DialogFragment {
         mSearchResultTv = view.findViewById(R.id.tv_search_content_result);
 
         RecyclerView recyclerView = view.findViewById(R.id.rv_search_content);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 6));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 7));
         recyclerView.addItemDecoration(decoration);
 
         initAdapter();
