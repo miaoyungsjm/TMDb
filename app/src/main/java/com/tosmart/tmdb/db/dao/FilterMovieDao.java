@@ -1,7 +1,7 @@
 package com.tosmart.tmdb.db.dao;
 
+import com.tosmart.tmdb.db.entity.CommonPageList;
 import com.tosmart.tmdb.db.entity.FilterMovie;
-import com.tosmart.tmdb.db.entity.MoviePageList;
 
 import java.util.List;
 
@@ -19,9 +19,11 @@ public interface FilterMovieDao extends BaseDao<FilterMovie> {
     @Query("SELECT * FROM FilterMovie")
     List<FilterMovie> getAllFilterMoive();
 
-    @Query("SELECT * FROM Movie, FilterMovie " +
+    @Query("SELECT id, original_title AS original_name, original_language, release_date AS first_air_date, poster_path, overview, vote_average, " +
+            "filter_type, filter_order, date, page, `index` " +
+            "FROM Movie, FilterMovie " +
             "WHERE FilterMovie.filter_id = Movie.id " +
             "AND FilterMovie.filter_type == :ft " +
             "AND FilterMovie.filter_order == :fo ")
-    DataSource.Factory<Integer, MoviePageList> getFilterMoviePageList(int ft, int fo);
+    DataSource.Factory<Integer, CommonPageList> getFilterMoviePageList(int ft, int fo);
 }

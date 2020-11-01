@@ -6,13 +6,12 @@ import com.blankj.utilcode.util.StringUtils;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
+import com.tosmart.tmdb.db.entity.CommonPageList;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.db.entity.FilterMovie;
 import com.tosmart.tmdb.db.entity.FilterTv;
 import com.tosmart.tmdb.db.entity.Movie;
-import com.tosmart.tmdb.db.entity.MoviePageList;
 import com.tosmart.tmdb.db.entity.Tv;
-import com.tosmart.tmdb.db.entity.TvPageList;
 import com.tosmart.tmdb.network.ApiObserver;
 import com.tosmart.tmdb.network.ApiRequest;
 import com.tosmart.tmdb.network.response.MovieDetail;
@@ -66,8 +65,8 @@ public class DetailViewModel extends ViewModel {
     public MutableLiveData<String> showDirector = new MutableLiveData<>();
     public MutableLiveData<Boolean> showFavorite = new MutableLiveData<>();
 
-    public LiveData<PagedList<TvPageList>> mTvLiveData;
-    public LiveData<PagedList<MoviePageList>> mMovieLiveData;
+    public LiveData<PagedList<CommonPageList>> mTvLiveData;
+    public LiveData<PagedList<CommonPageList>> mMovieLiveData;
 
     private CompositeDisposable mCompositeDisposable;
 
@@ -408,8 +407,8 @@ public class DetailViewModel extends ViewModel {
         observable.subscribe(observer);
     }
 
-    private PagedList.BoundaryCallback<TvPageList> mTvPageListCallback =
-            new PagedList.BoundaryCallback<TvPageList>() {
+    private PagedList.BoundaryCallback<CommonPageList> mTvPageListCallback =
+            new PagedList.BoundaryCallback<CommonPageList>() {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
@@ -418,15 +417,15 @@ public class DetailViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
+                public void onItemAtEndLoaded(@NonNull CommonPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
                     Log.d(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     requestMovieRecommendations(itemAtEnd.getPage() + 1);
                 }
             };
 
-    private PagedList.BoundaryCallback<MoviePageList> mMoviePageListCallback =
-            new PagedList.BoundaryCallback<MoviePageList>() {
+    private PagedList.BoundaryCallback<CommonPageList> mMoviePageListCallback =
+            new PagedList.BoundaryCallback<CommonPageList>() {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
@@ -435,7 +434,7 @@ public class DetailViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
+                public void onItemAtEndLoaded(@NonNull CommonPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
                     Log.d(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     requestMovieRecommendations(itemAtEnd.getPage() + 1);
@@ -445,7 +444,7 @@ public class DetailViewModel extends ViewModel {
     public void initPagedList(int type) {
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
         if (type == INDEX_TV) {
-            DataSource.Factory<Integer, TvPageList> tvDataSource =
+            DataSource.Factory<Integer, CommonPageList> tvDataSource =
                     db.getFilterTvDao().getFilterTvPageList(mCurrentId, 0);
             mTvLiveData = new LivePagedListBuilder<>(
                     tvDataSource,
@@ -453,7 +452,7 @@ public class DetailViewModel extends ViewModel {
                     .setBoundaryCallback(mTvPageListCallback)
                     .build();
         } else {
-            DataSource.Factory<Integer, MoviePageList> movieDataSource =
+            DataSource.Factory<Integer, CommonPageList> movieDataSource =
                     db.getFilterMovieDao().getFilterMoviePageList(mCurrentId, 0);
             mMovieLiveData = new LivePagedListBuilder<>(
                     movieDataSource,

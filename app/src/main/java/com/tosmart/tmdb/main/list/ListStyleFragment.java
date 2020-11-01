@@ -10,17 +10,15 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.ListFavAdapter;
-import com.tosmart.tmdb.adapter.ListMoviePageListAdapter;
-import com.tosmart.tmdb.adapter.ListTvPageListAdapter;
+import com.tosmart.tmdb.adapter.ListStyleFavAdapter;
+import com.tosmart.tmdb.adapter.paged_list_adapter.ListStylePagedListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.base.BaseFragment;
-import com.tosmart.tmdb.main.SpacingItemDecoration;
+import com.tosmart.tmdb.db.entity.CommonPageList;
 import com.tosmart.tmdb.db.entity.Favorite;
-import com.tosmart.tmdb.db.entity.MoviePageList;
-import com.tosmart.tmdb.db.entity.TvPageList;
 import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.main.MainViewModel;
+import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 
 import java.util.List;
 
@@ -31,11 +29,13 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.tosmart.tmdb.detail.DetailActivity.KEY_ID;
+import static com.tosmart.tmdb.detail.DetailActivity.KEY_TYPE;
 import static com.tosmart.tmdb.main.list.ListStyleViewModel.TITLE_INDEX_FAV;
 import static com.tosmart.tmdb.main.list.ListStyleViewModel.TITLE_INDEX_MOVIE;
 import static com.tosmart.tmdb.main.list.ListStyleViewModel.TITLE_INDEX_TV;
-import static com.tosmart.tmdb.detail.DetailActivity.KEY_ID;
-import static com.tosmart.tmdb.detail.DetailActivity.KEY_TYPE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 
 /**
  * @author ggz
@@ -48,9 +48,9 @@ public class ListStyleFragment extends BaseFragment {
     private MainViewModel mMainViewModel;
 
     private RecyclerView mContentRv;
-    private ListTvPageListAdapter mTvPageListAdapter;
-    private ListMoviePageListAdapter mMoviePageListAdapter;
-    private ListFavAdapter mFavAdapter;
+    private ListStylePagedListAdapter mTvPageListAdapter;
+    private ListStylePagedListAdapter mMoviePageListAdapter;
+    private ListStyleFavAdapter mFavAdapter;
 
     private LinearLayout mTitleTvLl;
     private LinearLayout mTitleMovieLl;
@@ -149,11 +149,11 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initTvPageListAdapter() {
-        mTvPageListAdapter = new ListTvPageListAdapter();
+        mTvPageListAdapter = new ListStylePagedListAdapter(INDEX_TV);
         mTvPageListAdapter.setOnItemClickListener(mListener);
-        mListStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
+        mListStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
             @Override
-            public void onChanged(PagedList<TvPageList> tvPageLists) {
+            public void onChanged(PagedList<CommonPageList> tvPageLists) {
                 Log.d(TAG, "onChanged: tv size=" + tvPageLists.size());
                 mTvPageListAdapter.submitList(tvPageLists);
             }
@@ -169,11 +169,11 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initMoviePageListAdapter() {
-        mMoviePageListAdapter = new ListMoviePageListAdapter();
+        mMoviePageListAdapter = new ListStylePagedListAdapter(INDEX_MOVIE);
         mMoviePageListAdapter.setOnItemClickListener(mListener);
-        mListStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
+        mListStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
             @Override
-            public void onChanged(PagedList<MoviePageList> moviePageLists) {
+            public void onChanged(PagedList<CommonPageList> moviePageLists) {
                 Log.d(TAG, "onChanged: movie size=" + moviePageLists.size());
                 mMoviePageListAdapter.submitList(moviePageLists);
             }
@@ -196,7 +196,7 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initFavAdapter() {
-        mFavAdapter = new ListFavAdapter();
+        mFavAdapter = new ListStyleFavAdapter();
         mFavAdapter.setOnItemClickListener(mListener);
         mListStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
             @Override

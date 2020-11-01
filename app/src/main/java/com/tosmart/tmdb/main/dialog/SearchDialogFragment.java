@@ -14,11 +14,11 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SizeUtils;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.ListFavAdapter;
+import com.tosmart.tmdb.adapter.ListStyleFavAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
-import com.tosmart.tmdb.main.SpacingItemDecoration;
+import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class SearchDialogFragment extends DialogFragment {
     private EditText mEditText;
     private TextView mSearchResultTv;
 
-    private ListFavAdapter mAdapter;
+    private ListStyleFavAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class SearchDialogFragment extends DialogFragment {
     }
 
     private void initAdapter() {
-        mAdapter = new ListFavAdapter();
+        mAdapter = new ListStyleFavAdapter();
         mAdapter.setOnItemClickListener(mListener);
 
         mSearchViewModel.mSearchResult.observe(this, new Observer<List<Favorite>>() {

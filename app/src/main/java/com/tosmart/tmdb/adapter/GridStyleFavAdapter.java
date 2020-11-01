@@ -6,10 +6,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
@@ -18,13 +14,16 @@ import com.tosmart.tmdb.db.entity.Favorite;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
 /**
  * @author ggz
  * @date 2020/10/28
  */
-public class GridFavAdapter extends RecyclerView.Adapter<GridFavAdapter.ViewHolder> {
+public class GridStyleFavAdapter extends RecyclerView.Adapter<GridStyleFavAdapter.ViewHolder> {
 
     private List<Favorite> mFavList = new ArrayList<>();
     private OnItemClickListener mListener = null;
@@ -40,7 +39,7 @@ public class GridFavAdapter extends RecyclerView.Adapter<GridFavAdapter.ViewHold
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_grid_style, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = viewHolder.getAdapterPosition();
@@ -86,7 +85,6 @@ public class GridFavAdapter extends RecyclerView.Adapter<GridFavAdapter.ViewHold
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout constraintLayout;
         ImageView posterIv;
         ImageView averageIv;
         TextView averageTv;
@@ -95,7 +93,6 @@ public class GridFavAdapter extends RecyclerView.Adapter<GridFavAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.cl_grid_item_view);
             posterIv = itemView.findViewById(R.id.iv_grid_item_poster);
             averageIv = itemView.findViewById(R.id.iv_grid_item_average);
             averageTv = itemView.findViewById(R.id.tv_grid_item_average);

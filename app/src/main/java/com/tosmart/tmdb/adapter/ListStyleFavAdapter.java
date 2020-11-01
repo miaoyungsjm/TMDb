@@ -6,57 +6,47 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.paging.PagedListAdapter;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.db.entity.TvPageList;
+import com.tosmart.tmdb.db.entity.Favorite;
 
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
 /**
  * @author ggz
- * @date 2020/10/23
+ * @date 2020/10/28
  */
-public class ListTvPageListAdapter extends PagedListAdapter<TvPageList, ListTvPageListAdapter.ViewHolder> {
-    private final String TAG = getClass().getSimpleName();
+public class ListStyleFavAdapter extends RecyclerView.Adapter<ListStyleFavAdapter.ViewHolder> {
 
+    private List<Favorite> mFavList = new ArrayList<>();
     private OnItemClickListener mListener = null;
 
-    public ListTvPageListAdapter() {
-        super(new DiffUtil.ItemCallback<TvPageList>() {
-            @Override
-            public boolean areItemsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
-                return oldItem.getId() == newItem.getId();
-            }
-
-            @Override
-            public boolean areContentsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
-                return oldItem.getId() == newItem.getId();
-            }
-        });
+    public void setFavList(List<Favorite> mFavList) {
+        this.mFavList = mFavList;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_list_style, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_list_style, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = viewHolder.getAdapterPosition();
-                TvPageList item = getItem(position);
-                if (item != null) {
+                Favorite favorite = mFavList.get(position);
+                if (favorite != null) {
                     if (mListener != null) {
-                        mListener.onItemClick(item.getId(), INDEX_TV);
+                        mListener.onItemClick(favorite.getId(), favorite.getType());
                     }
                 }
             }
@@ -66,17 +56,15 @@ public class ListTvPageListAdapter extends PagedListAdapter<TvPageList, ListTvPa
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TvPageList tv = getItem(position);
-        if (tv == null) {
+        Favorite fav = mFavList.get(position);
+        if (fav == null) {
             String showLoading = StringUtils.getString(R.string.str_content_item_statue_loading);
-            holder.posterIv.setImageResource(R.mipmap.empty);
             holder.nameTv.setText(showLoading);
             holder.dateTv.setText(showLoading);
             holder.averageTv.setText("0");
         } else {
-            String average = String.valueOf((int) (tv.getVoteAverage() * 10));
-            String url = PIC_URL + tv.getPosterPath();
-            if (tv.getPosterPath() != null) {
+            if (fav.getPoster() != null) {
+                String url = PIC_URL + fav.getPoster();
                 Glide.with(holder.posterIv.getContext())
                         .load(url)
                         .error(R.drawable.ic_launcher_background)
@@ -85,14 +73,18 @@ public class ListTvPageListAdapter extends PagedListAdapter<TvPageList, ListTvPa
             } else {
                 holder.posterIv.setImageResource(R.mipmap.empty);
             }
-            holder.nameTv.setText(tv.getOriginalName());
-            holder.dateTv.setText(tv.getFirstAirDate());
-            holder.averageTv.setText(average);
+            holder.nameTv.setText(fav.getName());
+            holder.dateTv.setText(fav.getDate());
+            holder.averageTv.setText(fav.getAverage());
         }
     }
 
+    @Override
+    public int getItemCount() {
+        return mFavList.size();
+    }
+
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout constraintLayout;
         ImageView posterIv;
         ImageView averageIv;
         TextView averageTv;
@@ -101,7 +93,6 @@ public class ListTvPageListAdapter extends PagedListAdapter<TvPageList, ListTvPa
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.cl_list_item_view);
             posterIv = itemView.findViewById(R.id.iv_list_item_poster);
             averageIv = itemView.findViewById(R.id.iv_list_item_average);
             averageTv = itemView.findViewById(R.id.tv_list_item_average);

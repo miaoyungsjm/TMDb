@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.main;
+package com.tosmart.tmdb.adapter;
 
 import android.graphics.Rect;
 import android.view.View;

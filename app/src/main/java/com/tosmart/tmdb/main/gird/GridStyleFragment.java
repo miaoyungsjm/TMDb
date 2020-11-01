@@ -5,6 +5,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.blankj.utilcode.util.SizeUtils;
+import com.kunminx.architecture.ui.page.DataBindingConfig;
+import com.tosmart.tmdb.BR;
+import com.tosmart.tmdb.R;
+import com.tosmart.tmdb.adapter.GridStyleFavAdapter;
+import com.tosmart.tmdb.adapter.paged_list_adapter.GridStylePagedListAdapter;
+import com.tosmart.tmdb.adapter.OnItemClickListener;
+import com.tosmart.tmdb.base.BaseFragment;
+import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.db.entity.Favorite;
+import com.tosmart.tmdb.detail.DetailActivity;
+import com.tosmart.tmdb.main.MainViewModel;
+import com.tosmart.tmdb.adapter.SpacingItemDecoration;
+
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -12,26 +28,10 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.SizeUtils;
-import com.kunminx.architecture.ui.page.DataBindingConfig;
-import com.tosmart.tmdb.BR;
-import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.GridFavAdapter;
-import com.tosmart.tmdb.adapter.GridMoviePageListAdapter;
-import com.tosmart.tmdb.adapter.GridTvPageListAdapter;
-import com.tosmart.tmdb.adapter.OnItemClickListener;
-import com.tosmart.tmdb.base.BaseFragment;
-import com.tosmart.tmdb.main.SpacingItemDecoration;
-import com.tosmart.tmdb.db.entity.Favorite;
-import com.tosmart.tmdb.db.entity.MoviePageList;
-import com.tosmart.tmdb.db.entity.TvPageList;
-import com.tosmart.tmdb.detail.DetailActivity;
-import com.tosmart.tmdb.main.MainViewModel;
-
-import java.util.List;
-
 import static com.tosmart.tmdb.detail.DetailActivity.KEY_ID;
 import static com.tosmart.tmdb.detail.DetailActivity.KEY_TYPE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 
 /**
  * @author ggz
@@ -47,9 +47,9 @@ public class GridStyleFragment extends BaseFragment {
     private RecyclerView mContentTvRv;
     private RecyclerView mContentMovieRv;
 
-    private GridFavAdapter mFavAdapter;
-    private GridTvPageListAdapter mTvPageListAdapter;
-    private GridMoviePageListAdapter mMoviePageListAdapter;
+    private GridStyleFavAdapter mFavAdapter;
+    private GridStylePagedListAdapter mTvPageListAdapter;
+    private GridStylePagedListAdapter mMoviePageListAdapter;
 
     @Override
     protected void initViewModel() {
@@ -132,7 +132,7 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initFavAdapter() {
-        mFavAdapter = new GridFavAdapter();
+        mFavAdapter = new GridStyleFavAdapter();
         mFavAdapter.setOnItemClickListener(mListener);
         mContentFavRv.setAdapter(mFavAdapter);
         mGridStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
@@ -147,12 +147,12 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initTvPageListAdapter() {
-        mTvPageListAdapter = new GridTvPageListAdapter();
+        mTvPageListAdapter = new GridStylePagedListAdapter(INDEX_TV);
         mTvPageListAdapter.setOnItemClickListener(mListener);
         mContentTvRv.setAdapter(mTvPageListAdapter);
-        mGridStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
+        mGridStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
             @Override
-            public void onChanged(PagedList<TvPageList> tvPageLists) {
+            public void onChanged(PagedList<CommonPageList> tvPageLists) {
                 Log.d(TAG, "onChanged: tv");
                 mTvPageListAdapter.submitList(tvPageLists);
             }
@@ -168,12 +168,12 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initMoviePageListAdapter() {
-        mMoviePageListAdapter = new GridMoviePageListAdapter();
+        mMoviePageListAdapter = new GridStylePagedListAdapter(INDEX_MOVIE);
         mMoviePageListAdapter.setOnItemClickListener(mListener);
         mContentMovieRv.setAdapter(mMoviePageListAdapter);
-        mGridStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
+        mGridStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
             @Override
-            public void onChanged(PagedList<MoviePageList> moviePageLists) {
+            public void onChanged(PagedList<CommonPageList> moviePageLists) {
                 Log.d(TAG, "onChanged: movie");
                 mMoviePageListAdapter.submitList(moviePageLists);
             }

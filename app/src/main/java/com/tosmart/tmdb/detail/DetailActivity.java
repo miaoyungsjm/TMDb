@@ -13,13 +13,11 @@ import com.bumptech.glide.request.transition.Transition;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.ListMoviePageListAdapter;
-import com.tosmart.tmdb.adapter.ListTvPageListAdapter;
+import com.tosmart.tmdb.adapter.paged_list_adapter.ListStylePagedListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.base.BaseActivity;
-import com.tosmart.tmdb.main.SpacingItemDecoration;
-import com.tosmart.tmdb.db.entity.MoviePageList;
-import com.tosmart.tmdb.db.entity.TvPageList;
+import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,8 +41,8 @@ public class DetailActivity extends BaseActivity {
 
     private DetailViewModel mDetailViewModel;
 
-    private ListTvPageListAdapter mTvPageListAdapter;
-    private ListMoviePageListAdapter mMoviePageListAdapter;
+    private ListStylePagedListAdapter mTvPageListAdapter;
+    private ListStylePagedListAdapter mMoviePageListAdapter;
 
     @Override
     protected void initViewModel() {
@@ -136,13 +134,13 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initTvPageAdapter() {
-        mTvPageListAdapter = new ListTvPageListAdapter();
+        mTvPageListAdapter = new ListStylePagedListAdapter(INDEX_TV);
         mTvPageListAdapter.setOnItemClickListener(mListener);
 
         mDetailViewModel.initPagedList(INDEX_TV);
-        mDetailViewModel.mTvLiveData.observe(this, new Observer<PagedList<TvPageList>>() {
+        mDetailViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
             @Override
-            public void onChanged(PagedList<TvPageList> tvPageLists) {
+            public void onChanged(PagedList<CommonPageList> tvPageLists) {
                 Log.d(TAG, "onChanged: tv");
                 mTvPageListAdapter.submitList(tvPageLists);
             }
@@ -150,13 +148,13 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initMoviePageAdapter() {
-        mMoviePageListAdapter = new ListMoviePageListAdapter();
+        mMoviePageListAdapter = new ListStylePagedListAdapter(INDEX_MOVIE);
         mMoviePageListAdapter.setOnItemClickListener(mListener);
 
         mDetailViewModel.initPagedList(INDEX_MOVIE);
-        mDetailViewModel.mMovieLiveData.observe(this, new Observer<PagedList<MoviePageList>>() {
+        mDetailViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
             @Override
-            public void onChanged(PagedList<MoviePageList> moviePageLists) {
+            public void onChanged(PagedList<CommonPageList> moviePageLists) {
                 Log.d(TAG, "onChanged: movie");
                 mMoviePageListAdapter.submitList(moviePageLists);
             }

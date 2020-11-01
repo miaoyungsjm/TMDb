@@ -4,9 +4,8 @@ import android.util.Log;
 
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
+import com.tosmart.tmdb.db.entity.CommonPageList;
 import com.tosmart.tmdb.db.entity.Favorite;
-import com.tosmart.tmdb.db.entity.MoviePageList;
-import com.tosmart.tmdb.db.entity.TvPageList;
 
 import java.util.List;
 
@@ -30,8 +29,8 @@ import io.reactivex.schedulers.Schedulers;
 public class GridStyleViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
-    public LiveData<PagedList<TvPageList>> mTvLiveData;
-    public LiveData<PagedList<MoviePageList>> mMovieLiveData;
+    public LiveData<PagedList<CommonPageList>> mTvLiveData;
+    public LiveData<PagedList<CommonPageList>> mMovieLiveData;
     public MutableLiveData<Integer> mTvFilterPage;
     public MutableLiveData<Integer> mMovieFilterPage;
 
@@ -46,10 +45,10 @@ public class GridStyleViewModel extends ViewModel {
 
     public void initPagedList(int filterType, int filterOrder) {
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        DataSource.Factory<Integer, TvPageList> tvDataSource =
+        DataSource.Factory<Integer, CommonPageList> tvDataSource =
                 db.getFilterTvDao().getFilterTvPageList(filterType, filterOrder);
 
-        DataSource.Factory<Integer, MoviePageList> movieDataSource =
+        DataSource.Factory<Integer, CommonPageList> movieDataSource =
                 db.getFilterMovieDao().getFilterMoviePageList(filterType, filterOrder);
 
         mTvLiveData = new LivePagedListBuilder<>(
@@ -86,8 +85,8 @@ public class GridStyleViewModel extends ViewModel {
         }));
     }
 
-    private PagedList.BoundaryCallback<TvPageList> mTvPageListCallback =
-            new PagedList.BoundaryCallback<TvPageList>() {
+    private PagedList.BoundaryCallback<CommonPageList> mTvPageListCallback =
+            new PagedList.BoundaryCallback<CommonPageList>() {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
@@ -97,7 +96,7 @@ public class GridStyleViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onItemAtEndLoaded(@NonNull TvPageList itemAtEnd) {
+                public void onItemAtEndLoaded(@NonNull CommonPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
                     Log.d(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     // 数据库消耗完毕，网络请求
@@ -105,8 +104,8 @@ public class GridStyleViewModel extends ViewModel {
                 }
             };
 
-    private PagedList.BoundaryCallback<MoviePageList> mMoviePageListCallback =
-            new PagedList.BoundaryCallback<MoviePageList>() {
+    private PagedList.BoundaryCallback<CommonPageList> mMoviePageListCallback =
+            new PagedList.BoundaryCallback<CommonPageList>() {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
@@ -115,7 +114,7 @@ public class GridStyleViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onItemAtEndLoaded(@NonNull MoviePageList itemAtEnd) {
+                public void onItemAtEndLoaded(@NonNull CommonPageList itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
                     Log.d(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     mMovieFilterPage.setValue(itemAtEnd.getPage() + 1);

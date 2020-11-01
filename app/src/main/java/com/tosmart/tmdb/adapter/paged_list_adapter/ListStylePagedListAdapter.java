@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.adapter;
+package com.tosmart.tmdb.adapter.paged_list_adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,54 +9,55 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.db.entity.MoviePageList;
+import com.tosmart.tmdb.adapter.OnItemClickListener;
+import com.tosmart.tmdb.db.entity.CommonPageList;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
 /**
  * @author ggz
  * @date 2020/10/23
  */
-public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, GridMoviePageListAdapter.ViewHolder> {
+public class ListStylePagedListAdapter extends PagedListAdapter<CommonPageList, ListStylePagedListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
 
     private OnItemClickListener mListener = null;
+    private int mShowType = -1;
 
-    public GridMoviePageListAdapter() {
-        super(new DiffUtil.ItemCallback<MoviePageList>() {
+    public ListStylePagedListAdapter(int showType) {
+        super(new DiffUtil.ItemCallback<CommonPageList>() {
             @Override
-            public boolean areItemsTheSame(@NonNull MoviePageList oldItem, @NonNull MoviePageList newItem) {
+            public boolean areItemsTheSame(@NonNull CommonPageList oldItem, @NonNull CommonPageList newItem) {
                 return oldItem.getId() == newItem.getId();
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull MoviePageList oldItem, @NonNull MoviePageList newItem) {
+            public boolean areContentsTheSame(@NonNull CommonPageList oldItem, @NonNull CommonPageList newItem) {
                 return oldItem.getId() == newItem.getId();
             }
         });
+        mShowType = showType;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_grid_style, parent, false);
+        View view = inflater.inflate(R.layout.item_list_style, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = viewHolder.getAdapterPosition();
-                MoviePageList item = getItem(position);
+                CommonPageList item = getItem(position);
                 if (item != null) {
                     if (mListener != null) {
-                        mListener.onItemClick(item.getId(), INDEX_MOVIE);
+                        mListener.onItemClick(item.getId(), mShowType);
                     }
                 }
             }
@@ -66,17 +67,17 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MoviePageList movie = getItem(position);
-        if (movie == null) {
+        CommonPageList pageListItem = getItem(position);
+        if (pageListItem == null) {
             String showLoading = StringUtils.getString(R.string.str_content_item_statue_loading);
             holder.posterIv.setImageResource(R.mipmap.empty);
             holder.nameTv.setText(showLoading);
             holder.dateTv.setText(showLoading);
             holder.averageTv.setText("0");
         } else {
-            String average = String.valueOf((int) (movie.getVoteAverage() * 10));
-            if (movie.getPosterPath() != null) {
-                String url = PIC_URL + movie.getPosterPath();
+            String average = String.valueOf((int) (pageListItem.getVoteAverage() * 10));
+            String url = PIC_URL + pageListItem.getPosterPath();
+            if (pageListItem.getPosterPath() != null) {
                 Glide.with(holder.posterIv.getContext())
                         .load(url)
                         .error(R.drawable.ic_launcher_background)
@@ -85,14 +86,13 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
             } else {
                 holder.posterIv.setImageResource(R.mipmap.empty);
             }
-            holder.nameTv.setText(movie.getOriginalTitle());
-            holder.dateTv.setText(movie.getReleaseDate());
+            holder.nameTv.setText(pageListItem.getOriginalName());
+            holder.dateTv.setText(pageListItem.getFirstAirDate());
             holder.averageTv.setText(average);
         }
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout constraintLayout;
         ImageView posterIv;
         ImageView averageIv;
         TextView averageTv;
@@ -101,12 +101,11 @@ public class GridMoviePageListAdapter extends PagedListAdapter<MoviePageList, Gr
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.cl_grid_item_view);
-            posterIv = itemView.findViewById(R.id.iv_grid_item_poster);
-            averageIv = itemView.findViewById(R.id.iv_grid_item_average);
-            averageTv = itemView.findViewById(R.id.tv_grid_item_average);
-            nameTv = itemView.findViewById(R.id.tv_grid_item_name);
-            dateTv = itemView.findViewById(R.id.tv_grid_item_date);
+            posterIv = itemView.findViewById(R.id.iv_list_item_poster);
+            averageIv = itemView.findViewById(R.id.iv_list_item_average);
+            averageTv = itemView.findViewById(R.id.tv_list_item_average);
+            nameTv = itemView.findViewById(R.id.tv_list_item_name);
+            dateTv = itemView.findViewById(R.id.tv_list_item_date);
         }
     }
 

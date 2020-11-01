@@ -1,4 +1,4 @@
-package com.tosmart.tmdb.adapter;
+package com.tosmart.tmdb.adapter.paged_list_adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,67 +9,55 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.db.entity.TvPageList;
+import com.tosmart.tmdb.adapter.OnItemClickListener;
+import com.tosmart.tmdb.db.entity.CommonPageList;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 import static com.tosmart.tmdb.network.ApiService.PIC_URL;
 
 /**
  * @author ggz
  * @date 2020/10/23
  */
-public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPageListAdapter.ViewHolder> {
+public class GridStylePagedListAdapter extends PagedListAdapter<CommonPageList, GridStylePagedListAdapter.GridViewHolder> {
     private final String TAG = getClass().getSimpleName();
 
     private OnItemClickListener mListener = null;
+    private int mShowType = -1;
 
-    public GridTvPageListAdapter() {
-        super(new DiffUtil.ItemCallback<TvPageList>() {
+    public GridStylePagedListAdapter(int showType) {
+        super(new DiffUtil.ItemCallback<CommonPageList>() {
             @Override
-            public boolean areItemsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
+            public boolean areItemsTheSame(@NonNull CommonPageList oldItem, @NonNull CommonPageList newItem) {
                 return oldItem.getId() == newItem.getId();
             }
 
             @Override
-            public boolean areContentsTheSame(@NonNull TvPageList oldItem, @NonNull TvPageList newItem) {
+            public boolean areContentsTheSame(@NonNull CommonPageList oldItem, @NonNull CommonPageList newItem) {
                 return oldItem.getId() == newItem.getId();
             }
         });
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-
-        // todo: 根据 entity type 来选择 viewholder
-//        if (getItem(position).getType() == INDEX_TV){
-//            return TV_VIEW;
-//        }else {
-//            return MOVIE_VIEW;
-//        }
-
-        return super.getItemViewType(position);
+        mShowType = showType;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GridViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_grid_style, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        viewHolder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+        GridViewHolder viewHolder = new GridViewHolder(view);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int position = viewHolder.getAdapterPosition();
-                TvPageList item = getItem(position);
+                CommonPageList item = getItem(position);
                 if (item != null) {
                     if (mListener != null) {
-                        mListener.onItemClick(item.getId(), INDEX_TV);
+                        mListener.onItemClick(item.getId(), mShowType);
                     }
                 }
             }
@@ -78,18 +66,18 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TvPageList tv = getItem(position);
-        if (tv == null) {
+    public void onBindViewHolder(@NonNull GridViewHolder holder, int position) {
+        CommonPageList pageListItem = getItem(position);
+        if (pageListItem == null) {
             String showLoading = StringUtils.getString(R.string.str_content_item_statue_loading);
             holder.posterIv.setImageResource(R.mipmap.empty);
             holder.nameTv.setText(showLoading);
             holder.dateTv.setText(showLoading);
             holder.averageTv.setText("0");
         } else {
-            String average = String.valueOf((int) (tv.getVoteAverage() * 10));
-            String url = PIC_URL + tv.getPosterPath();
-            if (tv.getPosterPath() != null) {
+            String average = String.valueOf((int) (pageListItem.getVoteAverage() * 10));
+            String url = PIC_URL + pageListItem.getPosterPath();
+            if (pageListItem.getPosterPath() != null) {
                 Glide.with(holder.posterIv.getContext())
                         .load(url)
                         .error(R.drawable.ic_launcher_background)
@@ -98,23 +86,21 @@ public class GridTvPageListAdapter extends PagedListAdapter<TvPageList, GridTvPa
             } else {
                 holder.posterIv.setImageResource(R.mipmap.empty);
             }
-            holder.nameTv.setText(tv.getOriginalName());
-            holder.dateTv.setText(tv.getFirstAirDate());
+            holder.nameTv.setText(pageListItem.getOriginalName());
+            holder.dateTv.setText(pageListItem.getFirstAirDate());
             holder.averageTv.setText(average);
         }
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        ConstraintLayout constraintLayout;
+    static class GridViewHolder extends RecyclerView.ViewHolder {
         ImageView posterIv;
         ImageView averageIv;
         TextView averageTv;
         TextView nameTv;
         TextView dateTv;
 
-        public ViewHolder(@NonNull View itemView) {
+        public GridViewHolder(@NonNull View itemView) {
             super(itemView);
-            constraintLayout = itemView.findViewById(R.id.cl_grid_item_view);
             posterIv = itemView.findViewById(R.id.iv_grid_item_poster);
             averageIv = itemView.findViewById(R.id.iv_grid_item_average);
             averageTv = itemView.findViewById(R.id.tv_grid_item_average);
