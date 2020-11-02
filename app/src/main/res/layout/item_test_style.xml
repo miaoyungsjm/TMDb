@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/grid_item_view_cl_width"
+        android:layout_height="@dimen/grid_item_view_cl_height"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/iv_grid_item_poster"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imageUrl="@{common.posterPath}" />
+
+        <ImageView
+            android:id="@+id/iv_grid_item_average"
+            android:layout_width="@dimen/grid_item_average_iv_width"
+            android:layout_height="@dimen/grid_item_average_iv_width"
+            android:layout_margin="@dimen/grid_item_average_iv_margin"
+            android:background="@mipmap/bg"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/grid_item_name_bg_iv_height"
+            android:background="@mipmap/name_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_grid_item_solid"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/selector_grid_item_solid"
+            android:duplicateParentState="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_grid_item_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grid_item_text_normal"
+            android:textSize="@dimen/grid_item_average_tv_text_size"
+            app:layout_constraintBottom_toBottomOf="@id/iv_grid_item_average"
+            app:layout_constraintLeft_toLeftOf="@id/iv_grid_item_average"
+            app:layout_constraintRight_toRightOf="@id/iv_grid_item_average"
+            app:layout_constraintTop_toTopOf="@id/iv_grid_item_average"
+            bind:voteAverage="@{common.voteAverage}" />
+
+        <TextView
+            android:id="@+id/tv_grid_item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/grid_item_date_tv_margin_left"
+            android:layout_marginBottom="@dimen/grid_item_date_tv_margin_bottom"
+            android:duplicateParentState="true"
+            android:text="@{common.date}"
+            android:textColor="@drawable/selector_grid_item_text_color"
+            android:textSize="@dimen/grid_item_date_tv_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_grid_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/grid_item_date_tv_margin_left"
+            android:layout_marginBottom="@dimen/grid_item_name_tv_margin_bottom"
+            android:duplicateParentState="true"
+            android:singleLine="true"
+            android:text="@{common.originalName}"
+            android:textColor="@drawable/selector_grid_item_text_color"
+            android:textSize="@dimen/grid_item_name_tv_text_size"
+            app:layout_constraintBottom_toTopOf="@id/tv_grid_item_date"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="common"
+            type="com.tosmart.tmdb.db.entity.CommonPageList" />
+    </data>
+</layout>
+
