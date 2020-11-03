@@ -81,7 +81,7 @@ public class MainViewModel extends ViewModel {
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
                     FilterTv filterTv = new FilterTv(list.get(i).getId(), mFilterType, mFilterOrder,
-                            dateStr, tvRes.getPage(), i);
+                            dateStr, INDEX_TV, tvRes.getPage(), i);
                     filterList.add(filterTv);
                 }
                 db.getFilterTvDao().insertList(filterList);
@@ -114,7 +114,7 @@ public class MainViewModel extends ViewModel {
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
                     FilterMovie filterMovie = new FilterMovie(list.get(i).getId(), mFilterType, mFilterOrder,
-                            dateStr, movieRes.getPage(), i);
+                            dateStr, INDEX_MOVIE, movieRes.getPage(), i);
                     filterList.add(filterMovie);
                 }
                 db.getFilterMovieDao().insertList(filterList);

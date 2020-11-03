@@ -39,6 +39,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
 import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 
 /**
@@ -57,7 +58,7 @@ public class DetailViewModel extends ViewModel {
     public MutableLiveData<String> showData = new MutableLiveData<>();
     public MutableLiveData<String> showLanguage = new MutableLiveData<>();
     public MutableLiveData<String> showPoster = new MutableLiveData<>();
-    public MutableLiveData<String> showAverage = new MutableLiveData<>();
+    public MutableLiveData<Double> showAverage = new MutableLiveData<>();
     public MutableLiveData<String> showOverview = new MutableLiveData<>();
     public MutableLiveData<String> showRuntime = new MutableLiveData<>();
     public MutableLiveData<String> showCast = new MutableLiveData<>();
@@ -102,11 +103,10 @@ public class DetailViewModel extends ViewModel {
             public void accept(List<Tv> list) throws Exception {
                 if (list.size() != 0) {
                     Tv tv = list.get(0);
-                    String average = String.valueOf((int) (tv.getVoteAverage() * 10));
                     mFavorite.setName(tv.getOriginalName());
                     mFavorite.setDate(tv.getFirstAirDate());
                     mFavorite.setPoster(tv.getPosterPath());
-                    mFavorite.setAverage(average);
+                    mFavorite.setAverage(tv.getVoteAverage());
                     mFavorite.setLanguage(tv.getOriginalLanguage());
                     mFavorite.setOverview(tv.getOverview());
                     updateUi(mFavorite);
@@ -132,11 +132,10 @@ public class DetailViewModel extends ViewModel {
             public void accept(List<Movie> list) throws Exception {
                 if (list.size() != 0) {
                     Movie movie = list.get(0);
-                    String average = String.valueOf((int) (movie.getVoteAverage() * 10));
                     mFavorite.setName(movie.getOriginalTitle());
                     mFavorite.setDate(movie.getReleaseDate());
                     mFavorite.setPoster(movie.getPosterPath());
-                    mFavorite.setAverage(average);
+                    mFavorite.setAverage(movie.getVoteAverage());
                     mFavorite.setLanguage(movie.getOriginalLanguage());
                     mFavorite.setOverview(movie.getOverview());
                     updateUi(mFavorite);
@@ -194,14 +193,13 @@ public class DetailViewModel extends ViewModel {
             public void onSuccess(TvDetail tv) {
                 Log.d(TAG, "onSuccess: TvDetail: " + tv.getStatus());
                 if (tv.getStatus_code() == 0) {
-                    String average = String.valueOf((int) (tv.getVote_average() * 10));
                     String runtime = String.format(
                             StringUtils.getString(R.string.str_detail_runtime),
                             tv.getEpisode_run_time().get(0));
                     mFavorite.setName(tv.getOriginal_name());
                     mFavorite.setDate(tv.getFirst_air_date());
                     mFavorite.setPoster(tv.getPoster_path());
-                    mFavorite.setAverage(average);
+                    mFavorite.setAverage(tv.getVote_average());
                     mFavorite.setLanguage(tv.getOriginal_language());
                     mFavorite.setOverview(tv.getOverview());
                     mFavorite.setRuntime(runtime);
@@ -225,14 +223,13 @@ public class DetailViewModel extends ViewModel {
             public void onSuccess(MovieDetail mv) {
                 Log.d(TAG, "onSuccess: MovieDetail: " + mv.getStatus_code());
                 if (mv.getStatus_code() == 0) {
-                    String average = String.valueOf((int) (mv.getVote_average() * 10));
                     String runtime = String.format(
                             StringUtils.getString(R.string.str_detail_runtime),
                             mv.getRuntime());
                     mFavorite.setName(mv.getOriginal_title());
                     mFavorite.setDate(mv.getRelease_date());
                     mFavorite.setPoster(mv.getPoster_path());
-                    mFavorite.setAverage(average);
+                    mFavorite.setAverage(mv.getVote_average());
                     mFavorite.setLanguage(mv.getOriginal_language());
                     mFavorite.setOverview(mv.getOverview());
                     mFavorite.setRuntime(runtime);
@@ -360,7 +357,7 @@ public class DetailViewModel extends ViewModel {
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
                     FilterTv filterTv = new FilterTv(list.get(i).getId(), mCurrentId, 0,
-                            dateStr, tvRes.getPage(), i);
+                            dateStr, INDEX_TV, tvRes.getPage(), i);
                     filterList.add(filterTv);
                 }
                 db.getFilterTvDao().insertList(filterList);
@@ -390,7 +387,7 @@ public class DetailViewModel extends ViewModel {
                 String dateStr = buildDateValue();
                 for (int i = 0; i < list.size(); i++) {
                     FilterMovie filterMovie = new FilterMovie(list.get(i).getId(), mCurrentId, 0,
-                            dateStr, movieRes.getPage(), i);
+                            dateStr, INDEX_MOVIE, movieRes.getPage(), i);
                     filterList.add(filterMovie);
                 }
                 db.getFilterMovieDao().insertList(filterList);

@@ -10,14 +10,13 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.ListStyleFavAdapter;
+import com.tosmart.tmdb.adapter.CommonAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 import com.tosmart.tmdb.adapter.paged_list_adapter.CommonPagedListAdapter;
 import com.tosmart.tmdb.base.BaseFragment;
 import com.tosmart.tmdb.databinding.ItemListStyleBinding;
 import com.tosmart.tmdb.db.entity.CommonBean;
-import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.main.MainViewModel;
 
@@ -35,8 +34,6 @@ import static com.tosmart.tmdb.detail.DetailActivity.KEY_TYPE;
 import static com.tosmart.tmdb.main.list.ListStyleViewModel.TITLE_INDEX_FAV;
 import static com.tosmart.tmdb.main.list.ListStyleViewModel.TITLE_INDEX_MOVIE;
 import static com.tosmart.tmdb.main.list.ListStyleViewModel.TITLE_INDEX_TV;
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 
 /**
  * @author ggz
@@ -51,7 +48,7 @@ public class ListStyleFragment extends BaseFragment {
     private RecyclerView mContentRv;
     private CommonPagedListAdapter<ItemListStyleBinding> mTvPagedListAdapter;
     private CommonPagedListAdapter<ItemListStyleBinding> mMoviePagedListAdapter;
-    private ListStyleFavAdapter mFavAdapter;
+    private CommonAdapter<ItemListStyleBinding> mFavAdapter;
 
     private LinearLayout mTitleTvLl;
     private LinearLayout mTitleMovieLl;
@@ -150,7 +147,7 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initTvPageListAdapter() {
-        mTvPagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style, INDEX_TV);
+        mTvPagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style);
         mTvPagedListAdapter.setOnItemClickListener(mListener);
 
         mListStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonBean>>() {
@@ -171,7 +168,7 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initMoviePageListAdapter() {
-        mMoviePagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style, INDEX_MOVIE);
+        mMoviePagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style);
         mMoviePagedListAdapter.setOnItemClickListener(mListener);
 
         mListStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonBean>>() {
@@ -199,13 +196,14 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initFavAdapter() {
-        mFavAdapter = new ListStyleFavAdapter();
+        mFavAdapter = new CommonAdapter<>(R.layout.item_list_style);
         mFavAdapter.setOnItemClickListener(mListener);
-        mListStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
+
+        mListStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<CommonBean>>() {
             @Override
-            public void onChanged(List<Favorite> favorites) {
+            public void onChanged(List<CommonBean> favorites) {
                 Log.d(TAG, "onChanged: fav");
-                mFavAdapter.setFavList(favorites);
+                mFavAdapter.setCommonList(favorites);
             }
         });
     }

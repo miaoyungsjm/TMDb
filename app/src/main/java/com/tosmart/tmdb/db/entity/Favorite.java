@@ -24,7 +24,7 @@ public class Favorite {
     @ColumnInfo(name = "poster")
     private String poster;
     @ColumnInfo(name = "average")
-    private String average;
+    private double average;
     @ColumnInfo(name = "language")
     private String language;
     @ColumnInfo(name = "overview")
@@ -92,11 +92,11 @@ public class Favorite {
         this.poster = poster;
     }
 
-    public String getAverage() {
+    public double getAverage() {
         return average;
     }
 
-    public void setAverage(String average) {
+    public void setAverage(double average) {
         this.average = average;
     }
 

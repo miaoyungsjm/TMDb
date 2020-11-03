@@ -9,14 +9,13 @@ import com.blankj.utilcode.util.SizeUtils;
 import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.GridStyleFavAdapter;
+import com.tosmart.tmdb.adapter.CommonAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
 import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 import com.tosmart.tmdb.adapter.paged_list_adapter.CommonPagedListAdapter;
 import com.tosmart.tmdb.base.BaseFragment;
 import com.tosmart.tmdb.databinding.ItemGridStyleBinding;
 import com.tosmart.tmdb.db.entity.CommonBean;
-import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.main.MainViewModel;
 
@@ -31,8 +30,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tosmart.tmdb.detail.DetailActivity.KEY_ID;
 import static com.tosmart.tmdb.detail.DetailActivity.KEY_TYPE;
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_MOVIE;
-import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 
 /**
  * @author ggz
@@ -48,7 +45,7 @@ public class GridStyleFragment extends BaseFragment {
     private RecyclerView mContentTvRv;
     private RecyclerView mContentMovieRv;
 
-    private GridStyleFavAdapter mFavAdapter;
+    private CommonAdapter<ItemGridStyleBinding> mFavAdapter;
     private CommonPagedListAdapter<ItemGridStyleBinding> mTvPageListAdapter;
     private CommonPagedListAdapter<ItemGridStyleBinding> mMoviePageListAdapter;
 
@@ -133,14 +130,15 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initFavAdapter() {
-        mFavAdapter = new GridStyleFavAdapter();
+        mFavAdapter = new CommonAdapter<>(R.layout.item_grid_style);
         mFavAdapter.setOnItemClickListener(mListener);
         mContentFavRv.setAdapter(mFavAdapter);
-        mGridStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<Favorite>>() {
+
+        mGridStyleViewModel.mFavoriteLiveData.observe(this, new Observer<List<CommonBean>>() {
             @Override
-            public void onChanged(List<Favorite> favorites) {
+            public void onChanged(List<CommonBean> favorites) {
                 Log.d(TAG, "onChanged: fav");
-                mFavAdapter.setFavList(favorites);
+                mFavAdapter.setCommonList(favorites);
                 // todo: focus loss
 //                mContentFavRv.requestFocus();
             }
@@ -148,7 +146,7 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initTvPageListAdapter() {
-        mTvPageListAdapter = new CommonPagedListAdapter<>(R.layout.item_grid_style, INDEX_TV);
+        mTvPageListAdapter = new CommonPagedListAdapter<>(R.layout.item_grid_style);
         mTvPageListAdapter.setOnItemClickListener(mListener);
         mContentTvRv.setAdapter(mTvPageListAdapter);
 
@@ -170,7 +168,7 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initMoviePageListAdapter() {
-        mMoviePageListAdapter = new CommonPagedListAdapter<>(R.layout.item_grid_style, INDEX_MOVIE);
+        mMoviePageListAdapter = new CommonPagedListAdapter<>(R.layout.item_grid_style);
         mMoviePageListAdapter.setOnItemClickListener(mListener);
         mContentMovieRv.setAdapter(mMoviePageListAdapter);
 

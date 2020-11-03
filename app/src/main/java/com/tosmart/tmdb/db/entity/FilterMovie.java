@@ -21,16 +21,19 @@ public class FilterMovie {
     private int filterOrder;
     @ColumnInfo(name = "date")
     private String date;
+    @ColumnInfo(name = "type")
+    private int type;
     @ColumnInfo(name = "page")
     private int page;
     @ColumnInfo(name = "index")
     private int index;
 
-    public FilterMovie(int filterId, int filterType, int filterOrder, String date, int page, int index) {
+    public FilterMovie(int filterId, int filterType, int filterOrder, String date, int type, int page, int index) {
         this.filterId = filterId;
         this.filterType = filterType;
         this.filterOrder = filterOrder;
         this.date = date;
+        this.type = type;
         this.page = page;
         this.index = index;
     }
@@ -65,6 +68,14 @@ public class FilterMovie {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getPage() {

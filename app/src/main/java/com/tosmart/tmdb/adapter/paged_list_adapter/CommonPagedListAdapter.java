@@ -26,9 +26,8 @@ public class CommonPagedListAdapter<T extends ViewDataBinding> extends PagedList
 
     private OnItemClickListener mListener = null;
     private int mLayoutId = -1;
-    private int mShowType = -1;
 
-    public CommonPagedListAdapter(int layoutId, int showType) {
+    public CommonPagedListAdapter(int layoutId) {
         super(new DiffUtil.ItemCallback<CommonBean>() {
             @Override
             public boolean areItemsTheSame(@NonNull CommonBean oldItem, @NonNull CommonBean newItem) {
@@ -42,7 +41,6 @@ public class CommonPagedListAdapter<T extends ViewDataBinding> extends PagedList
         });
 
         mLayoutId = layoutId;
-        mShowType = showType;
     }
 
     @NonNull
@@ -58,7 +56,7 @@ public class CommonPagedListAdapter<T extends ViewDataBinding> extends PagedList
                 CommonBean item = getItem(position);
                 if (item != null) {
                     if (mListener != null) {
-                        mListener.onItemClick(item.getId(), mShowType);
+                        mListener.onItemClick(item.getId(), item.getType());
                     }
                 }
             }
@@ -70,9 +68,9 @@ public class CommonPagedListAdapter<T extends ViewDataBinding> extends PagedList
     public void onBindViewHolder(@NonNull CommonViewHolder<T> holder, int position) {
         CommonBean commonBean = getItem(position);
         if (commonBean == null) {
-            commonBean = new CommonBean();
-            commonBean.setOriginalName(StringUtils.getString(R.string.str_content_item_statue_loading));
-            commonBean.setDate(StringUtils.getString(R.string.str_content_item_statue_loading));
+            String loading = StringUtils.getString(R.string.str_content_item_statue_loading);
+            commonBean = new CommonBean(-1, -1,
+                    loading, loading, null, 0.0, 0);
         }
         holder.binding.setVariable(BR.common, commonBean);
     }

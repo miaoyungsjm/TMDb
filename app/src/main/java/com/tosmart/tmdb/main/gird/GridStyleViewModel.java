@@ -34,7 +34,7 @@ public class GridStyleViewModel extends ViewModel {
     public MutableLiveData<Integer> mTvFilterPage;
     public MutableLiveData<Integer> mMovieFilterPage;
 
-    public MutableLiveData<List<Favorite>> mFavoriteLiveData = new MutableLiveData<>();
+    public MutableLiveData<List<CommonBean>> mFavoriteLiveData = new MutableLiveData<>();
 
     private CompositeDisposable mCompositeDisposable;
 
@@ -69,12 +69,12 @@ public class GridStyleViewModel extends ViewModel {
 
     public void initFavList() {
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
-        Single<List<Favorite>> single = db.getFavoriteDao().getAllFavorite()
+        Single<List<CommonBean>> single = db.getFavoriteDao().getAllFavoriteToCommon()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-        mCompositeDisposable.add(single.subscribe(new Consumer<List<Favorite>>() {
+        mCompositeDisposable.add(single.subscribe(new Consumer<List<CommonBean>>() {
             @Override
-            public void accept(List<Favorite> favorites) throws Exception {
+            public void accept(List<CommonBean> favorites) throws Exception {
                 mFavoriteLiveData.setValue(favorites);
             }
         }, new Consumer<Throwable>() {

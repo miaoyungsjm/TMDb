@@ -2,13 +2,12 @@ package com.tosmart.tmdb.main.dialog;
 
 import android.util.Log;
 
-import com.tosmart.tmdb.db.entity.Favorite;
+import com.tosmart.tmdb.db.entity.CommonBean;
 import com.tosmart.tmdb.db.entity.Movie;
 import com.tosmart.tmdb.db.entity.Tv;
 import com.tosmart.tmdb.network.ApiObserver;
 import com.tosmart.tmdb.network.ApiRequest;
 import com.tosmart.tmdb.network.response.MovieRes;
-import com.tosmart.tmdb.network.response.TvCredits;
 import com.tosmart.tmdb.network.response.TvRes;
 
 import java.util.ArrayList;
@@ -29,9 +28,9 @@ import static com.tosmart.tmdb.network.ApiRequest.INDEX_TV;
 public class SearchViewModel extends ViewModel {
     private final String TAG = getClass().getSimpleName();
 
-    public MutableLiveData<List<Favorite>> mSearchResult = new MutableLiveData<>();
+    public MutableLiveData<List<CommonBean>> mSearchResult = new MutableLiveData<>();
 
-    private List<Favorite> mSearchList = new ArrayList<>();
+    private List<CommonBean> mSearchList = new ArrayList<>();
 
     private CompositeDisposable mCompositeDisposable;
 
@@ -56,13 +55,13 @@ public class SearchViewModel extends ViewModel {
                 if (list.size() > 0) {
                     for (int i = 0; i < list.size(); i++) {
                         Tv tv = list.get(i);
-                        Favorite favorite = new Favorite(0, tv.getId(), INDEX_TV);
-                        String average = String.valueOf((int) (tv.getVoteAverage() * 10));
-                        favorite.setName(tv.getOriginalName());
-                        favorite.setDate(tv.getFirstAirDate());
-                        favorite.setPoster(tv.getPosterPath());
-                        favorite.setAverage(average);
-                        mSearchList.add(favorite);
+                        CommonBean common = new CommonBean(tv.getId(), INDEX_TV,
+                                tv.getOriginalName(),
+                                tv.getFirstAirDate(),
+                                tv.getPosterPath(),
+                                tv.getVoteAverage(),
+                                0);
+                        mSearchList.add(common);
                     }
                     mSearchResult.postValue(mSearchList);
                 }
@@ -87,13 +86,13 @@ public class SearchViewModel extends ViewModel {
                 if (list.size() > 0) {
                     for (int i = 0; i < list.size(); i++) {
                         Movie mv = list.get(i);
-                        Favorite favorite = new Favorite(0, mv.getId(), INDEX_MOVIE);
-                        String average = String.valueOf((int) (mv.getVoteAverage() * 10));
-                        favorite.setName(mv.getOriginalTitle());
-                        favorite.setDate(mv.getReleaseDate());
-                        favorite.setPoster(mv.getPosterPath());
-                        favorite.setAverage(average);
-                        mSearchList.add(favorite);
+                        CommonBean common = new CommonBean(mv.getId(), INDEX_MOVIE,
+                                mv.getOriginalTitle(),
+                                mv.getReleaseDate(),
+                                mv.getPosterPath(),
+                                mv.getVoteAverage(),
+                                0);
+                        mSearchList.add(common);
                     }
                     mSearchResult.postValue(mSearchList);
                 }

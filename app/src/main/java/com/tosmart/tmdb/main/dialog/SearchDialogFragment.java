@@ -14,11 +14,12 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.SizeUtils;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
-import com.tosmart.tmdb.adapter.ListStyleFavAdapter;
+import com.tosmart.tmdb.adapter.CommonAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
-import com.tosmart.tmdb.db.entity.Favorite;
-import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.adapter.SpacingItemDecoration;
+import com.tosmart.tmdb.databinding.ItemListStyleBinding;
+import com.tosmart.tmdb.db.entity.CommonBean;
+import com.tosmart.tmdb.detail.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class SearchDialogFragment extends DialogFragment {
     private EditText mEditText;
     private TextView mSearchResultTv;
 
-    private ListStyleFavAdapter mAdapter;
+    private CommonAdapter<ItemListStyleBinding> mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,14 +104,14 @@ public class SearchDialogFragment extends DialogFragment {
     }
 
     private void initAdapter() {
-        mAdapter = new ListStyleFavAdapter();
+        mAdapter = new CommonAdapter<>(R.layout.item_list_style);
         mAdapter.setOnItemClickListener(mListener);
 
-        mSearchViewModel.mSearchResult.observe(this, new Observer<List<Favorite>>() {
+        mSearchViewModel.mSearchResult.observe(this, new Observer<List<CommonBean>>() {
             @Override
-            public void onChanged(List<Favorite> list) {
+            public void onChanged(List<CommonBean> list) {
                 Log.d(TAG, "onChanged: search: " + list.size());
-                mAdapter.setFavList(list);
+                mAdapter.setCommonList(list);
                 String show = String.format(
                         getResources().getString(R.string.str_search_result_show),
                         list.size());
@@ -160,7 +161,7 @@ public class SearchDialogFragment extends DialogFragment {
                     mBackIv.setVisibility(View.INVISIBLE);
                     mEditText.setText("");
                     mSearchResultTv.setText("");
-                    mAdapter.setFavList(new ArrayList<Favorite>());
+                    mAdapter.setCommonList(new ArrayList<CommonBean>());
                     break;
                 default:
             }

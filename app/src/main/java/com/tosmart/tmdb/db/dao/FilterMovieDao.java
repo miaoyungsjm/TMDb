@@ -19,8 +19,8 @@ public interface FilterMovieDao extends BaseDao<FilterMovie> {
     @Query("SELECT * FROM FilterMovie")
     List<FilterMovie> getAllFilterMoive();
 
-    @Query("SELECT id, original_title AS original_name, original_language, release_date AS first_air_date, poster_path, overview, vote_average, " +
-            "filter_type, filter_order, date, page, `index` " +
+    @Query("SELECT id, type, original_title AS original_name, release_date AS first_air_date, " +
+            "poster_path, vote_average, page " +
             "FROM Movie, FilterMovie " +
             "WHERE FilterMovie.filter_id = Movie.id " +
             "AND FilterMovie.filter_type == :ft " +

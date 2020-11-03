@@ -21,8 +21,7 @@ public interface FilterTvDao extends BaseDao<FilterTv> {
 
     //SELECT * FROM Tv, FilterTv WHERE FilterTv.filter_id = Tv.id AND FilterTv.filter_type == 0 AND FilterTv.filter_order == 0
     //SELECT * FROM Tv INNER JOIN FilterTv ON FilterTv.filter_id = Tv.id AND FilterTv.filter_type == 0 AND FilterTv.filter_order == 0
-    @Query("SELECT id, original_name, original_language, first_air_date, poster_path, overview, vote_average, " +
-            "filter_type, filter_order, date, page, `index` " +
+    @Query("SELECT id, type, original_name, first_air_date, poster_path, vote_average, page " +
             "FROM Tv, FilterTv " +
             "WHERE FilterTv.filter_id = Tv.id " +
             "AND FilterTv.filter_type == :ft " +

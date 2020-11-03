@@ -135,7 +135,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initTvPageAdapter() {
-        mTvPagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style, INDEX_TV);
+        mTvPagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style);
         mTvPagedListAdapter.setOnItemClickListener(mListener);
 
         mDetailViewModel.initPagedList(INDEX_TV);
@@ -149,7 +149,7 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void initMoviePageAdapter() {
-        mMoviePagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style, INDEX_MOVIE);
+        mMoviePagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style);
         mMoviePagedListAdapter.setOnItemClickListener(mListener);
 
         mDetailViewModel.initPagedList(INDEX_MOVIE);

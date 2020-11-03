@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="vm"
-            type="com.tosmart.tmdb.detail.DetailViewModel" />
-
-        <variable
-            name="click"
-            type="com.tosmart.tmdb.detail.DetailActivity.ClickProxy" />
-    </data>
+    xmlns:bind="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -70,10 +59,10 @@
             android:layout_width="@dimen/main_search_ll_width"
             android:layout_height="@dimen/main_search_ll_height"
             android:background="@drawable/selector_main_search_bg_ll"
-            android:gravity="center"
-            android:orientation="horizontal"
             android:focusable="true"
+            android:gravity="center"
             android:onClick="@{()->click.updateFavorite()}"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@id/iv_detail_poster"
             app:layout_constraintLeft_toLeftOf="@id/tv_detail_original_name">
 
@@ -94,13 +83,13 @@
             android:id="@+id/tv_detail_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{vm.showAverage}"
             android:textColor="@color/detail_content_text_color"
             android:textSize="@dimen/text_size_micro"
             app:layout_constraintBottom_toBottomOf="@id/iv_detail_average"
             app:layout_constraintLeft_toLeftOf="@id/iv_detail_average"
             app:layout_constraintRight_toRightOf="@id/iv_detail_average"
-            app:layout_constraintTop_toTopOf="@id/iv_detail_average" />
+            app:layout_constraintTop_toTopOf="@id/iv_detail_average"
+            bind:voteAverage="@{vm.showAverage}" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -155,10 +144,10 @@
             android:text="@{vm.showOverview}"
             android:textColor="@color/detail_content_text_color"
             android:textSize="@dimen/detail_title_text_size"
+            app:layout_constraintBottom_toTopOf="@id/tv_detail_recommend"
             app:layout_constraintLeft_toRightOf="@id/ll_detail_favorite"
             app:layout_constraintRight_toRightOf="@id/gl_detail_content_ver_end"
-            app:layout_constraintTop_toBottomOf="@id/tv_detail_date_title"
-            app:layout_constraintBottom_toTopOf="@id/tv_detail_recommend"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_detail_date_title" />
 
         <TextView
             android:id="@+id/tv_detail_date_title"
@@ -297,5 +286,16 @@
             app:layout_constraintRight_toRightOf="@id/iv_detail_average" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.detail.DetailViewModel" />
+
+        <variable
+            name="click"
+            type="com.tosmart.tmdb.detail.DetailActivity.ClickProxy" />
+    </data>
 
 </layout>
