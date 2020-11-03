@@ -6,7 +6,7 @@ import com.blankj.utilcode.util.StringUtils;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.db.RoomManager;
 import com.tosmart.tmdb.db.database.TMDatabase;
-import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.db.entity.CommonBean;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.db.entity.FilterMovie;
 import com.tosmart.tmdb.db.entity.FilterTv;
@@ -65,8 +65,8 @@ public class DetailViewModel extends ViewModel {
     public MutableLiveData<String> showDirector = new MutableLiveData<>();
     public MutableLiveData<Boolean> showFavorite = new MutableLiveData<>();
 
-    public LiveData<PagedList<CommonPageList>> mTvLiveData;
-    public LiveData<PagedList<CommonPageList>> mMovieLiveData;
+    public LiveData<PagedList<CommonBean>> mTvLiveData;
+    public LiveData<PagedList<CommonBean>> mMovieLiveData;
 
     private CompositeDisposable mCompositeDisposable;
 
@@ -407,8 +407,8 @@ public class DetailViewModel extends ViewModel {
         observable.subscribe(observer);
     }
 
-    private PagedList.BoundaryCallback<CommonPageList> mTvPageListCallback =
-            new PagedList.BoundaryCallback<CommonPageList>() {
+    private PagedList.BoundaryCallback<CommonBean> mTvPageListCallback =
+            new PagedList.BoundaryCallback<CommonBean>() {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
@@ -417,15 +417,15 @@ public class DetailViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onItemAtEndLoaded(@NonNull CommonPageList itemAtEnd) {
+                public void onItemAtEndLoaded(@NonNull CommonBean itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
                     Log.d(TAG, "Tv onItemAtEndLoaded: " + itemAtEnd.getPage());
                     requestMovieRecommendations(itemAtEnd.getPage() + 1);
                 }
             };
 
-    private PagedList.BoundaryCallback<CommonPageList> mMoviePageListCallback =
-            new PagedList.BoundaryCallback<CommonPageList>() {
+    private PagedList.BoundaryCallback<CommonBean> mMoviePageListCallback =
+            new PagedList.BoundaryCallback<CommonBean>() {
                 @Override
                 public void onZeroItemsLoaded() {
                     super.onZeroItemsLoaded();
@@ -434,7 +434,7 @@ public class DetailViewModel extends ViewModel {
                 }
 
                 @Override
-                public void onItemAtEndLoaded(@NonNull CommonPageList itemAtEnd) {
+                public void onItemAtEndLoaded(@NonNull CommonBean itemAtEnd) {
                     super.onItemAtEndLoaded(itemAtEnd);
                     Log.d(TAG, "Movie onItemAtEndLoaded: " + itemAtEnd.getPage());
                     requestMovieRecommendations(itemAtEnd.getPage() + 1);
@@ -444,7 +444,7 @@ public class DetailViewModel extends ViewModel {
     public void initPagedList(int type) {
         TMDatabase db = RoomManager.getInstance().getTMDatabase();
         if (type == INDEX_TV) {
-            DataSource.Factory<Integer, CommonPageList> tvDataSource =
+            DataSource.Factory<Integer, CommonBean> tvDataSource =
                     db.getFilterTvDao().getFilterTvPageList(mCurrentId, 0);
             mTvLiveData = new LivePagedListBuilder<>(
                     tvDataSource,
@@ -452,7 +452,7 @@ public class DetailViewModel extends ViewModel {
                     .setBoundaryCallback(mTvPageListCallback)
                     .build();
         } else {
-            DataSource.Factory<Integer, CommonPageList> movieDataSource =
+            DataSource.Factory<Integer, CommonBean> movieDataSource =
                     db.getFilterMovieDao().getFilterMoviePageList(mCurrentId, 0);
             mMovieLiveData = new LivePagedListBuilder<>(
                     movieDataSource,

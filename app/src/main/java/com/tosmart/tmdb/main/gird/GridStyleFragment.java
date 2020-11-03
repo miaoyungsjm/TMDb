@@ -10,14 +10,15 @@ import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.GridStyleFavAdapter;
-import com.tosmart.tmdb.adapter.paged_list_adapter.GridStylePagedListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
+import com.tosmart.tmdb.adapter.SpacingItemDecoration;
+import com.tosmart.tmdb.adapter.paged_list_adapter.CommonPagedListAdapter;
 import com.tosmart.tmdb.base.BaseFragment;
-import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.databinding.ItemGridStyleBinding;
+import com.tosmart.tmdb.db.entity.CommonBean;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.main.MainViewModel;
-import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 
 import java.util.List;
 
@@ -48,8 +49,8 @@ public class GridStyleFragment extends BaseFragment {
     private RecyclerView mContentMovieRv;
 
     private GridStyleFavAdapter mFavAdapter;
-    private GridStylePagedListAdapter mTvPageListAdapter;
-    private GridStylePagedListAdapter mMoviePageListAdapter;
+    private CommonPagedListAdapter<ItemGridStyleBinding> mTvPageListAdapter;
+    private CommonPagedListAdapter<ItemGridStyleBinding> mMoviePageListAdapter;
 
     @Override
     protected void initViewModel() {
@@ -147,12 +148,13 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initTvPageListAdapter() {
-        mTvPageListAdapter = new GridStylePagedListAdapter(INDEX_TV);
+        mTvPageListAdapter = new CommonPagedListAdapter<>(R.layout.item_grid_style, INDEX_TV);
         mTvPageListAdapter.setOnItemClickListener(mListener);
         mContentTvRv.setAdapter(mTvPageListAdapter);
-        mGridStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
+
+        mGridStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonBean>>() {
             @Override
-            public void onChanged(PagedList<CommonPageList> tvPageLists) {
+            public void onChanged(PagedList<CommonBean> tvPageLists) {
                 Log.d(TAG, "onChanged: tv");
                 mTvPageListAdapter.submitList(tvPageLists);
             }
@@ -168,12 +170,13 @@ public class GridStyleFragment extends BaseFragment {
     }
 
     public void initMoviePageListAdapter() {
-        mMoviePageListAdapter = new GridStylePagedListAdapter(INDEX_MOVIE);
+        mMoviePageListAdapter = new CommonPagedListAdapter<>(R.layout.item_grid_style, INDEX_MOVIE);
         mMoviePageListAdapter.setOnItemClickListener(mListener);
         mContentMovieRv.setAdapter(mMoviePageListAdapter);
-        mGridStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
+
+        mGridStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonBean>>() {
             @Override
-            public void onChanged(PagedList<CommonPageList> moviePageLists) {
+            public void onChanged(PagedList<CommonBean> moviePageLists) {
                 Log.d(TAG, "onChanged: movie");
                 mMoviePageListAdapter.submitList(moviePageLists);
             }

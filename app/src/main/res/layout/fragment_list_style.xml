@@ -2,17 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="vm"
-            type="com.tosmart.tmdb.main.list.ListStyleViewModel" />
-
-        <variable
-            name="click"
-            type="com.tosmart.tmdb.main.list.ListStyleFragment.ClickProxy" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -96,5 +85,15 @@
             app:layout_constraintTop_toTopOf="@id/gl_list_content_hor_begin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.main.list.ListStyleViewModel" />
+
+        <variable
+            name="click"
+            type="com.tosmart.tmdb.main.list.ListStyleFragment.ClickProxy" />
+    </data>
 </layout>
 

@@ -8,7 +8,7 @@ import androidx.room.Entity;
  * @date 2020/10/31
  */
 @Entity(primaryKeys = {"id"})
-public class CommonPageList {
+public class CommonBean {
 
     @ColumnInfo(name = "id")
     private int id;

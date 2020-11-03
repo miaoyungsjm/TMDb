@@ -1,6 +1,6 @@
 package com.tosmart.tmdb.db.dao;
 
-import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.db.entity.CommonBean;
 import com.tosmart.tmdb.db.entity.FilterMovie;
 
 import java.util.List;
@@ -25,5 +25,5 @@ public interface FilterMovieDao extends BaseDao<FilterMovie> {
             "WHERE FilterMovie.filter_id = Movie.id " +
             "AND FilterMovie.filter_type == :ft " +
             "AND FilterMovie.filter_order == :fo ")
-    DataSource.Factory<Integer, CommonPageList> getFilterMoviePageList(int ft, int fo);
+    DataSource.Factory<Integer, CommonBean> getFilterMoviePageList(int ft, int fo);
 }

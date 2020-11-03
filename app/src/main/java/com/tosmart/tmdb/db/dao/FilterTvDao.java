@@ -1,6 +1,6 @@
 package com.tosmart.tmdb.db.dao;
 
-import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.db.entity.CommonBean;
 import com.tosmart.tmdb.db.entity.FilterTv;
 
 import java.util.List;
@@ -27,5 +27,5 @@ public interface FilterTvDao extends BaseDao<FilterTv> {
             "WHERE FilterTv.filter_id = Tv.id " +
             "AND FilterTv.filter_type == :ft " +
             "AND FilterTv.filter_order == :fo ")
-    DataSource.Factory<Integer, CommonPageList> getFilterTvPageList(int ft, int fo);
+    DataSource.Factory<Integer, CommonBean> getFilterTvPageList(int ft, int fo);
 }

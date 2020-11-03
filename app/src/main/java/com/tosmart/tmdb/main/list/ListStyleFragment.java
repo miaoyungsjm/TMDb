@@ -11,14 +11,15 @@ import com.kunminx.architecture.ui.page.DataBindingConfig;
 import com.tosmart.tmdb.BR;
 import com.tosmart.tmdb.R;
 import com.tosmart.tmdb.adapter.ListStyleFavAdapter;
-import com.tosmart.tmdb.adapter.paged_list_adapter.ListStylePagedListAdapter;
 import com.tosmart.tmdb.adapter.OnItemClickListener;
+import com.tosmart.tmdb.adapter.SpacingItemDecoration;
+import com.tosmart.tmdb.adapter.paged_list_adapter.CommonPagedListAdapter;
 import com.tosmart.tmdb.base.BaseFragment;
-import com.tosmart.tmdb.db.entity.CommonPageList;
+import com.tosmart.tmdb.databinding.ItemListStyleBinding;
+import com.tosmart.tmdb.db.entity.CommonBean;
 import com.tosmart.tmdb.db.entity.Favorite;
 import com.tosmart.tmdb.detail.DetailActivity;
 import com.tosmart.tmdb.main.MainViewModel;
-import com.tosmart.tmdb.adapter.SpacingItemDecoration;
 
 import java.util.List;
 
@@ -48,8 +49,8 @@ public class ListStyleFragment extends BaseFragment {
     private MainViewModel mMainViewModel;
 
     private RecyclerView mContentRv;
-    private ListStylePagedListAdapter mTvPageListAdapter;
-    private ListStylePagedListAdapter mMoviePageListAdapter;
+    private CommonPagedListAdapter<ItemListStyleBinding> mTvPagedListAdapter;
+    private CommonPagedListAdapter<ItemListStyleBinding> mMoviePagedListAdapter;
     private ListStyleFavAdapter mFavAdapter;
 
     private LinearLayout mTitleTvLl;
@@ -132,10 +133,10 @@ public class ListStyleFragment extends BaseFragment {
             public void onChanged(Integer integer) {
                 switch (integer) {
                     case TITLE_INDEX_TV:
-                        mContentRv.setAdapter(mTvPageListAdapter);
+                        mContentRv.setAdapter(mTvPagedListAdapter);
                         break;
                     case TITLE_INDEX_MOVIE:
-                        mContentRv.setAdapter(mMoviePageListAdapter);
+                        mContentRv.setAdapter(mMoviePagedListAdapter);
                         break;
                     case TITLE_INDEX_FAV:
                         mContentRv.setAdapter(mFavAdapter);
@@ -149,13 +150,14 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initTvPageListAdapter() {
-        mTvPageListAdapter = new ListStylePagedListAdapter(INDEX_TV);
-        mTvPageListAdapter.setOnItemClickListener(mListener);
-        mListStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
+        mTvPagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style, INDEX_TV);
+        mTvPagedListAdapter.setOnItemClickListener(mListener);
+
+        mListStyleViewModel.mTvLiveData.observe(this, new Observer<PagedList<CommonBean>>() {
             @Override
-            public void onChanged(PagedList<CommonPageList> tvPageLists) {
+            public void onChanged(PagedList<CommonBean> tvPageLists) {
                 Log.d(TAG, "onChanged: tv size=" + tvPageLists.size());
-                mTvPageListAdapter.submitList(tvPageLists);
+                mTvPagedListAdapter.submitList(tvPageLists);
             }
         });
         mListStyleViewModel.mTvFilterPage.observe(this, new Observer<Integer>() {
@@ -169,13 +171,14 @@ public class ListStyleFragment extends BaseFragment {
     }
 
     private void initMoviePageListAdapter() {
-        mMoviePageListAdapter = new ListStylePagedListAdapter(INDEX_MOVIE);
-        mMoviePageListAdapter.setOnItemClickListener(mListener);
-        mListStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonPageList>>() {
+        mMoviePagedListAdapter = new CommonPagedListAdapter<>(R.layout.item_list_style, INDEX_MOVIE);
+        mMoviePagedListAdapter.setOnItemClickListener(mListener);
+
+        mListStyleViewModel.mMovieLiveData.observe(this, new Observer<PagedList<CommonBean>>() {
             @Override
-            public void onChanged(PagedList<CommonPageList> moviePageLists) {
+            public void onChanged(PagedList<CommonBean> moviePageLists) {
                 Log.d(TAG, "onChanged: movie size=" + moviePageLists.size());
-                mMoviePageListAdapter.submitList(moviePageLists);
+                mMoviePagedListAdapter.submitList(moviePageLists);
             }
         });
         mListStyleViewModel.mMovieFilterPage.observe(this, new Observer<Integer>() {

@@ -2,17 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="vm"
-            type="com.tosmart.tmdb.main.gird.GridStyleViewModel" />
-
-        <variable
-            name="tvAdapter"
-            type="com.tosmart.tmdb.adapter.paged_list_adapter.GridStylePagedListAdapter" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -70,5 +59,11 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <data>
+
+        <variable
+            name="vm"
+            type="com.tosmart.tmdb.main.gird.GridStyleViewModel" />
+    </data>
 </layout>
 
